@@ -1,0 +1,65 @@
+**index.html**
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passcode Entry</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .passcode-container {
+            width: 300px;
+            margin: 40px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .passcode-input {
+            width: 100%;
+            height: 40px;
+            padding: 10px;
+            font-size: 24px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .passcode-input:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+        .submit-btn {
+            width: 100%;
+            height: 40px;
+            padding: 10px;
+            font-size: 24px;
+            border: none;
+            border-radius: 10px;
+            background-color: #4CAF50;
+            color: #fff;
+            cursor: pointer;
+        }
+        .submit-btn:hover {
+            background-color: #3e8e41;
+        }
+    </style>
+</head>
+<body>
+    <div class="passcode-container">
+        <h2>Enter Passcode</h2>
+        <input type="password" id="passcode-input" class="passcode-input" />
+        <button class="submit-btn" id="submit-btn">Submit</button>
+    </div>
+
+    <script>
+        const passcodeInput = document.getElementById('passcode-input');
+        const submitBtn = document.getElementById('submit-btn');
+
+        submitBtn.addEventListener('click', () => {
+            const enteredPasscode = passcode
