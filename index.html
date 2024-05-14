@@ -60,4 +60,15 @@
         const submitBtn = document.getElementById('submit-btn');
 
         submitBtn.addEventListener('click', () => {
-            const enteredPasscode = passcode
+            if (passcodeInput.value === '1234') {
+                document.body.style.backgroundColor = '#fff';
+                document.querySelector('.passcode-container').style.display = 'none';
+                document.querySelector('.content-container').style.display = 'block';
+            } else {
+                alert('Incorrect passcode. Please try again.');
+                passcodeInput.value = '';
+            }
+        });
+    </script>
+</body>
+</html>
