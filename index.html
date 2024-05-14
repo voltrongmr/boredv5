@@ -49,15 +49,25 @@
     </style>
 </head>
 <body>
-    <div class="passcode-container">
-        <h2>Enter Passcode</h2>
-        <input type="password" id="passcode-input" class="passcode-input" />
-        <button class="submit-btn" id="submit-btn">Submit</button>
+    <div class="content-container">
+        <div class="welcome-message">Welcome to BORED</div>
+        <div class="button-container">
+            <button class="button button-left" id="games-btn">Games</button>
+            <button class="button button-right" id="hacks-btn">Hacks</button>
+        </div>
     </div>
 
     <script>
         const passcodeInput = document.getElementById('passcode-input');
         const submitBtn = document.getElementById('submit-btn');
+        const gamesBtn = document.getElementById('games-btn');
+        const hacksBtn = document.getElementById('hacks-btn');
+
+        document.body.addEventListener('keyup', (event) => {
+            if (event.key === 'Enter') {
+                submitBtn.click();
+            }
+        });
 
         submitBtn.addEventListener('click', () => {
             if (passcodeInput.value === '1234') {
@@ -70,11 +80,12 @@
             }
         });
 
-         passcodeInput.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                submitBtn.click();
-            }
+        gamesBtn.addEventListener('click', () => {
+            window.location.href = 'games.html';
+        });
+
+        hacksBtn.addEventListener('click', () => {
+            window.location.href = 'hacks.html';
         });
     </script>
 </body>
