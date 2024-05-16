@@ -1,72 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/png" href="favicon.ico">
-  <title>Home</title>
-  <style>
-    /* Add your CSS styles here */
-    .new-section {
-      display: none;
-      width: 100%;
-      height: 100%;
-      padding: 20px;
-      box-sizing: border-box;
-      text-align: center;
-    }
-    .bookmarklet-container {
-      margin-top: 40px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon (1).ico">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #383D42;
+            transition: background-color 0.5s ease;
+        }
+        .passcode-container {
+            width: 300px;
+            margin: 40px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .passcode-input {
+            width: 80%;
+            height: 40px;
+            padding: 10px;
+            font-size: 24px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .passcode-input:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+        .submit-btn {
+            width: 80%;
+            height: 40px;
+            padding: 10px;
+            font-size: 24px;
+            border: none;
+            border-radius: 10px;
+            background-color: #2A82B1;
+            color: #fff;
+            cursor: pointer;
+        }
+        .submit-btn:hover {
+            background-color: #7791A9;
+        }
+.content-container{
+            display: none;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .content-title {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        .content-text {
+            font-size: 24px;
+            line-height: 1.5;
+        }
+        .welcome-message {
+            font-size: 36px;
+            margin-top: 20px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+        .button {
+            width: 40%;
+            height: 60px;
+            font-size: 24px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #ddd;
+        }
+        .button-left {
+            background-color: #007BFF;
+            color: #fff;
+        }
+        .button-right {
+            background-color: #007BFF;
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
-  <div class="passcode-container">
-    <h2>Enter Passcode</h2>
-    <input type="password" id="passcode-input" class="passcode-input" />
-    <button class="submit-btn" id="submit-btn">Submit</button>
-  </div>
-
-  <div class="content-container">
-    <div class="welcome-message">Welcome to BORED</div>
-    <div class="button-container">
-      <button class="button button-left" id="games-btn">Games</button>
-      <button class="button button-right" id="hacks-btn">Hacks</button>
+    <div class="passcode-container">
+        <h2>Enter Passcode</h2>
+        <input type="password" id="passcode-input" class="passcode-input" />
+        <button class="submit-btn" id="submit-btn">Submit</button>
     </div>
-  </div>
+
+    <div class="content-container">
+        <div class="welcome-message">Welcome to BORED</div>
+        <div class="button-container">
+            <button class="button button-left" id="games-btn">Games</button>
+            <button class="button button-right" id="hacks-btn">Hacks</button>
+        </div>
+    </div>
 
   <div class="new-section">
     <!-- Add your new section content here -->
     <div class="bookmarklet-container"></div>
   </div>
 
-  <script>
-    const passcodeInput = document.getElementById('passcode-input');
-    const submitBtn = document.getElementById('submit-btn');
-    const gamesBtn = document.getElementById('games-btn');
-    const hacksBtn = document.getElementById('hacks-btn');
+    <script>
+        const passcodeInput = document.getElementById('passcode-input');
+        const submitBtn = document.getElementById('submit-btn');
+        const gamesBtn = document.getElementById('games-btn');
+        const hacksBtn = document.getElementById('hacks-btn');
 
-    document.body.addEventListener('keyup', (event) => {
-      if (event.key === 'Enter') {
-        submitBtn.click();
-      }
-    });
+        document.body.addEventListener('keyup', (event) => {
+            if (event.key === 'Enter') {
+                submitBtn.click();
+            }
+        });
 
-    submitBtn.addEventListener('click', () => {
-      if (passcodeInput.value === '1234') {
-        document.body.style.backgroundColor = '#383D42';
-        document.querySelector('.passcode-container').style.display = 'none';
-        document.querySelector('.content-container').style.display = 'block';
-      } else {
-        alert('Incorrect passcode');
-      }
-    });
+        submitBtn.addEventListener('click', () => {
+            if (passcodeInput.value === '1234') {
+                document.body.style.backgroundColor = '#383D42';
+                document.querySelector('.passcode-container').style.display = 'none';
+                document.querySelector('.content-container').style.display = 'block';
+            } else {
+                alert('Incorrect passcode. Please try again.');
+                passcodeInput.value = '';
+            }
+        });
 
-    gamesBtn.addEventListener('click', () => {
-      window.location.href = 'games.html';
-    });
+        gamesBtn.addEventListener('click', () => {
+            document.querySelector('.content-container').style.display = 'none';
+            document.querySelector('.games-container').style.display = 'block';
+        });
 
-    hacksBtn.addEventListener('click', () => {
+       hacksBtn.addEventListener('click', () => {
       // Hide the current section and show the new section
       document.querySelector('.content-container').style.display = 'none';
       document.querySelector('.new-section').style.display = 'block';
@@ -81,6 +157,6 @@
       bookmarkletContainer.innerHTML = bookmarkletHTML;
       document.querySelector('.bookmarklet-container').appendChild(bookmarkletContainer);
     });
-  </script>
+    </script>
 </body>
 </html>
