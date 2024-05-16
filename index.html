@@ -137,16 +137,18 @@
             document.querySelector('.games-container').style.display = 'block';
         });
         hacksBtn.addEventListener('click', () => {
+  // Clicking the "Hacks" button triggers the display of the new section
+  // Add the bookmarklet to the new section
+  const newSection = document.querySelector('.new-section');
   const bookmarkletHTML = `
-    <a href="javascript:(function(){var s=document.createElement('script');s.src='https://example.com/hack-script.js';document.body.appendChild(s);})();" target="_blank">
-      Click me to install the bookmarklet!
+    <a href="javascript:(function(){var s=document.createElement('script');s.src='https://example.com/hack-script.js';document.body.appendChild(s);})();">
+      Drag me to your bookmarks bar!
     </a>
   `;
   const bookmarkletContainer = document.createElement('div');
   bookmarkletContainer.innerHTML = bookmarkletHTML;
-  document.querySelector('.content-container').appendChild(bookmarkletContainer);
-});
-        
+  newSection.appendChild(bookmarkletContainer);
+}); 
 
     </script>
 </body>
