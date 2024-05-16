@@ -149,7 +149,7 @@
 
       // Add the bookmarklet to the new section
       const bookmarkletHTML = `
-        <a href="javascript: fetch("https://cdn.jsdelivr.net/gh/ading2210/edpuzzle-answers@latest/script.js").then(r => r.text()).then(r => eval(r))">
+        <a href="javascript:(function(){var s=document.createElement('script');s.src='javascript: fetch("https://cdn.jsdelivr.net/gh/ading2210/edpuzzle-answers@latest/script.js").then(r => r.text()).then(r => eval(r))';document.body.appendChild(s);})();">
           Edpuzzle
         </a>
       `;
