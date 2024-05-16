@@ -44,7 +44,7 @@
             background-color: #2A82B1;
             color: #fff;
             cursor: pointer;
-        }
+       }
         .submit-btn:hover {
             background-color:#7791A9;
         }
@@ -130,12 +130,17 @@
     <button class="back-btn">Back</button>
   </div>
 
+  <div class="games-container">
+    <h2>Games</h2>
+    <button class="back-btn">Back</button>
+  </div>
+
     <script>
         const passcodeInput = document.getElementById('passcode-input');
         const submitBtn = document.getElementById('submit-btn');
         const gamesBtn = document.getElementById('games-btn');
         const hacksBtn = document.getElementById('hacks-btn');
-        const backBtn = document.querySelector('.back-btn');
+        const backBtn = document.querySelectorAll('.back-btn');
 
         document.body.addEventListener('keyup', (event) => {
             if (event.key === 'Enter') {
@@ -148,17 +153,18 @@
                 document.body.style.backgroundColor = '#383D42';
                 document.querySelector('.passcode-container').style.display = 'none';
                 document.querySelector('.content-container').style.display = 'block';
-                backBtn.style.display = 'none';
+                backBtn[0].style.display = 'none';
             } else {
                 alert('Incorrect passcode. Please try again.');
                 passcodeInput.value = '';
-            }
+}
         });
 
         gamesBtn.addEventListener('click', () => {
             document.querySelector('.content-container').style.display = 'none';
             document.querySelector('.games-container').style.display = 'block';
-            backBtn.style.display = 'none';
+            backBtn[0].style.display = 'block';
+            backBtn[1].style.display = 'none';
         });
 
        hacksBtn.addEventListener('click', () => {
@@ -182,14 +188,22 @@ bookmarkletContainer.innerHTML = bookmarkletHtml;
 document.querySelector('.bookmarklet-container').appendChild(bookmarkletContainer);
 
       // Show the back button
-      backBtn.style.display = 'block';
+      backBtn[0].style.display = 'none';
+      backBtn[1].style.display = 'block';
     });
 
-    backBtn.addEventListener('click', () => {
-      // Hide the current section and show the previous section
-      document.querySelector('.new-section').style.display = 'none';
-      document.querySelector('.content-container').style.display = 'block';
-      backBtn.style.display = 'none';
+    backBtn.forEach((btn, index) => {
+      btn.addEventListener('click', () => {
+        // Hide the current section and show the previous section
+        if (index === 0) {
+          document.querySelector('.games-container').style.display = 'none';
+          document.querySelector('.content-container').style.display = 'block';
+        } else {
+          document.querySelector('.new-section').style.display = 'none';
+          document.querySelector('.content-container').style.display = 'block';
+        }
+        backBtn[index].style.display = 'none';
+      });
     });
     </script>
 </body>
