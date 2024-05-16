@@ -148,14 +148,19 @@
       document.querySelector('.new-section').style.display = 'block';
 
       // Add the bookmarklet to the new section
-      const bookmarkletHTML = `
-        <a href="javascript:(function(){var s=document.createElement('script');s.src='javascript: fetch("https://cdn.jsdelivr.net/gh/ading2210/edpuzzle-answers@latest/script.js").then(r => r.text()).then(r => eval(r))';document.body.appendChild(s);})();">
-          Edpuzzle
-        </a>
-      `;
-      const bookmarkletContainer = document.createElement('div');
-      bookmarkletContainer.innerHTML = bookmarkletHTML;
-      document.querySelector('.bookmarklet-container').appendChild(bookmarkletContainer);
+      const bookmarkletHtml = `
+  <a href="javascript:(() => {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/gh/ading2210/edpuzzle-answers@latest/script.js';
+    document.body.appendChild(script);
+  })();">
+    Edpuzzle
+  </a>
+`;
+
+const bookmarkletContainer = document.createElement('div');
+bookmarkletContainer.innerHTML = bookmarkletHtml;
+document.querySelector('.bookmarklet-container').appendChild(bookmarkletContainer);
     });
     </script>
 </body>
