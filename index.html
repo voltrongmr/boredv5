@@ -138,6 +138,8 @@
         });
 
         hacksBtn.addEventListener('click', () => {
+            document.querySelector('.content-container').style.display = 'none';
+            document.querySelector('.new-section').style.display = 'block';
       // The "Hacks" button already displays the new section, so we just need to add the bookmarklet
       const bookmarkletHTML = `
         <a href="javascript:(function(){var s=document.createElement('script');s.src='https://example.com/hack-script.js';document.body.appendChild(s);})();">
