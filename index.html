@@ -206,6 +206,13 @@
             document.querySelector('.games-container').style.display = 'block';
             backBtn[0].style.display = 'block';
             backBtn[1].style.display = 'none'; // Hide the back button for the games container
+
+            // Event listener for Back button in games container
+            document.querySelector('.games-container .back-btn').addEventListener('click', () => {
+                document.querySelector('.games-container').style.display = 'none';
+                document.querySelector('.content-container').style.display = 'block';
+                backBtn[0].style.display = 'none'; // Hide the back button for the games container
+            });
         });
 
         // Event listener for Back buttons
