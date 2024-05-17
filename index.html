@@ -205,4 +205,23 @@
             document.querySelector('.content-container').style.display = 'none';
             document.querySelector('.games-container').style.display = 'block';
             backBtn[0].style.display = 'block';
-            backBtn[1
+            backBtn[1].style.display = 'none'; // Hide the back button for the games container
+        });
+
+        // Event listener for Back buttons
+        backBtn.forEach((btn, index) => {
+            btn.addEventListener('click', () => {
+                // Hide the current section and show the previous section
+                if (index === 0) {
+                    document.querySelector('.new-section').style.display = 'none';
+                    document.querySelector('.content-container').style.display = 'block';
+                } else {
+                    document.querySelector('.games-container').style.display = 'none';
+                    document.querySelector('.content-container').style.display = 'block';
+                }
+                backBtn[index].style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
