@@ -7,20 +7,27 @@
     <title>Home</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
-            background-color: #383D42;
-            color: #fff;
-            transition: background-color 0.5s ease, color 0.5s ease;
-        }
-        .dark-mode {
-            background-color: #383D42;
-            color: #fff;
-        }
-        .light-mode {
-            background-color: #f0f0f0;
-            color: #000;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 20px;
+        background-color: #2D3134; /* Darker shade of grey */
+        color: #fff;
+        transition: background-color 0.5s ease, color 0.5s ease;
+    }
+    .dark-mode {
+        background-color: #2D3134; /* Darker shade of grey for dark mode */
+        color: #fff;
+    }
+    .light-mode {
+        background-color: #f0f0f0;
+        color: #000;
+    }
+    a { /* This will ensure all links are white */
+        color: #fff;
+        text-decoration: underline; /* Adds underline to all links */
+    }
+    a:hover { /* Style for hover effect on links */
+        color: #ccc; /* Lighter grey for hover effect */
         }
         .container {
             max-width: 600px;
@@ -104,6 +111,14 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+        /* New HR styles */
+    .new-section hr {
+        border: none;        /* Removes default border styles */
+        height: 3px;         /* Sets the height of the line */
+        background-color: #000; /* Makes the line black */
+        margin: 20px auto;   /* Adds vertical space around the line and centers it horizontally */
+        width: 80%;          /* Controls the width to not span the entire container */
+        }
     </style>
 </head>
 <body>
@@ -129,6 +144,9 @@
     </div>
 
     <div class="container new-section">
+		<h3>How to Use Bookmarklets</h3>
+        <p>To use a bookmarklet, drag the link to your bookmarks bar. Click the bookmark whenever you want to activate the bookmarklet on a page.</p>
+        <hr> <!-- Horizontal line separator -->
         <div class="bookmarklet-container">
             <!-- Add additional bookmarklets here -->
         </div>
