@@ -119,10 +119,32 @@
         margin: 20px auto;   /* Adds vertical space around the line and centers it horizontally */
         width: 80%;          /* Controls the width to not span the entire container */
         }
+        .teacher-btn {
+	width: 60px;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #2A82B1;
+    color: #fff;
+    border: 2px solid #FFD700; /* Yellow border */
+    border-radius: 5px;
+    padding: 10px 0px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.teacher-btn:hover {
+    background-color: #7791A9;
+    border-color: #000; /* Black border on hover */
+}
+
     </style>
 </head>
 <body>
     <button class="theme-toggle-btn" id="theme-toggle-btn">Toggle Light/Dark Mode</button>
+    <button class="btn teacher-btn" id="teacher-btn">Teacher</button>
+
 
     <div class="container passcode-container active">
         <h2>Enter Passcode</h2>
@@ -179,6 +201,7 @@
         const themeToggleBtn = document.getElementById('theme-toggle-btn');
         const welcomeMessage = document.getElementById('welcome-message');
         const quote = document.getElementById('quote');
+        const teacherBtn = document.getElementById('teacher-btn');
 
         const quotes = [
             "Do one thing every day that scares you. - Eleanor Roosevelt",
@@ -233,6 +256,9 @@
                 errorMessage.style.display = 'block';
                 passcodeInput.value = '';
             }
+        });
+        teacherBtn.addEventListener('click', () => {
+        window.close(); // Closes the current window/tab
         });
 
         hacksBtn.addEventListener('click', () => {
