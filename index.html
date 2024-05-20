@@ -366,8 +366,20 @@
             logo.classList.remove('hidden');
             themeToggleBtn.classList.remove('hidden');
         });
+        document.addEventListener('keyup', (event) => {
+    if (event.key === 'Escape') {
+        const geminiContainer = document.querySelector('.gemini-container');
+        if (geminiContainer.classList.contains('active')) {
+            document.querySelector('.gemini-container').classList.remove('active');
+            document.querySelector('.content-container').classList.add('active');
+            logo.classList.remove('hidden');
+            themeToggleBtn.classList.remove('hidden');
+        }
+    }
+});
 
         themeToggleBtn.addEventListener('click', toggleTheme);
+        
     </script>
 </body>
 </html>
