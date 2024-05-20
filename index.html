@@ -7,27 +7,27 @@
     <title>Home</title>
     <style>
         body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-        padding: 20px;
-        background-color: #2D3134; /* Darker shade of grey */
-        color: #fff;
-        transition: background-color 0.5s ease, color 0.5s ease;
-    }
-    .dark-mode {
-        background-color: #2D3134; /* Darker shade of grey for dark mode */
-        color: #fff;
-    }
-    .light-mode {
-        background-color: #f0f0f0;
-        color: #000;
-    }
-    a { /* This will ensure all links are white */
-        color: #fff;
-        text-decoration: underline; /* Adds underline to all links */
-    }
-    a:hover { /* Style for hover effect on links */
-        color: #ccc; /* Lighter grey for hover effect */
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #2D3134; /* Darker shade of grey */
+            color: #fff;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+        .dark-mode {
+            background-color: #2D3134; /* Darker shade of grey for dark mode */
+            color: #fff;
+        }
+        .light-mode {
+            background-color: #f0f0f0;
+            color: #000;
+        }
+        a { /* This will ensure all links are white */
+            color: #fff;
+            text-decoration: underline; /* Adds underline to all links */
+        }
+        a:hover { /* Style for hover effect on links */
+            color: #ccc; /* Lighter grey for hover effect */
         }
         .container {
             max-width: 600px;
@@ -37,10 +37,10 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             transition: transform 0.5s ease, opacity 0.5s ease;
         }
-        .passcode-container, .content-container, .new-section, .games-container {
+        .passcode-container, .content-container, .new-section, .games-container, .gemini-container {
             display: none;
         }
-        .passcode-container.active, .content-container.active, .new-section.active, .games-container.active {
+        .passcode-container.active, .content-container.active, .new-section.active, .games-container.active, .gemini-container.active {
             display: block;
         }
         .input-field, .btn {
@@ -112,39 +112,36 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         /* New HR styles */
-    .new-section hr {
-        border: none;        /* Removes default border styles */
-        height: 3px;         /* Sets the height of the line */
-        background-color: #000; /* Makes the line black */
-        margin: 20px auto;   /* Adds vertical space around the line and centers it horizontally */
-        width: 80%;          /* Controls the width to not span the entire container */
+        .new-section hr {
+            border: none;        /* Removes default border styles */
+            height: 3px;         /* Sets the height of the line */
+            background-color: #000; /* Makes the line black */
+            margin: 20px auto;   /* Adds vertical space around the line and centers it horizontally */
+            width: 80%;          /* Controls the width to not span the entire container */
         }
         .teacher-btn {
-	width: 60px;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #2A82B1;
-    color: #fff;
-    border: 2px solid #FFD700; /* Yellow border */
-    border-radius: 5px;
-    padding: 10px 0px;
-    font-size: 15px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-.teacher-btn:hover {
-    background-color: #7791A9;
-    border-color: #000; /* Black border on hover */
-}
-
+            width: 60px;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #2A82B1;
+            color: #fff;
+            border: 2px solid #FFD700; /* Yellow border */
+            border-radius: 5px;
+            padding: 10px 0px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .teacher-btn:hover {
+            background-color: #7791A9;
+            border-color: #000; /* Black border on hover */
+        }
     </style>
 </head>
 <body>
     <button class="theme-toggle-btn" id="theme-toggle-btn">Toggle Light/Dark Mode</button>
     <button class="btn teacher-btn" id="teacher-btn">Teacher</button>
-
 
     <div class="container passcode-container active">
         <h2>Enter Passcode</h2>
@@ -162,11 +159,12 @@
         <div class="button-container">
             <button class="btn" id="games-btn">Games</button>
             <button class="btn" id="hacks-btn">Hacks</button>
+            <button class="btn" id="gemini-btn">Gemini AI</button>
         </div>
     </div>
 
     <div class="container new-section">
-		<h3>How to Use Bookmarklets</h3>
+        <h3>How to Use Bookmarklets</h3>
         <p>To use a bookmarklet, drag the link to your bookmarks bar. Click the bookmark whenever you want to activate the bookmarklet on a page.</p>
         <hr> <!-- Horizontal line separator -->
         <div class="bookmarklet-container">
@@ -191,17 +189,24 @@
         </div>
         <button class="back-btn back-btn-games">Back</button>
     </div>
-    
+
+    <div class="container gemini-container">
+        <iframe src="https://gemini.url" width="100%" height="600px" style="border:0;"></iframe>
+        <button class="back-btn back-btn-gemini">Back</button>
+    </div>
+
     <img src="logo.png" alt="Bored Logo" class="logo">
-    
+
     <script>
         const passcodeInput = document.getElementById('passcode-input');
         const submitBtn = document.getElementById('submit-btn');
         const errorMessage = document.getElementById('error-message');
         const gamesBtn = document.getElementById('games-btn');
         const hacksBtn = document.getElementById('hacks-btn');
+        const geminiBtn = document.getElementById('gemini-btn');
         const backBtnHacks = document.querySelector('.back-btn-hacks');
         const backBtnGames = document.querySelector('.back-btn-games');
+        const backBtnGemini = document.querySelector('.back-btn-gemini');
         const bookmarkletContainer = document.querySelector('.bookmarklet-container');
         const themeToggleBtn = document.getElementById('theme-toggle-btn');
         const welcomeMessage = document.getElementById('welcome-message');
@@ -262,59 +267,64 @@
                 passcodeInput.value = '';
             }
         });
+
         teacherBtn.addEventListener('click', () => {
-		window.close(); // Closes the current window/tab without confirmation
-        window.open('https://classroom.google.com/', '_blank'); // Replace 'https://example.com' with the URL you want to open
+            window.close(); // Closes the current window/tab without confirmation
+            window.open('https://classroom.google.com/', '_blank'); // Replace 'https://example.com' with the URL you want to open
         });
 
         hacksBtn.addEventListener('click', () => {
-    clearBookmarklet();
-    document.querySelector('.content-container').classList.remove('active');
-    document.querySelector('.new-section').classList.add('active');
-    backBtnHacks.classList.add('active');
+            clearBookmarklet();
+            document.querySelector('.content-container').classList.remove('active');
+            document.querySelector('.new-section').classList.add('active');
+            backBtnHacks.classList.add('active');
 
-    // Existing bookmarklet
-    const edpuzzleBookmarkletHtml = `
-        <a href="javascript:(() => {
-            const script = document.createElement('script');
-            script.src = 'https://cdn.jsdelivr.net/gh/ading2210/edpuzzle-answers@latest/script.js';
-            document.body.appendChild(script);
-        })();">
-            Edpuzzle
-        </a>
-    `;
-    const edpuzzleBookmarkletContainer = document.createElement('div');
-    edpuzzleBookmarkletContainer.innerHTML = edpuzzleBookmarkletHtml;
-    document.querySelector('.bookmarklet-container').appendChild(edpuzzleBookmarkletContainer);
+            // Existing bookmarklet
+            const edpuzzleBookmarkletHtml = `
+                <a href="javascript:(() => {
+                    const script = document.createElement('script');
+                    script.src = 'https://cdn.jsdelivr.net/gh/ading2210/edpuzzle-answers@latest/script.js';
+                    document.body.appendChild(script);
+                })();">
+                    Edpuzzle
+                </a>
+            `;
+            const edpuzzleBookmarkletContainer = document.createElement('div');
+            edpuzzleBookmarkletContainer.innerHTML = edpuzzleBookmarkletHtml;
+            document.querySelector('.bookmarklet-container').appendChild(edpuzzleBookmarkletContainer);
 
-    // New bookmarklet
-    const disguiseTabBookmarkletHtml = `
-        <a href="javascript:(()=>{fetch('https://raw.githubusercontent.com/bananaontop/TabMask/main/Ignore.js').then(r=>r.text()).then(c=>eval(c)).catch(e=>alert('Failed to fetch code.',e));})();">
-            Disguise any tab
-        </a>
-    `;
-    const disguiseTabBookmarkletContainer = document.createElement('div');
-    disguiseTabBookmarkletContainer.innerHTML = disguiseTabBookmarkletHtml;
-    document.querySelector('.bookmarklet-container').appendChild(disguiseTabBookmarkletContainer);
+            // New bookmarklet
+            const disguiseTabBookmarkletHtml = `
+                <a href="javascript:(()=>{fetch('https://raw.githubusercontent.com/bananaontop/TabMask/main/Ignore.js').then(r=>r.text()).then(c=>eval(c)).catch(e=>alert('Failed to fetch code.',e));})();">
+                    Disguise any tab
+                </a>
+            `;
+            const disguiseTabBookmarkletContainer = document.createElement('div');
+            disguiseTabBookmarkletContainer.innerHTML = disguiseTabBookmarkletHtml;
+            document.querySelector('.bookmarklet-container').appendChild(disguiseTabBookmarkletContainer);
 
-    // New bookmarklet
-    const openClassroomBookmarkletHtml = `
-         <a href="javascript:window.location.href='https://classroom.google.com/';">
-             Change any tab into Classroom
-         </a>
-     `;
-     const openClassroomBookmarkletContainer = document.createElement('div');
-     openClassroomBookmarkletContainer.innerHTML = openClassroomBookmarkletHtml;
-     document.querySelector('.bookmarklet-container').appendChild(openClassroomBookmarkletContainer);		
-});
-	    
+            // New bookmarklet
+            const openClassroomBookmarkletHtml = `
+                <a href="javascript:window.location.href='https://classroom.google.com/';">
+                    Change any tab into Classroom
+                </a>
+            `;
+            const openClassroomBookmarkletContainer = document.createElement('div');
+            openClassroomBookmarkletContainer.innerHTML = openClassroomBookmarkletHtml;
+            document.querySelector('.bookmarklet-container').appendChild(openClassroomBookmarkletContainer);
+        });
 
-
-   	    gamesBtn.addEventListener('click', () => {
+        gamesBtn.addEventListener('click', () => {
             clearBookmarklet();
             document.querySelector('.content-container').classList.remove('active');
             document.querySelector('.games-container').classList.add('active');
             backBtnGames.classList.add('active');
+        });
+
+        geminiBtn.addEventListener('click', () => {
+            document.querySelector('.content-container').classList.remove('active');
+            document.querySelector('.gemini-container').classList.add('active');
+            backBtnGemini.classList.add('active');
         });
 
         backBtnHacks.addEventListener('click', () => {
@@ -327,6 +337,12 @@
             document.querySelector('.games-container').classList.remove('active');
             document.querySelector('.content-container').classList.add('active');
             backBtnGames.classList.remove('active');
+        });
+
+        backBtnGemini.addEventListener('click', () => {
+            document.querySelector('.gemini-container').classList.remove('active');
+            document.querySelector('.content-container').classList.add('active');
+            backBtnGemini.classList.remove('active');
         });
 
         themeToggleBtn.addEventListener('click', toggleTheme);
