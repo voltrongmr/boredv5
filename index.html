@@ -10,24 +10,24 @@
             font-family: Arial, sans-serif;
             text-align: center;
             padding: 20px;
-            background-color: #2E2C2B; /* Darker shade of grey */
+            background-color: #2E2C2B;
             color: #fff;
             transition: background-color 0.5s ease, color 0.5s ease;
         }
         .dark-mode {
-            background-color: #2E2C2B; /* Darker shade of grey for dark mode */
+            background-color: #2E2C2B;
             color: #fff;
         }
         .light-mode {
             background-color: #f0f0f0;
             color: #000;
         }
-        a { /* This will ensure all links are white */
+        a {
             color: #fff;
-            text-decoration: underline; /* Adds underline to all links */
+            text-decoration: underline;
         }
-        a:hover { /* Style for hover effect on links */
-            color: #ccc; /* Lighter grey for hover effect */
+        a:hover {
+            color: #ccc;
         }
         .container {
             max-width: 600px;
@@ -106,18 +106,20 @@
             position: fixed;
             bottom: 20px;
             left: 20px;
-            width: 60px; /* Adjust size as needed */
-            border: 2px solid #2A82B1; /* Color slightly darker than the button color */
+            width: 60px;
+            border: 2px solid #2A82B1;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        /* New HR styles */
+        .logo.hidden, .theme-toggle-btn.hidden {
+            display: none;
+        }
         .new-section hr {
-            border: none;        /* Removes default border styles */
-            height: 3px;         /* Sets the height of the line */
-            background-color: #000; /* Makes the line black */
-            margin: 20px auto;   /* Adds vertical space around the line and centers it horizontally */
-            width: 80%;          /* Controls the width to not span the entire container */
+            border: none;
+            height: 3px;
+            background-color: #000;
+            margin: 20px auto;
+            width: 80%;
         }
         .teacher-btn {
             width: 60px;
@@ -126,7 +128,7 @@
             right: 20px;
             background-color: #2A82B1;
             color: #fff;
-            border: 2px solid #FFD700; /* Yellow border */
+            border: 2px solid #FFD700;
             border-radius: 5px;
             padding: 10px 0px;
             font-size: 15px;
@@ -135,18 +137,26 @@
         }
         .teacher-btn:hover {
             background-color: #7791A9;
-            border-color: #000; /* Black border on hover */
+            border-color: #000;
         }
-        }
-        .container gemini-container {
-            display: flex;
+        .gemini-container {
+            display: none;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            width: 100vw;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: inherit;
+            z-index: 10;
         }
-        .container gemini-container iframe {
-            width: 90vw; /* Adjust as needed */
-            height: 90vh; /* Adjust as needed */
+        .gemini-container.active {
+            display: flex;
+        }
+        .gemini-container iframe {
+            width: 100vw;
+            height: 100vh;
             border: 0;
         }
     </style>
@@ -178,10 +188,8 @@
     <div class="container new-section">
         <h3>How to Use Bookmarklets</h3>
         <p>To use a bookmarklet, drag the link to your bookmarks bar. Click the bookmark whenever you want to activate the bookmarklet on a page.</p>
-        <hr> <!-- Horizontal line separator -->
-        <div class="bookmarklet-container">
-            <!-- Add additional bookmarklets here -->
-        </div>
+        <hr>
+        <div class="bookmarklet-container"></div>
         <button class="back-btn back-btn-hacks">Back</button>
     </div>
 
@@ -207,7 +215,7 @@
         <button class="back-btn back-btn-gemini">Back</button>
     </div>
 
-    <img src="logo.png" alt="Bored Logo" class="logo">
+    <img src="logo.png" alt="Bored Logo" class="logo" id="logo">
 
     <script>
         const passcodeInput = document.getElementById('passcode-input');
@@ -224,6 +232,7 @@
         const welcomeMessage = document.getElementById('welcome-message');
         const quote = document.getElementById('quote');
         const teacherBtn = document.getElementById('teacher-btn');
+        const logo = document.getElementById('logo');
 
         const quotes = [
             "Do one thing every day that scares you. - Eleanor Roosevelt",
@@ -281,8 +290,8 @@
         });
 
         teacherBtn.addEventListener('click', () => {
-            window.close(); // Closes the current window/tab without confirmation
-            window.open('https://classroom.google.com/', '_blank'); // Replace 'https://example.com' with the URL you want to open
+            window.close();
+            window.open('https://classroom.google.com/', '_blank');
         });
 
         hacksBtn.addEventListener('click', () => {
@@ -291,43 +300,34 @@
             document.querySelector('.new-section').classList.add('active');
             backBtnHacks.classList.add('active');
 
-            // Existing bookmarklet
-            const edpuzzleBookmarkletHtml = `
-                <a href="javascript:(() => {
-                    const script = document.createElement('script');
-                    script.src = 'https://cdn.jsdelivr.net/gh/ading2210/edpuzzle-answers@latest/script.js';
-                    document.body.appendChild(script);
-                })();">
-                    Edpuzzle
-                </a>
-            `;
-            const edpuzzleBookmarkletContainer = document.createElement('div');
-            edpuzzleBookmarkletContainer.innerHTML = edpuzzleBookmarkletHtml;
-            document.querySelector('.bookmarklet-container').appendChild(edpuzzleBookmarkletContainer);
+            const bookmarklets = [
+                {
+                    name: 'Edpuzzle',
+                    url: "javascript:(() => { const script = document.createElement('script'); script.src = 'https://cdn.jsdelivr.net/gh/ading2210/edpuzzle-answers@latest/script.js'; document.body.appendChild(script); })();"
+                },
+                {
+                    name: 'Disguise any tab',
+                    url: "javascript:(()=>{fetch('https://raw.githubusercontent.com/bananaontop/TabMask/main/Ignore.js').then(r=>r.text()).then(c=>eval(c)).catch(e=>alert('Failed to fetch code.',e));})();"
+                },
+                {
+                    name: 'Change any tab into Classroom',
+                    url: "javascript:window.location.href='https://classroom.google.com/';"
+                }
+            ];
 
-            // New bookmarklet
-            const disguiseTabBookmarkletHtml = `
-                <a href="javascript:(()=>{fetch('https://raw.githubusercontent.com/bananaontop/TabMask/main/Ignore.js').then(r=>r.text()).then(c=>eval(c)).catch(e=>alert('Failed to fetch code.',e));})();">
-                    Disguise any tab
-                </a>
-            `;
-            const disguiseTabBookmarkletContainer = document.createElement('div');
-            disguiseTabBookmarkletContainer.innerHTML = disguiseTabBookmarkletHtml;
-            document.querySelector('.bookmarklet-container').appendChild(disguiseTabBookmarkletContainer);
-
-            // New bookmarklet
-            const openClassroomBookmarkletHtml = `
-                <a href="javascript:window.location.href='https://classroom.google.com/';">
-                    Change any tab into Classroom
-                </a>
-            `;
-            const openClassroomBookmarkletContainer = document.createElement('div');
-            openClassroomBookmarkletContainer.innerHTML = openClassroomBookmarkletHtml;
-            document.querySelector('.bookmarklet-container').appendChild(openClassroomBookmarkletContainer);
+            bookmarklets.forEach(bookmarklet => {
+                const bookmarkletHtml = `
+                    <a href="${bookmarklet.url}">
+                        ${bookmarklet.name}
+                    </a>
+                `;
+                const bookmarkletContainerDiv = document.createElement('div');
+                bookmarkletContainerDiv.innerHTML = bookmarkletHtml;
+                bookmarkletContainer.appendChild(bookmarkletContainerDiv);
+            });
         });
 
         gamesBtn.addEventListener('click', () => {
-            clearBookmarklet();
             document.querySelector('.content-container').classList.remove('active');
             document.querySelector('.games-container').classList.add('active');
             backBtnGames.classList.add('active');
@@ -337,6 +337,8 @@
             document.querySelector('.content-container').classList.remove('active');
             document.querySelector('.gemini-container').classList.add('active');
             backBtnGemini.classList.add('active');
+            logo.classList.add('hidden');
+            themeToggleBtn.classList.add('hidden');
         });
 
         backBtnHacks.addEventListener('click', () => {
@@ -355,6 +357,8 @@
             document.querySelector('.gemini-container').classList.remove('active');
             document.querySelector('.content-container').classList.add('active');
             backBtnGemini.classList.remove('active');
+            logo.classList.remove('hidden');
+            themeToggleBtn.classList.remove('hidden');
         });
 
         themeToggleBtn.addEventListener('click', toggleTheme);
