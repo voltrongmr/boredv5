@@ -106,7 +106,7 @@
             position: fixed;
             bottom: 20px;
             left: 20px;
-            width: 100px; /* Adjust size as needed */
+            width: 70px; /* Adjust size as needed */
             border: 2px solid #2A82B1; /* Color slightly darker than the button color */
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -297,6 +297,17 @@
     disguiseTabBookmarkletContainer.innerHTML = disguiseTabBookmarkletHtml;
     document.querySelector('.bookmarklet-container').appendChild(disguiseTabBookmarkletContainer);
 });
+	    // New bookmarklet
+            const openClassroomBookmarkletHtml = `
+                <a href="javascript:(function(){window.open('https://classroom.google.com/', '_blank'); window.close();})();">
+                    Open Google Classroom
+                </a>
+            `;
+            const openClassroomBookmarkletContainer = document.createElement('div');
+            openClassroomBookmarkletContainer.innerHTML = openClassroomBookmarkletHtml;
+            document.querySelector('.bookmarklet-container').appendChild(openClassroomBookmarkletContainer);
+        });
+
 
 
         gamesBtn.addEventListener('click', () => {
