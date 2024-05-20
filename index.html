@@ -140,25 +140,30 @@
             border-color: #000;
         }
         .gemini-container {
-            display: none;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            width: 100vw;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background-color: inherit;
-            z-index: 10;
-        }
-        .gemini-container.active {
-            display: flex;
-        }
-        .gemini-container iframe {
-            width: 100vw;
-            height: 100vh;
-            border: 0;
-        }
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;  /* Ensures positioning relative to viewport */
+  top: 0;
+  left: 0;
+  width: 100vw;  /* Explicitly set width to 100% viewport width */
+  height: 100vh; /* Explicitly set height to 100% viewport height */
+  background-color: rgba(0, 0, 0, 0.5);  /* Set a solid background color */
+  z-index: 10;
+  margin: 0;  /* Reset any margin */
+  padding: 0;  /* Reset any padding */
+}
+
+.gemini-container.active {
+  display: flex;
+}
+
+.gemini-container iframe {
+  width: 100%;  /* Set width to 100% of modal content */
+  height: 100%; /* Set height to 100% of modal content */
+  border: 0;
+}
+
     </style>
 </head>
 <body>
