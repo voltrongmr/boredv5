@@ -296,21 +296,21 @@
     const disguiseTabBookmarkletContainer = document.createElement('div');
     disguiseTabBookmarkletContainer.innerHTML = disguiseTabBookmarkletHtml;
     document.querySelector('.bookmarklet-container').appendChild(disguiseTabBookmarkletContainer);
+
+    // New bookmarklet
+    const openClassroomBookmarkletHtml = `
+         <a href="javascript:(function(){window.open('https://classroom.google.com/', '_blank'); window.close();})();">
+             Open Google Classroom
+         </a>
+     `;
+     const openClassroomBookmarkletContainer = document.createElement('div');
+     openClassroomBookmarkletContainer.innerHTML = openClassroomBookmarkletHtml;
+     document.querySelector('.bookmarklet-container').appendChild(openClassroomBookmarkletContainer);		
 });
-	    // New bookmarklet
-            const openClassroomBookmarkletHtml = `
-                <a href="javascript:(function(){window.open('https://classroom.google.com/', '_blank'); window.close();})();">
-                    Open Google Classroom
-                </a>
-            `;
-            const openClassroomBookmarkletContainer = document.createElement('div');
-            openClassroomBookmarkletContainer.innerHTML = openClassroomBookmarkletHtml;
-            document.querySelector('.bookmarklet-container').appendChild(openClassroomBookmarkletContainer);
-        });
+	    
 
 
-
-        gamesBtn.addEventListener('click', () => {
+   	    gamesBtn.addEventListener('click', () => {
             clearBookmarklet();
             document.querySelector('.content-container').classList.remove('active');
             document.querySelector('.games-container').classList.add('active');
