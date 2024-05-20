@@ -364,56 +364,7 @@
             backBtnGemini.classList.remove('active');
             logo.classList.remove('hidden');
             themeToggleBtn.classList.remove('hidden');
-        });
-        document.addEventListener('keyup', (event) => {
-    if (event.key === 'Escape') {
-        const geminiContainer = document.querySelector('.gemini-container');
-        if (geminiContainer.classList.contains('active')) {
-            document.querySelector('.gemini-container').classList.remove('active');
-            document.querySelector('.content-container').classList.add('active');
-            logo.classList.remove('hidden');
-            themeToggleBtn.classList.remove('hidden');
-        }
-    }
-});
-        // Function to show or hide the back button
-        function toggleBackButtonVisibility(show) {
-            const backBtns = document.querySelectorAll('.back-btn');
-            backBtns.forEach(backBtn => {
-                if (show) {
-                    backBtn.classList.add('active');
-                } else {
-                    backBtn.classList.remove('active');
-                }
-            });
-        }
-
-        // Toggle back button visibility initially
-        toggleBackButtonVisibility(false);
-
-        // Function to handle opening AI page
-        function openAIPage() {
-            document.querySelector('.content-container').classList.remove('active');
-            document.querySelector('.gemini-container').classList.add('active');
-            toggleBackButtonVisibility(false); // Hide back button when AI page is active
-            logo.classList.add('hidden');
-            themeToggleBtn.classList.add('hidden');
-        }
-
-        // Function to handle closing AI page
-        function closeAIPage() {
-            document.querySelector('.gemini-container').classList.remove('active');
-            document.querySelector('.content-container').classList.add('active');
-            toggleBackButtonVisibility(true); // Show back button when AI page is closed
-            logo.classList.remove('hidden');
-            themeToggleBtn.classList.remove('hidden');
-        }
-
-        // Event listener for opening AI page
-        geminiBtn.addEventListener('click', openAIPage);
-
-        // Event listener for closing AI page
-        backBtnGemini.addEventListener('click', closeAIPage);
+        });  
 
         themeToggleBtn.addEventListener('click', toggleTheme);
         
