@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon (1).ico">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #2E2C2B;
+            color: #fff;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+        .dark-mode {
+            background-color: #2E2C2B;
+            color: #fff;
+        }
+        .light-mode {
+            background-color: #f0f0f0;
+            color: #000;
+        }
+        a {
+            color: #fff;
+            text-decoration: underline;
+        }
+        a:hover {
+            color: #ccc;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+        .passcode-container, .content-container, .new-section, .games-container, .gemini-container {
+            display: none;
+        }
+        .passcode-container.active, .content-container.active, .new-section.active, .games-container.active, .gemini-container.active {
+            display: block;
+        }
+        .input-field, .btn {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .btn {
+            background-color: #2A82B1;
+            color: #fff;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #7791A9;
+        }
+        .theme-toggle-btn {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            width: 100px;
+            height: 50px;
+            font-size: 14px;
+            border: none;
+            border-radius: 10px;
+            background-color: #2A82B1;
+            color: #fff;
+            cursor: pointer;
+        }
+        .theme-toggle-btn:hover {
+            background-color: #7791A9;
+        }
+        .quote {
+            margin-top: 20px;
+            font-size: 18px;
+            font-style: italic;
+        }
+        .feedback-form, .bookmark-list {
+            margin-top: 20px;
+        }
+        .back-btn {
+            display: none;
+            width: 100px;
+            height: 40px;
+            font-size: 16px;
+            border: none;
+            border-radius: 10px;
+            background-color: #2A82B1;
+            color: #fff;
+            cursor: pointer;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .back-btn.active {
+            display: block;
+        }
+        .logo {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 60px;
+            border: 2px solid #2A82B1;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .logo.hidden, .theme-toggle-btn.hidden {
+            display: none;
+        }
+        .new-section hr {
+            border: none;
+            height: 3px;
+            background-color: #000;
+            margin: 20px auto;
+            width: 80%;
+        }
+        .teacher-btn {
+            width: 60px;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #2A82B1;
+            color: #fff;
+            border: 2px solid #FFD700;
+            border-radius: 5px;
+            padding: 10px 0px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .teacher-btn:hover {
+            background-color: #7791A9;
+            border-color: #000;
+        }
+        .gemini-container {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: inherit;
+            z-index: 10;
+        }
+        .gemini-container.active {
+            display: flex;
+        }
+        .gemini-container iframe {
+            width: 100vw;
+            height: 100vh;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle-btn" id="theme-toggle-btn">Toggle Light/Dark Mode</button>
+    <button class="btn teacher-btn" id="teacher-btn">Teacher</button>
+
+    <div class="container passcode-container active">
+        <h2>Enter Passcode</h2>
+        <input type="password" id="passcode-input" class="input-field" />
+        <button class="btn" id="submit-btn">Submit</button>
+        <div id="error-message" style="color: red; display: none;">Incorrect passcode. Please try again.</div>
+    </div>
+
+    <div class="container content-container">
+        <div class="welcome-message" id="welcome-message"></div>
+        <div class="quote" id="quote"></div>
+        <div class="feedback-form" id="feedback-form">
+            <button id="submit-feedback-btn" class="btn" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSdI0M5cOMEgDLxNpwzt6ygNtp02W9JTtOLFKZ-d5E-eoEqr-g/viewform?usp=sf_link', '_blank')">Submit Feedback</button>
+        </div>
+        <div class="button-container">
+            <button class="btn" id="games-btn">Games</button>
+            <button class="btn" id="hacks-btn">Hacks</button>
+            <button class="btn" id="gemini-btn">Gemini AI</button>
+        </div>
+    </div>
+
+    <div class="container new-section">
+        <h3>How to Use Bookmarklets</h3>
+        <p>To use a bookmarklet, drag the link to your bookmarks bar. Click the bookmark whenever you want to activate the bookmarklet on a page.</p>
+        <hr>
+        <div class="bookmarklet-container"></div>
+        <button class="back-btn back-btn-hacks">Back</button>
+    </div>
+
+    <div class="container games-container">
+        <div class="games-content">
+            <h3>Popular Games</h3>
+            <ul>
+                <li><a href="https://www.coolmathgames.com/" target="_blank">Cool Math Games</a></li>
+                <li><a href="https://www.agame.com/" target="_blank">A Games</a></li>
+                <li><a href="https://www.miniclip.com/games/en/" target="_blank">Miniclip</a></li>
+                <li><a href="https://sites.google.com/site/classroom6x/" target="_blank">Classrooom 6X</a></li>
+                <li><a href="https://www.hoodamath.com/games/unblocked.html" target="_blank">HoodaMath</a></li>
+                <li><a href="https://sites.google.com/site/unblockedgame76/" target="_blank">UnblockedGame76</a></li>
+                <li><a href="https://scratch.mit.edu/studios/28838132" target="_blank">Scratch Games</a></li>
+                <li><a href="https://beiswenger.net/unblocked/" target="_blank">Beiswenger Unblocked</a></li>
+            </ul>
+        </div>
+        <button class="back-btn back-btn-games">Back</button>
+    </div>
+
+    <div class="container gemini-container">
+        <iframe src="https://www.blackbox.ai/"></iframe>
+        <button class="back-btn back-btn-gemini">Back</button>
+    </div>
+
+    <img src="logo.png" alt="Bored Logo" class="logo" id="logo">
+
+    <script>
+        const passcodeInput = document.getElementById('passcode-input');
+        const submitBtn = document.getElementById('submit-btn');
+        const errorMessage = document.getElementById('error-message');
+        const gamesBtn = document.getElementById('games-btn');
+        const hacksBtn = document.getElementById('hacks-btn');
+        const geminiBtn = document.getElementById('gemini-btn');
+        const backBtnHacks = document.querySelector('.back-btn-hacks');
+        const backBtnGames = document.querySelector('.back-btn-games');
+        const backBtnGemini = document.querySelector('.back-btn-gemini');
+        const bookmarkletContainer = document.querySelector('.bookmarklet-container');
+        const themeToggleBtn = document.getElementById('theme-toggle-btn');
+        const welcomeMessage = document.getElementById('welcome-message');
+        const quote = document.getElementById('quote');
+        const teacherBtn = document.getElementById('teacher-btn');
+        const logo = document.getElementById('logo');
+
+        const quotes = [
+            "Do one thing every day that scares you. - Eleanor Roosevelt",
+            "Success is not final, failure is not fatal: It is the courage to continue that counts. - Winston Churchill",
+            "The only way to do great work is to love what you do. - Steve Jobs",
+            "Believe you can and you're halfway there. - Theodore Roosevelt",
+            "Act as if what you do makes a difference. It does. - William James"
+        ];
+
+        function getRandomQuote() {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            return quotes[randomIndex];
+        }
+
+        function updateGreeting() {
+            const now = new Date();
+            const hours = now.getHours();
+            let greeting;
+            if (hours < 12) {
+                greeting = "Good Morning";
+            } else if (hours < 18) {
+                greeting = "Good Afternoon";
+            } else {
+                greeting = "Good Evening";
+            }
+            welcomeMessage.textContent = `${greeting}, Welcome to BORED`;
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            document.body.classList.toggle('dark-mode');
+        }
+
+        function clearBookmarklet() {
+            bookmarkletContainer.innerHTML = '';
+        }
+
+        document.body.addEventListener('keyup', (event) => {
+            if (event.key === 'Enter') {
+                submitBtn.click();
+            }
+        });
+
+        submitBtn.addEventListener('click', () => {
+            if (passcodeInput.value === '1234') {
+                document.querySelector('.passcode-container').classList.remove('active');
+                document.querySelector('.content-container').classList.add('active');
+                errorMessage.style.display = 'none';
+                updateGreeting();
+                quote.textContent = getRandomQuote();
+            } else {
+                errorMessage.style.display = 'block';
+                passcodeInput.value = '';
+            }
+        });
+
+        teacherBtn.addEventListener('click', () => {
+            window.close();
+            window.open('https://classroom.google.com/', '_blank');
+        });
+
+        hacksBtn.addEventListener('click', () => {
+            clearBookmarklet();
+            document.querySelector('.content-container').classList.remove('active');
+            document.querySelector('.new-section').classList.add('active');
+            backBtnHacks.classList.add('active');
+
+            const bookmarklets = [
+                {
+                    name: 'Edpuzzle',
+                    url: "javascript:(() => { const script = document.createElement('script'); script.src = 'https://cdn.jsdelivr.net/gh/ading2210/edpuzzle-answers@latest/script.js'; document.body.appendChild(script); })();"
+                },
+                {
+                    name: 'Disguise any tab',
+                    url: "javascript:(()=>{fetch('https://raw.githubusercontent.com/bananaontop/TabMask/main/Ignore.js').then(r=>r.text()).then(c=>eval(c)).catch(e=>alert('Failed to fetch code.',e));})();"
+                },
+                {
+                    name: 'Change any tab into Classroom',
+                    url: "javascript:window.location.href='https://classroom.google.com/';"
+                }
+            ];
+
+            bookmarklets.forEach(bookmarklet => {
+                const bookmarkletHtml = `
+                    <a href="${bookmarklet.url}">
+                        ${bookmarklet.name}
+                    </a>
+                `;
+                const bookmarkletContainerDiv = document.createElement('div');
+                bookmarkletContainerDiv.innerHTML = bookmarkletHtml;
+                bookmarkletContainer.appendChild(bookmarkletContainerDiv);
+            });
+        });
+
+        gamesBtn.addEventListener('click', () => {
+            document.querySelector('.content-container').classList.remove('active');
+            document.querySelector('.games-container').classList.add('active');
+            backBtnGames.classList.add('active');
+        });
+
+        geminiBtn.addEventListener('click', () => {
+            document.querySelector('.content-container').classList.remove('active');
+            document.querySelector('.gemini-container').classList.add('active');
+            backBtnGemini.classList.add('active');
+            logo.classList.add('hidden');
+            themeToggleBtn.classList.add('hidden');
+        });
+
+        backBtnHacks.addEventListener('click', () => {
+            document.querySelector('.new-section').classList.remove('active');
+            document.querySelector('.content-container').classList.add('active');
+            backBtnHacks.classList.remove('active');
+        });
+
+        backBtnGames.addEventListener('click', () => {
+            document.querySelector('.games-container').classList.remove('active');
+            document.querySelector('.content-container').classList.add('active');
+            backBtnGames.classList.remove('active');
+        });
+
+        backBtnGemini.addEventListener('click', () => {
+            document.querySelector('.gemini-container').classList.remove('active');
+            document.querySelector('.content-container').classList.add('active');
+            backBtnGemini.classList.remove('active');
+            logo.classList.remove('hidden');
+            themeToggleBtn.classList.remove('hidden');
+        });
+
+        themeToggleBtn.addEventListener('click', toggleTheme);
+    </script>
+</body>
+</html>
