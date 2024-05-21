@@ -231,69 +231,59 @@
         <button class="back-btn back-btn-games">Back</button>
     </div>
 
-    <div class="gemini-container">
-        <iframe src="https://www.blackbox.ai/"></iframe>
-        <button class="back-btn back-btn-gemini">Back</button>
+    <div class="container gemini-container">
+        <iframe src="https://www.tryblackbox.io/"></iframe>
     </div>
 
     <div class="container settings-container">
         <h3>Settings</h3>
-        <p>Here you can configure your settings.</p>
-
-        <div class="tab-settings">
-            <h4>Change Tab Icon and Title</h4>
-            <div class="icon-picker">
-                <div class="icon-option" data-icon="icon1.png" data-title="New Tab">
-                    <img src="icon1.png" alt="Icon 1">
-                </div>
-                <div class="icon-option" data-icon="icon2.png" data-title="Home">
-                    <img src="icon2.png" alt="Icon 2">
-                </div>
-                <div class="icon-option" data-icon="icon3.png" data-title="Home - Orange Unified School District">
-                    <img src="icon3.png" alt="Icon 3">
-                </div>
-                <div class="icon-option" data-icon="icon4.png" data-title="Google Drive">
-                    <img src="icon4.png" alt="Icon 4">
-                </div>
+        <p>Choose a new icon and title for this tab:</p>
+        <div class="icon-picker">
+            <div class="icon-option" data-icon="icon1.png" data-title="New Tab">
+                <img src="icon1.png" alt="Icon 1">
+            </div>
+            <div class="icon-option" data-icon="icon2.png" data-title="Hello Tab">
+                <img src="icon2.png" alt="Icon 2">
+            </div>
+            <div class="icon-option" data-icon="icon3.png" data-title="Hi Tab">
+                <img src="icon3.png" alt="Icon 3">
+            </div>
+            <div class="icon-option" data-icon="icon4.png" data-title="Welcome Tab">
+                <img src="icon4.png" alt="Icon 4">
             </div>
         </div>
-
         <button class="back-btn back-btn-settings">Back</button>
     </div>
 
-    <img src="logo.png" alt="Bored Logo" class="logo" id="logo">
-
     <script>
+        // JavaScript to toggle light and dark mode
+        const themeToggleBtn = document.getElementById('theme-toggle-btn');
+        themeToggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            document.body.classList.toggle('dark-mode');
+        });
+
+        // JavaScript to handle the passcode submission
         const passcodeInput = document.getElementById('passcode-input');
         const submitBtn = document.getElementById('submit-btn');
         const errorMessage = document.getElementById('error-message');
-        const gamesBtn = document.getElementById('games-btn');
-        const hacksBtn = document.getElementById('hacks-btn');
-        const geminiBtn = document.getElementById('gemini-btn');
-        const settingsBtn = document.getElementById('settings-btn'); // New Settings button
-        const backBtnHacks = document.querySelector('.back-btn-hacks');
-        const backBtnGames = document.querySelector('.back-btn-games');
-        const backBtnGemini = document.querySelector('.back-btn-gemini');
-        const backBtnSettings = document.querySelector('.back-btn-settings'); // New back button for Settings
-        const bookmarkletContainer = document.querySelector('.bookmarklet-container');
-        const themeToggleBtn = document.getElementById('theme-toggle-btn');
+
+        submitBtn.addEventListener('click', () => {
+            if (passcodeInput.value === '1234') {
+                document.querySelector('.passcode-container').classList.remove('active');
+                document.querySelector('.content-container').classList.add('active');
+                errorMessage.style.display = 'none';
+                updateGreeting();
+                quote.textContent = getRandomQuote();
+            } else {
+                errorMessage.style.display = 'block';
+                passcodeInput.value = '';
+            }
+        });
+
+        // JavaScript to update the greeting message based on the time of day
         const welcomeMessage = document.getElementById('welcome-message');
         const quote = document.getElementById('quote');
-        const teacherBtn = document.getElementById('teacher-btn');
-        const logo = document.getElementById('logo');
-
-        const quotes = [
-            "Do one thing every day that scares you. - Eleanor Roosevelt",
-            "Success is not final, failure is not fatal: It is the courage to continue that counts. - Winston Churchill",
-            "The only way to do great work is to love what you do. - Steve Jobs",
-            "Believe you can and you're halfway there. - Theodore Roosevelt",
-            "Act as if what you do makes a difference. It does. - William James"
-        ];
-
-        function getRandomQuote() {
-            const randomIndex = Math.floor(Math.random() * quotes.length);
-            return quotes[randomIndex];
-        }
 
         function updateGreeting() {
             const now = new Date();
@@ -309,70 +299,31 @@
             welcomeMessage.textContent = `${greeting}, Welcome to BORED`;
         }
 
-        function toggleTheme() {
-            document.body.classList.toggle('light-mode');
-            document.body.classList.toggle('dark-mode');
+        // JavaScript to display a random quote
+        const quotes = [
+            "Do one thing every day that scares you. - Eleanor Roosevelt",
+            "Success is not final, failure is not fatal: It is the courage to continue that counts. - Winston Churchill",
+            "The only way to do great work is to love what you do. - Steve Jobs",
+            "Believe you can and you're halfway there. - Theodore Roosevelt",
+            "You miss 100% of the shots you don't take. - Wayne Gretzky",
+            "It does not matter how slowly you go as long as you do not stop. - Confucius",
+            "Don't watch the clock; do what it does. Keep going. - Sam Levenson",
+            "Keep your eyes on the stars and your feet on the ground. - Theodore Roosevelt"
+        ];
+
+        function getRandomQuote() {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            return quotes[randomIndex];
         }
 
-        function clearBookmarklet() {
-            bookmarkletContainer.innerHTML = '';
-        }
-
-        document.body.addEventListener('keyup', (event) => {
-            if (event.key === 'Enter') {
-                submitBtn.click();
-            }
-        });
-
-        submitBtn.addEventListener('click', () => {
-            if (passcodeInput.value === '1234') {
-                document.querySelector('.passcode-container').classList.remove('active');
-                document.querySelector('.content-container').classList.add('active');
-                errorMessage.style.display = 'none';
-                updateGreeting();
-                quote.textContent = getRandomQuote();
-            } else {
-                errorMessage.style.display = 'block';
-                passcodeInput.value = '';
-            }
-        });
-
-        teacherBtn.addEventListener('click', () => {
-            window.location.href = 'https://classroom.google.com/';
-        });
-
-        hacksBtn.addEventListener('click', () => {
-            clearBookmarklet();
-            document.querySelector('.content-container').classList.remove('active');
-            document.querySelector('.new-section').classList.add('active');
-            backBtnHacks.classList.add('active');
-
-            const bookmarklets = [
-                {
-                    name: 'Edpuzzle',
-                    url: "javascript:(() => { const script = document.createElement('script'); script.src = 'https://cdn.jsdelivr.net/gh/ading2210/edpuzzle-answers@latest/script.js'; document.body.appendChild(script); })();"
-                },
-                {
-                    name: 'Disguise any tab',
-                    url: "javascript:(()=>{fetch('https://raw.githubusercontent.com/bananaontop/TabMask/main/Ignore.js').then(r=>r.text()).then(c=>eval(c)).catch(e=>alert('Failed to fetch code.',e));})();"
-                },
-                {
-                    name: 'Change any tab into Classroom',
-                    url: "javascript:window.location.href='https://classroom.google.com/';"
-                }
-            ];
-
-            bookmarklets.forEach(bookmarklet => {
-                const bookmarkletHtml = `
-                    <a href="${bookmarklet.url}">
-                        ${bookmarklet.name}
-                    </a>
-                `;
-                const bookmarkletContainerDiv = document.createElement('div');
-                bookmarkletContainerDiv.innerHTML = bookmarkletHtml;
-                bookmarkletContainer.appendChild(bookmarkletContainerDiv);
-            });
-        });
+        // JavaScript to handle section transitions
+        const gamesBtn = document.getElementById('games-btn');
+        const hacksBtn = document.getElementById('hacks-btn');
+        const geminiBtn = document.getElementById('gemini-btn');
+        const settingsBtn = document.getElementById('settings-btn'); // New Settings button
+        const backBtnGames = document.querySelector('.back-btn-games');
+        const backBtnHacks = document.querySelector('.back-btn-hacks');
+        const backBtnSettings = document.querySelector('.back-btn-settings'); // New back button for settings
 
         gamesBtn.addEventListener('click', () => {
             document.querySelector('.content-container').classList.remove('active');
@@ -380,24 +331,21 @@
             backBtnGames.classList.add('active');
         });
 
+        hacksBtn.addEventListener('click', () => {
+            document.querySelector('.content-container').classList.remove('active');
+            document.querySelector('.new-section').classList.add('active');
+            backBtnHacks.classList.add('active');
+        });
+
         geminiBtn.addEventListener('click', () => {
             document.querySelector('.content-container').classList.remove('active');
             document.querySelector('.gemini-container').classList.add('active');
-            backBtnGemini.classList.add('active');
-            logo.classList.add('hidden');
-            themeToggleBtn.classList.add('hidden');
         });
 
-        settingsBtn.addEventListener('click', () => { // New Settings button event listener
+        settingsBtn.addEventListener('click', () => {
             document.querySelector('.content-container').classList.remove('active');
             document.querySelector('.settings-container').classList.add('active');
             backBtnSettings.classList.add('active');
-        });
-
-        backBtnHacks.addEventListener('click', () => {
-            document.querySelector('.new-section').classList.remove('active');
-            document.querySelector('.content-container').classList.add('active');
-            backBtnHacks.classList.remove('active');
         });
 
         backBtnGames.addEventListener('click', () => {
@@ -406,33 +354,54 @@
             backBtnGames.classList.remove('active');
         });
 
-        backBtnGemini.addEventListener('click', () => {
-            document.querySelector('.gemini-container').classList.remove('active');
+        backBtnHacks.addEventListener('click', () => {
+            document.querySelector('.new-section').classList.remove('active');
             document.querySelector('.content-container').classList.add('active');
-            backBtnGemini.classList.remove('active');
-            logo.classList.remove('hidden');
-            themeToggleBtn.classList.remove('hidden');
+            backBtnHacks.classList.remove('active');
         });
 
-        backBtnSettings.addEventListener('click', () => { // New back button for Settings
+        backBtnSettings.addEventListener('click', () => {
             document.querySelector('.settings-container').classList.remove('active');
             document.querySelector('.content-container').classList.add('active');
             backBtnSettings.classList.remove('active');
         });
 
-        themeToggleBtn.addEventListener('click', toggleTheme);
-
         // JavaScript to handle the icon and title change
         const iconOptions = document.querySelectorAll('.icon-option');
+
         iconOptions.forEach(option => {
             option.addEventListener('click', () => {
                 const icon = option.getAttribute('data-icon');
                 const title = option.getAttribute('data-title');
-                document.querySelector("link[rel~='icon']").href = icon;
+
+                // Update the title
                 document.title = title;
+
+                // Update the favicon
+                let link = document.querySelector("link[rel~='icon']");
+                if (!link) {
+                    link = document.createElement('link');
+                    link.rel = 'icon';
+                    document.head.appendChild(link);
+                }
+                link.href = icon;
             });
         });
+
+        // JavaScript to handle the teacher button
+        const teacherBtn = document.getElementById('teacher-btn');
+        teacherBtn.addEventListener('click', () => {
+            document.querySelector('.content-container').classList.remove('active');
+            document.querySelector('.passcode-container').classList.add('active');
+            document.body.classList.remove('light-mode');
+            document.body.classList.add('dark-mode');
+            document.querySelector('.logo').classList.add('hidden');
+            document.querySelector('.theme-toggle-btn').classList.add('hidden');
+        });
+
+        // Initialize the page with default greeting and quote
+        updateGreeting();
+        quote.textContent = getRandomQuote();
     </script>
 </body>
 </html>
-
