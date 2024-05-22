@@ -37,10 +37,10 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             transition: transform 0.5s ease, opacity 0.5s ease;
         }
-        .passcode-container, .content-container, .new-section, .games-container, .gemini-container {
+        .passcode-container, .content-container, .new-section, .games-container, .gemini-container, .dynamic-code-container, .extra-section {
             display: none;
         }
-        .passcode-container.active, .content-container.active, .new-section.active, .games-container.active, .gemini-container.active {
+        .passcode-container.active, .content-container.active, .new-section.active, .games-container.active, .gemini-container.active, .dynamic-code-container.active, .extra-section.active {
             display: block;
         }
         .input-field, .btn {
@@ -63,7 +63,7 @@
         .theme-toggle-btn {
             position: fixed;
             top: 10px;
-            left: 10px;
+            right: 10px;
             width: 100px;
             height: 50px;
             font-size: 14px;
@@ -95,9 +95,8 @@
             color: #fff;
             cursor: pointer;
             position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
+            top: 10px;
+            left: 10px;
         }
         .back-btn.active {
             display: block;
@@ -143,31 +142,43 @@
             display: none;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            width: 100vw;
             position: fixed;
             top: 0;
             left: 0;
-            background-color: inherit;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
             z-index: 10;
+            margin: 0;
+            padding: 0;
         }
+
         .gemini-container.active {
             display: flex;
         }
+
         .gemini-container iframe {
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
             border: 0;
+        }
+        .dynamic-code-container {
+            padding: 20px;
+            background-color: #2E2C2B;
+            color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: opacity 0.5s ease;
         }
     </style>
 </head>
-<body>
+<body class="dark-mode">
     <button class="theme-toggle-btn" id="theme-toggle-btn">Toggle Light/Dark Mode</button>
     <button class="btn teacher-btn" id="teacher-btn">Teacher</button>
 
     <div class="container passcode-container active">
         <h2>Enter Passcode</h2>
-        <input type="password" id="passcode-input" class="input-field" />
+        <input type="password" id="passcode-input" class="input-field" aria-label="Enter Passcode" />
         <button class="btn" id="submit-btn">Submit</button>
         <div id="error-message" style="color: red; display: none;">Incorrect passcode. Please try again.</div>
     </div>
@@ -181,7 +192,7 @@
         <div class="button-container">
             <button class="btn" id="games-btn">Games</button>
             <button class="btn" id="hacks-btn">Hacks</button>
-            <button class="btn" id="gemini-btn">Gemini AI</button>
+            <button class="btn" id="gemini-btn">Blackbox AI</button>
         </div>
     </div>
 
@@ -210,30 +221,48 @@
         <button class="back-btn back-btn-games">Back</button>
     </div>
 
-    <div class="container gemini-container">
+    <div class="gemini-container">
         <iframe src="https://www.blackbox.ai/"></iframe>
         <button class="back-btn back-btn-gemini">Back</button>
+    </div>
+
+    <div class="container dynamic-code-container">
+        <h3>Dynamic Code</h3>
+        <p>The code updates every 30 minutes:</p>
+        <div id="dynamic-code"></div>
+        <button class="back-btn back-btn-dynamic">Back</button>
+    </div>
+
+    <div class="container extra-section">
+        <h3>Welcome to the Extra Section</h3>
+        <p>This is the section you can access using the dynamic code.</p>
+        <button class="back-btn back-btn-extra">Back</button>
     </div>
 
     <img src="logo.png" alt="Bored Logo" class="logo" id="logo">
 
     <script>
+        // Constants
         const passcodeInput = document.getElementById('passcode-input');
         const submitBtn = document.getElementById('submit-btn');
         const errorMessage = document.getElementById('error-message');
-        const gamesBtn = document.getElementById('games-btn');
-        const hacksBtn = document.getElementById('hacks-btn');
-        const geminiBtn = document.getElementById('gemini-btn');
-        const backBtnHacks = document.querySelector('.back-btn-hacks');
-        const backBtnGames = document.querySelector('.back-btn-games');
-        const backBtnGemini = document.querySelector('.back-btn-gemini');
-        const bookmarkletContainer = document.querySelector('.bookmarklet-container');
         const themeToggleBtn = document.getElementById('theme-toggle-btn');
         const welcomeMessage = document.getElementById('welcome-message');
         const quote = document.getElementById('quote');
         const teacherBtn = document.getElementById('teacher-btn');
-        const logo = document.getElementById('logo');
+        const dynamicCode = document.getElementById('dynamic-code');
 
+        const backBtnDynamic = document.querySelector('.back-btn-dynamic');
+        const backBtnExtra = document.querySelector('.back-btn-extra');
+        const backBtnHacks = document.querySelector('.back-btn-hacks');
+        const backBtnGames = document.querySelector('.back-btn-games');
+        const backBtnGemini = document.querySelector('.back-btn-gemini');
+
+        const gamesBtn = document.getElementById('games-btn');
+        const hacksBtn = document.getElementById('hacks-btn');
+        const geminiBtn = document.getElementById('gemini-btn');
+
+        // Data
         const quotes = [
             "Do one thing every day that scares you. - Eleanor Roosevelt",
             "Success is not final, failure is not fatal: It is the courage to continue that counts. - Winston Churchill",
@@ -242,6 +271,7 @@
             "Act as if what you do makes a difference. It does. - William James"
         ];
 
+        // Functions
         function getRandomQuote() {
             const randomIndex = Math.floor(Math.random() * quotes.length);
             return quotes[randomIndex];
@@ -250,14 +280,7 @@
         function updateGreeting() {
             const now = new Date();
             const hours = now.getHours();
-            let greeting;
-            if (hours < 12) {
-                greeting = "Good Morning";
-            } else if (hours < 18) {
-                greeting = "Good Afternoon";
-            } else {
-                greeting = "Good Evening";
-            }
+            const greeting = hours < 12 ? "Good Morning" : hours < 18 ? "Good Afternoon" : "Good Evening";
             welcomeMessage.textContent = `${greeting}, Welcome to BORED`;
         }
 
@@ -266,102 +289,101 @@
             document.body.classList.toggle('dark-mode');
         }
 
-        function clearBookmarklet() {
-            bookmarkletContainer.innerHTML = '';
+        function generateDynamicCode() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            return `${hours}${minutes}`;
         }
 
-        document.body.addEventListener('keyup', (event) => {
-            if (event.key === 'Enter') {
-                submitBtn.click();
-            }
-        });
+        function updateDynamicCode() {
+            dynamicCode.textContent = generateDynamicCode();
+        }
 
-        submitBtn.addEventListener('click', () => {
-            if (passcodeInput.value === '1234') {
+        function handlePasscodeSubmit() {
+            const passcode = passcodeInput.value;
+            const dynamicCodeValue = generateDynamicCode();
+            if (passcode === '1234') {
+                // Show main content
                 document.querySelector('.passcode-container').classList.remove('active');
                 document.querySelector('.content-container').classList.add('active');
-                errorMessage.style.display = 'none';
                 updateGreeting();
                 quote.textContent = getRandomQuote();
+            } else if (passcode === '120120107') {
+                // Show dynamic code container
+                document.querySelector('.passcode-container').classList.remove('active');
+                document.querySelector('.dynamic-code-container').classList.add('active');
+                updateDynamicCode();
+                setInterval(updateDynamicCode, 30 * 60 * 1000);
+            } else if (passcode === dynamicCodeValue) {
+                // Show extra section
+                document.querySelector('.passcode-container').classList.remove('active');
+                document.querySelector('.extra-section').classList.add('active');
             } else {
                 errorMessage.style.display = 'block';
                 passcodeInput.value = '';
             }
+        }
+
+        // Event Listeners
+        document.body.addEventListener('keyup', (event) => {
+            if (event.key === 'Enter') {
+                handlePasscodeSubmit();
+            }
         });
+
+        submitBtn.addEventListener('click', handlePasscodeSubmit);
 
         teacherBtn.addEventListener('click', () => {
-            window.close();
-            window.open('https://classroom.google.com/', '_blank');
+            window.location.href = 'https://classroom.google.com/';
         });
 
-        hacksBtn.addEventListener('click', () => {
-            clearBookmarklet();
-            document.querySelector('.content-container').classList.remove('active');
-            document.querySelector('.new-section').classList.add('active');
-            backBtnHacks.classList.add('active');
+        themeToggleBtn.addEventListener('click', toggleTheme);
 
-            const bookmarklets = [
-                {
-                    name: 'Edpuzzle',
-                    url: "javascript:(() => { const script = document.createElement('script'); script.src = 'https://cdn.jsdelivr.net/gh/ading2210/edpuzzle-answers@latest/script.js'; document.body.appendChild(script); })();"
-                },
-                {
-                    name: 'Disguise any tab',
-                    url: "javascript:(()=>{fetch('https://raw.githubusercontent.com/bananaontop/TabMask/main/Ignore.js').then(r=>r.text()).then(c=>eval(c)).catch(e=>alert('Failed to fetch code.',e));})();"
-                },
-                {
-                    name: 'Change any tab into Classroom',
-                    url: "javascript:window.location.href='https://classroom.google.com/';"
-                }
-            ];
-
-            bookmarklets.forEach(bookmarklet => {
-                const bookmarkletHtml = `
-                    <a href="${bookmarklet.url}">
-                        ${bookmarklet.name}
-                    </a>
-                `;
-                const bookmarkletContainerDiv = document.createElement('div');
-                bookmarkletContainerDiv.innerHTML = bookmarkletHtml;
-                bookmarkletContainer.appendChild(bookmarkletContainerDiv);
-            });
+        backBtnDynamic.addEventListener('click', () => {
+            document.querySelector('.dynamic-code-container').classList.remove('active');
+            document.querySelector('.passcode-container').classList.add('active');
+            passcodeInput.value = '';
         });
 
-        gamesBtn.addEventListener('click', () => {
-            document.querySelector('.content-container').classList.remove('active');
-            document.querySelector('.games-container').classList.add('active');
-            backBtnGames.classList.add('active');
-        });
-
-        geminiBtn.addEventListener('click', () => {
-            document.querySelector('.content-container').classList.remove('active');
-            document.querySelector('.gemini-container').classList.add('active');
-            backBtnGemini.classList.add('active');
-            logo.classList.add('hidden');
-            themeToggleBtn.classList.add('hidden');
+        backBtnExtra.addEventListener('click', () => {
+            document.querySelector('.extra-section').classList.remove('active');
+            document.querySelector('.passcode-container').classList.add('active');
+            passcodeInput.value = '';
         });
 
         backBtnHacks.addEventListener('click', () => {
             document.querySelector('.new-section').classList.remove('active');
             document.querySelector('.content-container').classList.add('active');
-            backBtnHacks.classList.remove('active');
         });
 
         backBtnGames.addEventListener('click', () => {
             document.querySelector('.games-container').classList.remove('active');
             document.querySelector('.content-container').classList.add('active');
-            backBtnGames.classList.remove('active');
         });
 
         backBtnGemini.addEventListener('click', () => {
             document.querySelector('.gemini-container').classList.remove('active');
             document.querySelector('.content-container').classList.add('active');
-            backBtnGemini.classList.remove('active');
-            logo.classList.remove('hidden');
-            themeToggleBtn.classList.remove('hidden');
         });
 
-        themeToggleBtn.addEventListener('click', toggleTheme);
+        gamesBtn.addEventListener('click', () => {
+            document.querySelector('.content-container').classList.remove('active');
+            document.querySelector('.games-container').classList.add('active');
+        });
+
+        hacksBtn.addEventListener('click', () => {
+            document.querySelector('.content-container').classList.remove('active');
+            document.querySelector('.new-section').classList.add('active');
+        });
+
+        geminiBtn.addEventListener('click', () => {
+            document.querySelector('.content-container').classList.remove('active');
+            document.querySelector('.gemini-container').classList.add('active');
+        });
+
+        // Initialize
+        updateGreeting();
     </script>
 </body>
 </html>
