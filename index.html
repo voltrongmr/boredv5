@@ -170,6 +170,13 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             transition: opacity 0.5s ease;
         }
+        .dynamic-code-view-container {
+			display: none;
+		}
+
+		.dynamic-code-view-container.active {
+			display: block;
+		}
     </style>
 </head>
 <body>
@@ -220,6 +227,12 @@
         <div id="dynamic-code"></div>
         <button class="back-btn back-btn-dynamic">Back</button>
     </div>
+    
+    <div class="container dynamic-code-view-container">
+		<h3>Caution: this content may cause damage</h3>
+		<div id="dynamic-code-view"></div>
+		<button class="back-btn back-btn-dynamic-view">Back</button>
+	</div>
 
     <img src="logo.png" alt="Bored Logo" class="logo" id="logo">
 
@@ -236,6 +249,7 @@
         const gamesContainer = document.querySelector('.games-container');
         const geminiContainer = document.querySelector('.gemini-container');
         const dynamicCodeContainer = document.querySelector('.dynamic-code-container');
+        const dynamicCodeViewContainer = document.querySelector('.dynamic-code-view-container');
         const themeToggleBtn = document.getElementById('theme-toggle-btn');
         const logo = document.getElementById('logo');
         const teacherBtn = document.getElementById('teacher-btn');
@@ -244,7 +258,11 @@
         const backBtnGemini = document.querySelector('.back-btn-gemini');
         const backBtnDynamic = document.querySelector('.back-btn-dynamic');
         const welcomeMessage = document.getElementById('welcome-message');
-        const quote = document.getElementById('quote');;
+        const quote = document.getElementById('quote');
+        const bookmarkletContainer = document.querySelector('.bookmarklet-container');
+        const dynamicCode = document.getElementById('dynamic-code');
+        const dynamicCodeView = document.getElementById('dynamic-code-view');
+
 
         const quotes = [
             "Do one thing every day that scares you. - Eleanor Roosevelt",
@@ -285,17 +303,17 @@
         }
 
         function generateDynamicCode() {
-            const now = new Date();
-            const hours = now.getHours();
-            const minutes = now.getMinutes();
-            const dynamicCodeValue = `${hours}${minutes}`;
-            return dynamicCodeValue;
-        }
+			const now = new Date();
+			const hours = now.getHours().toString().padStart(2, '0');
+			const minutes = now.getMinutes().toString().padStart(2, '0');
+			const dynamicCodeValue = `${hours}${minutes}`;
+			return dynamicCodeValue;
+		}
 
         function updateDynamicCode() {
-            currentDynamicCode = generateDynamicCode();
-            dynamicCode.textContent = currentDynamicCode;
-        }
+			currentDynamicCode = generateDynamicCode();
+			dynamicCode.textContent = currentDynamicCode;
+		}
 
         document.body.addEventListener('keyup', (event) => {
             if (event.key === 'Enter') {
@@ -304,27 +322,28 @@
         });
 
         submitBtn.addEventListener('click', () => {
-            if (passcodeInput.value === '1234') {
-                document.querySelector('.passcode-container').classList.remove('active');
-                document.querySelector('.content-container').classList.add('active');
-                errorMessage.style.display = 'none';
-                updateGreeting();
-                quote.textContent = getRandomQuote();
-            } else if (passcodeInput.value === '120120107') {
-                document.querySelector('.passcode-container').classList.remove('active');
-                document.querySelector('.dynamic-code-container').classList.add('active');
-                updateDynamicCode();
-                setInterval(updateDynamicCode, 30 * 60 * 1000);
-                errorMessage.style.display = 'none';
-            } else if (passcodeInput.value === currentDynamicCode) {
-                document.querySelector('.passcode-container').classList.remove('active');
-                document.querySelector('.dynamic-code-container').classList.add('active');
-                errorMessage.style.display = 'none';
-            } else {
-                errorMessage.style.display = 'block';
-                passcodeInput.value = '';
-            }
-        });
+			if (passcodeInput.value === '1234') {
+				document.querySelector('.passcode-container').classList.remove('active');
+				document.querySelector('.content-container').classList.add('active');
+				errorMessage.style.display = 'none';
+				updateGreeting();
+				quote.textContent = getRandomQuote();
+			} else if (passcodeInput.value === '120120107') {
+				document.querySelector('.passcode-container').classList.remove('active');
+				document.querySelector('.dynamic-code-container').classList.add('active');
+				updateDynamicCode();
+				setInterval(updateDynamicCode, 30 * 60 * 1000); // Update every 30 minutes
+				errorMessage.style.display = 'none';
+			} else if (passcodeInput.value === currentDynamicCode) {
+				document.querySelector('.passcode-container').classList.remove('active');
+				document.querySelector('.dynamic-code-view-container').classList.add('active');
+				dynamicCodeView.textContent = currentDynamicCode;
+				errorMessage.style.display = 'none';
+			} else {
+				errorMessage.style.display = 'block';
+				passcodeInput.value = '';
+			}
+		});
 
         teacherBtn.addEventListener('click', () => {
           window.location.href = 'https://classroom.google.com/';
@@ -408,6 +427,12 @@
             document.querySelector('.passcode-container').classList.add('active');
             passcodeInput.value = '';
         });
+        
+        backBtnDynamicView.addEventListener('click', () => {
+			document.querySelector('.dynamic-code-view-container').classList.remove('active');
+			document.querySelector('.passcode-container').classList.add('active');
+			passcodeInput.value = '';
+		});
 
         themeToggleBtn.addEventListener('click', toggleTheme);
         
