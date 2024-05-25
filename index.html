@@ -138,7 +138,7 @@
             background-color: #7791A9;
             border-color: #000;
         }
-        .gemini-container {
+        .gemini-container, .games-container  {
             display: none;
             justify-content: center;
             align-items: center;
@@ -153,11 +153,11 @@
             padding: 0;
         }
 
-        .gemini-container.active {
+        .gemini-container.active, .games-container.active  {
             display: flex;
         }
 
-        .gemini-container iframe {
+        .gemini-container iframe, .games-container iframe {
             width: 100%;
             height: 100%;
             border: 0;
@@ -204,21 +204,8 @@
         <button class="back-btn back-btn-hacks">Back</button>
     </div>
 
-    <div class="container games-container">
-        <div class="games-content">
-            <h3>Popular Games</h3>
-            <ul>
-                <li><a href="https://www.coolmathgames.com/" target="_blank">Cool Math Games</a></li>
-                <li><a href="https://www.agame.com/" target="_blank">A Games</a></li>
-                <li><a href="https://www.miniclip.com/games/en/" target="_blank">Miniclip</a></li>
-                <li><a href="https://sites.google.com/site/classroom6x/" target="_blank">Classrooom 6X</a></li>
-                <li><a href="https://www.hoodamath.com/games/unblocked.html" target="_blank">HoodaMath</a></li>
-                <li><a href="https://sites.google.com/site/unblockedgame76/" target="_blank">UnblockedGame76</a></li>
-                <li><a href="https://scratch.mit.edu/studios/28838132" target="_blank">Scratch Games</a></li>
-                <li><a href="https://beiswenger.net/unblocked/" target="_blank">Beiswenger Unblocked</a></li>
-                <li><a href="https://justfallunblocked.github.io/play/subway-surfers-newyork.html#" target="_blank">CLICK THIS ONE</a></li>
-            </ul>
-        </div>
+    <div class="games-container">
+        <iframe src="https://justfallunblocked.github.io/play/subway-surfers-newyork.html#"></iframe>
         <button class="back-btn back-btn-games">Back</button>
     </div>
 
@@ -243,17 +230,21 @@
         const gamesBtn = document.getElementById('games-btn');
         const hacksBtn = document.getElementById('hacks-btn');
         const geminiBtn = document.getElementById('gemini-btn');
-        const backBtnHacks = document.querySelector('.back-btn-hacks');
+        const contentContainer = document.querySelector('.content-container');
+        const passcodeContainer = document.querySelector('.passcode-container');
+        const newSection = document.querySelector('.new-section');
+        const gamesContainer = document.querySelector('.games-container');
+        const geminiContainer = document.querySelector('.gemini-container');
+        const dynamicCodeContainer = document.querySelector('.dynamic-code-container');
+        const themeToggleBtn = document.getElementById('theme-toggle-btn');
+        const logo = document.getElementById('logo');
+        const teacherBtn = document.getElementById('teacher-btn');
         const backBtnGames = document.querySelector('.back-btn-games');
+        const backBtnHacks = document.querySelector('.back-btn-hacks');
         const backBtnGemini = document.querySelector('.back-btn-gemini');
         const backBtnDynamic = document.querySelector('.back-btn-dynamic');
-        const bookmarkletContainer = document.querySelector('.bookmarklet-container');
-        const themeToggleBtn = document.getElementById('theme-toggle-btn');
         const welcomeMessage = document.getElementById('welcome-message');
-        const quote = document.getElementById('quote');
-        const teacherBtn = document.getElementById('teacher-btn');
-        const logo = document.getElementById('logo');
-        const dynamicCode = document.getElementById('dynamic-code');
+        const quote = document.getElementById('quote');;
 
         const quotes = [
             "Do one thing every day that scares you. - Eleanor Roosevelt",
@@ -373,8 +364,11 @@
         });
 
         gamesBtn.addEventListener('click', () => {
-            document.querySelector('.content-container').classList.remove('active');
-            document.querySelector('.games-container').classList.add('active');
+            contentContainer.classList.remove('active');
+            logo.classList.add('hidden');
+            themeToggleBtn.classList.add('hidden');
+            teacherBtn.classList.add('hidden');
+            gamesContainer.classList.add('active');
             backBtnGames.classList.add('active');
         });
 
@@ -393,9 +387,12 @@
         });
 
         backBtnGames.addEventListener('click', () => {
-            document.querySelector('.games-container').classList.remove('active');
-            document.querySelector('.content-container').classList.add('active');
+            gamesContainer.classList.remove('active');
             backBtnGames.classList.remove('active');
+            contentContainer.classList.add('active');
+            logo.classList.remove('hidden');
+            themeToggleBtn.classList.remove('hidden');
+            teacherBtn.classList.remove('hidden');
         });
 
         backBtnGemini.addEventListener('click', () => {
