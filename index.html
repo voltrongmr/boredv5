@@ -7,37 +7,34 @@
     <title>Home</title>
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: Arial, sans-serif;
             text-align: center;
             padding: 20px;
-            background-color: #0d0d0d;
+            background-color: #202020;
             color: #fff;
             transition: background-color 0.5s ease, color 0.5s ease;
         }
         .dark-mode {
-            background-color: #0d0d0d;
+            background-color: #202020;
             color: #fff;
         }
         .light-mode {
-            background-color: #e8e8e8;
+            background-color: #f0f0f0;
             color: #000;
         }
         a {
-            color: #00D4FF;
-            text-decoration: none;
-            transition: color 0.3s ease;
+            color: #fff;
+            text-decoration: underline;
         }
         a:hover {
-            color: #fff;
+            color: #ccc;
         }
         .container {
             max-width: 600px;
             margin: 0 auto;
-            padding: 30px;
-            border-radius: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             transition: transform 0.5s ease, opacity 0.5s ease;
         }
         .passcode-container, .content-container, .new-section, .games-container, .gemini-container, .dynamic-code-container, .caution-container {
@@ -48,73 +45,58 @@
         }
         .input-field, .btn {
             width: 80%;
-            padding: 12px;
+            padding: 10px;
             font-size: 16px;
-            margin-bottom: 12px;
-            border-radius: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
             border: none;
-            background: #252525;
-            color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            transition: box-shadow 0.3s ease;
-        }
-        .input-field:focus {
-            outline: none;
-            box-shadow: 0 0 15px rgba(0, 212, 255, 0.8);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         .btn {
-            background-color: #00D4FF;
+            background-color: #2A82B1;
             color: #fff;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.3s ease;
         }
         .btn:hover {
-            background-color: #00A2CC;
-            transform: translateY(-3px);
+            background-color: #7791A9;
         }
         .theme-toggle-btn {
             position: fixed;
             top: 10px;
             right: 10px;
-            width: 120px;
-            height: 45px;
+            width: 100px;
+            height: 50px;
             font-size: 14px;
             border: none;
-            border-radius: 30px;
-            background-color: #00D4FF;
+            border-radius: 10px;
+            background-color: #2A82B1;
             color: #fff;
             cursor: pointer;
-            box-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
         .theme-toggle-btn:hover {
-            background-color: #00A2CC;
-            box-shadow: 0 0 20px rgba(0, 212, 255, 1);
+            background-color: #7791A9;
         }
         .quote {
             margin-top: 20px;
-            font-size: 20px;
+            font-size: 18px;
             font-style: italic;
-            animation: fadeIn 1s ease;
         }
         .feedback-form, .bookmark-list {
             margin-top: 20px;
         }
         .back-btn {
             display: none;
-            width: 120px;
+            width: 100px;
             height: 40px;
             font-size: 16px;
             border: none;
-            border-radius: 30px;
-            background-color: #00D4FF;
+            border-radius: 10px;
+            background-color: #2A82B1;
             color: #fff;
             cursor: pointer;
             position: fixed;
             top: 10px;
             left: 10px;
-            box-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
-            transition: transform 0.3s ease;
         }
         .back-btn.active {
             display: block;
@@ -124,38 +106,40 @@
             bottom: 20px;
             left: 20px;
             width: 60px;
-            border: 2px solid #00D4FF;
+            border: 2px solid #2A82B1;
             border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .logo.hidden, .theme-toggle-btn.hidden {
+            display: none;
         }
         .new-section hr {
             border: none;
             height: 3px;
-            background-color: #00D4FF;
+            background-color: #000;
             margin: 20px auto;
             width: 80%;
         }
         .teacher-btn {
-            width: 80px;
+            width: 60px;
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background-color: #00D4FF;
+            background-color: #2A82B1;
             color: #fff;
             border: 2px solid #FFD700;
-            border-radius: 10px;
+            border-radius: 5px;
             padding: 10px 0px;
             font-size: 15px;
             cursor: pointer;
             transition: background-color 0.3s ease, border-color 0.3s ease;
             z-index: 11;
-            box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
         }
         .teacher-btn:hover {
-            background-color: #00A2CC;
+            background-color: #7791A9;
             border-color: #000;
         }
-        .games-container, .gemini-container {
+        .gemini-container, .games-container {
             display: none;
             justify-content: center;
             align-items: center;
@@ -168,40 +152,35 @@
             z-index: 10;
             margin: 0;
             padding: 0;
-            transition: opacity 0.5s ease;
         }
 
-        .games-container.active, .gemini-container.active {
+        .gemini-container.active, .games-container.active {
             display: flex;
-            opacity: 1;
         }
 
-        .games-container iframe, .gemini-container iframe {
-            width: 90%;
-            height: 90%;
-            border-radius: 20px;
-            border: 3px solid #00D4FF;
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.7);
-            transition: transform 0.3s ease;
-        }
-        .games-container iframe:hover, .gemini-container iframe:hover {
-            transform: scale(1.02);
+        .gemini-container iframe, .games-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
         }
         .dynamic-code-container {
             padding: 20px;
-            background-color: #1a1a1a;
+            background-color: #2E2C2B;
             color: #fff;
-            border-radius: 15px;
-            box-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             transition: opacity 0.5s ease;
         }
+        
         .caution-container {
+			margin-top: 150px;
             padding: 20px;
-            background-color: #FF3E4D;
+            background-color: #E74C3C;
             color: #fff;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(255, 62, 77, 0.5);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             transition: opacity 0.5s ease;
+ 
         }
         .quad-chart {
             display: grid;
@@ -211,35 +190,23 @@
         }
         .file-box {
             padding: 20px;
-            background-color: #252525;
-            border: 2px solid #FF3E4D;
+            background-color: #3A3A3A;
+            border: 2px solid red;
             border-radius: 10px;
         }
         .file-box a {
-            color: #FF3E4D;
+            color: red;
             font-weight: bold;
             display: block;
             margin-bottom: 10px;
-            transition: color 0.3s ease;
-        }
-        .file-box a:hover {
-            color: #fff;
         }
         @media (max-width: 768px) {
-            .quad-chart {
-                grid-template-columns: 1fr;
-            }
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+			.quad-chart {
+				grid-template-columns: 1fr; /* Stacks the items in a single column */
+		}
+	}
+
+        
     </style>
 </head>
 <body>
@@ -248,134 +215,292 @@
 
     <div class="container passcode-container active">
         <h2>Enter Passcode</h2>
-        <input type="password" id="passcode" class="input-field" placeholder="Enter passcode">
-        <button id="enter-btn" class="btn">Enter</button>
-        <p id="passcode-message" class="quote"></p>
+        <input type="password" id="passcode-input" class="input-field" />
+        <button class="btn" id="submit-btn">Submit</button>
+        <div id="error-message" style="color: red; display: none;">Incorrect passcode. Please try again.</div>
     </div>
 
     <div class="container content-container">
-        <h2>Welcome!</h2>
-        <p>What would you like to do?</p>
-        <button id="section-btn" class="btn">Section</button>
-        <button id="games-btn" class="btn">Games</button>
-        <button id="gemini-btn" class="btn">Gemini Code</button>
-        <button id="dynamic-code-btn" class="btn">Dynamic Code</button>
-        <button id="caution-btn" class="btn">Caution</button>
+        <div class="welcome-message" id="welcome-message"></div>
+        <div class="quote" id="quote"></div>
+        <div class="feedback-form" id="feedback-form">
+            <button id="submit-feedback-btn" class="btn" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSdI0M5cOMEgDLxNpwzt6ygNtp02W9JTtOLFKZ-d5E-eoEqr-g/viewform?usp=sf_link', '_blank')">Submit Feedback</button>
+        </div>
+        <div class="button-container">
+            <button class="btn" id="games-btn">Games</button>
+            <button class="btn" id="hacks-btn">Hacks</button>
+            <button class="btn" id="gemini-btn">Blackbox AI</button>
+        </div>
     </div>
 
     <div class="container new-section">
-        <h3>New Section</h3>
+        <h3>How to Use Bookmarklets</h3>
+        <p>To use a bookmarklet, drag the link to your bookmarks bar. Click the bookmark whenever you want to activate the bookmarklet on a page.</p>
         <hr>
-        <p>Some information about the new section.</p>
+        <div class="bookmarklet-container"></div>
+        <button class="back-btn back-btn-hacks">Back</button>
     </div>
 
-    <div class="games-container" id="games-container">
-        <iframe src="https://somegameurl.com"></iframe>
+    <div class="games-container">
+        <iframe src="https://unblocked-gamespremium.github.io/go/subway-surfers-newyork.html#"></iframe>
+        <button class="back-btn back-btn-games">Back</button>
     </div>
 
-    <div class="gemini-container" id="gemini-container">
-        <iframe src="https://somegeminicodesource.com"></iframe>
+    <div class="gemini-container">
+        <iframe src="https://blackbox.ai"></iframe>
+        <button class="back-btn back-btn-gemini">Back</button>
     </div>
 
-    <div class="dynamic-code-container container">
-        <h3>Dynamic Code Section</h3>
-        <p>This section changes based on the user's input or other parameters.</p>
+    <div class="container dynamic-code-container">
+        <h3>Welcome, Lyric</h3>
+        <p>Current secret code: </p>
+        <div id="dynamic-code"></div>
+        <button class="back-btn back-btn-dynamic">Back</button>
     </div>
-
-    <div class="caution-container container">
-        <h3>Caution</h3>
-        <p>Important information to take into account for this section.</p>
+    
+    <div class="container caution-container">
+    <h3>Caution Section</h3>
+    <p>Caution: these links have dangerous potential</p>
+    <p>These links aren't technically links but are code hidden into a link</p>
+    <p>Warning: Use could end in loses of friendships</p>
+    <div class="quad-chart">
+        <div class="file-box">
+            <a href="javascript:(function(){var url='https://www.youtube.com/watch?v=pAH1B_z4_MI';for(var i=0;i<50;i++){window.open(url,'_blank','noopener,noreferrer');}})();">Open 50 YouTube Windows</a>
+			<p>Description: DO NOT CLICK. This is not cool math games but instead a disquised bookmarklet that tab bombs your browser with 50 empty tabs</p>
+        </div>
+        <div class="file-box">
+            <a href="<a href="javascript:(function(){window.open('https://www.coolmathgames.com'); window.open('https://www.hoodamath.com'); window.open('https://gemini.google.com');})();">lookproductive</a>
+            <p> Description: Send this boomarklet to a "friend in need" tell them it opens classroom and your work to make them "lookproductive" but really it opens two game websites and an ai to make it look like they are cheating as the teacher walks past</p>
+        </div>
+        <div class="file-box">
+            <a href="javascript:(function() { if (document.body.style.transform === 'rotate(180deg)') { document.body.style.transform = ''; } else { document.body.style.transform = 'rotate(180deg)'; } })();">Kahoot hack</a>
+            <p>Description: NOT a kahoot hack it flips their webpage upside down</p>
+        </div>
+        <div class="file-box">
+            <a href="javascript:(function(){
+        const message = document.createElement('div');
+        message.textContent = 'WAT THE SIGMA';
+        message.style.position = 'fixed';
+        message.style.top = '50%';
+        message.style.left = '50%';
+        message.style.transform = 'translate(-50%, -50%)';
+        message.style.fontSize = '50px';
+        message.style.fontWeight = 'bold';
+        message.style.color = 'red';
+        message.style.backgroundColor = 'black';
+        message.style.padding = '20px';
+        message.style.borderRadius = '10px';
+        message.style.zIndex = '10000';
+        document.body.appendChild(message);
+    })();">WAT THE SIGMA</a>
+            <p>Description: Wat the sigma</p>
+        </div>
     </div>
-
-    <button class="back-btn" id="back-btn">Back</button>
+    <button class="back-btn back-btn-caution">Back</button>
+</div>
+    
+    <img src="logo.png" alt="Bored Logo" class="logo" id="logo">
 
     <script>
-        const themeToggleBtn = document.getElementById('theme-toggle-btn');
-        const teacherBtn = document.getElementById('teacher-btn');
-        const enterBtn = document.getElementById('enter-btn');
-        const sectionBtn = document.getElementById('section-btn');
+        const passcodeInput = document.getElementById('passcode-input');
+        const submitBtn = document.getElementById('submit-btn');
+        const errorMessage = document.getElementById('error-message');
         const gamesBtn = document.getElementById('games-btn');
+        const hacksBtn = document.getElementById('hacks-btn');
         const geminiBtn = document.getElementById('gemini-btn');
-        const dynamicCodeBtn = document.getElementById('dynamic-code-btn');
-        const cautionBtn = document.getElementById('caution-btn');
-        const backBtn = document.getElementById('back-btn');
-        const passcodeContainer = document.querySelector('.passcode-container');
-        const contentContainer = document.querySelector('.content-container');
-        const newSection = document.querySelector('.new-section');
-        const gamesContainer = document.getElementById('games-container');
-        const geminiContainer = document.getElementById('gemini-container');
-        const dynamicCodeContainer = document.querySelector('.dynamic-code-container');
-        const cautionContainer = document.querySelector('.caution-container');
-        const passcodeMessage = document.getElementById('passcode-message');
-        const body = document.body;
+        const backBtnHacks = document.querySelector('.back-btn-hacks');
+        const backBtnGames = document.querySelector('.back-btn-games');
+        const backBtnGemini = document.querySelector('.back-btn-gemini');
+        const backBtnDynamic = document.querySelector('.back-btn-dynamic');
+        const backBtnCaution = document.querySelector('.back-btn-caution');
+        const bookmarkletContainer = document.querySelector('.bookmarklet-container');
+        const themeToggleBtn = document.getElementById('theme-toggle-btn');
+        const welcomeMessage = document.getElementById('welcome-message');
+        const quote = document.getElementById('quote');
+        const teacherBtn = document.getElementById('teacher-btn');
+        const logo = document.getElementById('logo');
+        const dynamicCode = document.getElementById('dynamic-code');
 
-        let darkMode = true;
+        const quotes = [
+            "Do one thing every day that scares you. - Eleanor Roosevelt",
+            "Success is not final, failure is not fatal: It is the courage to continue that counts. - Winston Churchill",
+            "The only way to do great work is to love what you do. - Steve Jobs",
+            "Believe you can and you're halfway there. - Theodore Roosevelt",
+            "Act as if what you do makes a difference. It does. - William James"
+        ];
 
-        themeToggleBtn.addEventListener('click', () => {
-            darkMode = !darkMode;
-            body.classList.toggle('dark-mode', darkMode);
-            body.classList.toggle('light-mode', !darkMode);
-        });
+        let currentDynamicCode = '';
 
-        enterBtn.addEventListener('click', () => {
-            const passcode = document.getElementById('passcode').value;
-            if (passcode === 'teacherpass') {
-                passcodeContainer.classList.remove('active');
-                contentContainer.classList.add('active');
-                passcodeMessage.textContent = '';
+        function getRandomQuote() {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            return quotes[randomIndex];
+        }
+
+        function updateGreeting() {
+            const now = new Date();
+            const hours = now.getHours();
+            let greeting;
+            if (hours < 12) {
+                greeting = "Good Morning";
+            } else if (hours < 18) {
+                greeting = "Good Afternoon";
             } else {
-                passcodeMessage.textContent = 'Incorrect passcode!';
+                greeting = "Good Evening";
+            }
+            welcomeMessage.textContent = `${greeting}, Welcome to BORED`;
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            document.body.classList.toggle('dark-mode');
+        }
+
+        function clearBookmarklet() {
+            bookmarkletContainer.innerHTML = '';
+        }
+
+        function generateDynamicCode() {
+			const now = new Date();
+			const hours = now.getHours().toString().padStart(2, '0');
+			const minutes = now.getMinutes().toString().padStart(2, '0');
+			const dynamicCodeValue = `${hours}${minutes}`;
+			return dynamicCodeValue;
+		}
+
+        function updateDynamicCode() {
+			currentDynamicCode = generateDynamicCode();
+			dynamicCode.textContent = currentDynamicCode;
+		}
+
+        document.body.addEventListener('keyup', (event) => {
+            if (event.key === 'Enter') {
+                submitBtn.click();
             }
         });
 
-        sectionBtn.addEventListener('click', () => {
-            contentContainer.classList.remove('active');
-            newSection.classList.add('active');
-            backBtn.classList.add('active');
+        submitBtn.addEventListener('click', () => {
+    if (passcodeInput.value === '1234') {
+        document.querySelector('.passcode-container').classList.remove('active');
+        document.querySelector('.content-container').classList.add('active');
+        errorMessage.style.display = 'none';
+        updateGreeting();
+        quote.textContent = getRandomQuote();
+    } else if (passcodeInput.value === '120120107') {
+        document.querySelector('.passcode-container').classList.remove('active');
+        document.querySelector('.dynamic-code-container').classList.add('active');
+        backBtnDynamic.classList.add('active');
+        updateDynamicCode();
+        setInterval(updateDynamicCode, 30 * 60 * 1000); // Update every 30 minutes
+        errorMessage.style.display = 'none';
+    } else if (passcodeInput.value === currentDynamicCode) {
+        document.querySelector('.passcode-container').classList.remove('active');
+        document.querySelector('.caution-container').classList.add('active');
+        backBtnCaution.classList.add('active');
+        dynamicCodeView.textContent = currentDynamicCode;
+        console.log(`Access granted: ${currentDynamicCode}`);
+    } else {
+        errorMessage.style.display = 'block';
+        passcodeInput.value = '';
+        console.log(`Access denied: ${passcodeInput.value} !== ${currentDynamicCode}`);
+    }
+});
+        teacherBtn.addEventListener('click', () => {
+          window.location.href = 'https://classroom.google.com/';
+        });
+
+        hacksBtn.addEventListener('click', () => {
+            clearBookmarklet();
+            document.querySelector('.content-container').classList.remove('active');
+            document.querySelector('.new-section').classList.add('active');
+            backBtnHacks.classList.add('active');
+
+            const bookmarklets = [
+                {
+                    name: 'Edpuzzle',
+                    url: "javascript:(() => { const script = document.createElement('script'); script.src = 'https://cdn.jsdelivr.net/gh/ading2210/edpuzzle-answers@latest/script.js'; document.body.appendChild(script); })();"
+                },
+                {
+                    name: 'Disguise any tab',
+                    url: "javascript:(()=>{fetch('https://raw.githubusercontent.com/bananaontop/TabMask/main/Ignore.js').then(r=>r.text()).then(c=>eval(c)).catch(e=>alert('Failed to fetch code.',e));})();"
+                },
+                {
+                    name: 'Change any tab into Classroom',
+                    url: "javascript:window.location.href='https://classroom.google.com/';"
+                },
+                {
+					name: 'quizizz hack this one is not a bookmarklet just click',
+					url: "https://quizit.online/services/quizizz/"
+				},
+				{
+					name: 'kahoot hack "link" use on phone',
+					url: "https://mem.rip/kahoot/"
+			    }
+			];
+
+            bookmarklets.forEach(bookmarklet => {
+                const bookmarkletHtml = `
+                    <a href="${bookmarklet.url}">
+                        ${bookmarklet.name}
+                    </a>
+                `;
+                const bookmarkletContainerDiv = document.createElement('div');
+                bookmarkletContainerDiv.innerHTML = bookmarkletHtml;
+                bookmarkletContainer.appendChild(bookmarkletContainerDiv);
+            });
         });
 
         gamesBtn.addEventListener('click', () => {
-            gamesContainer.classList.add('active');
+            document.querySelector('.content-container').classList.remove('active');
+            document.querySelector('.games-container').classList.add('active');
+            backBtnGames.classList.add('active');
         });
 
         geminiBtn.addEventListener('click', () => {
-            geminiContainer.classList.add('active');
+            document.querySelector('.content-container').classList.remove('active');
+            document.querySelector('.gemini-container').classList.add('active');
+            backBtnGemini.classList.add('active');
+            logo.classList.add('hidden');
+            themeToggleBtn.classList.add('hidden');
         });
 
-        dynamicCodeBtn.addEventListener('click', () => {
-            contentContainer.classList.remove('active');
-            dynamicCodeContainer.classList.add('active');
-            backBtn.classList.add('active');
+        backBtnHacks.addEventListener('click', () => {
+            document.querySelector('.new-section').classList.remove('active');
+            document.querySelector('.content-container').classList.add('active');
+            backBtnHacks.classList.remove('active');
         });
 
-        cautionBtn.addEventListener('click', () => {
-            contentContainer.classList.remove('active');
-            cautionContainer.classList.add('active');
-            backBtn.classList.add('active');
+        backBtnGames.addEventListener('click', () => {
+            document.querySelector('.games-container').classList.remove('active');
+            document.querySelector('.content-container').classList.add('active');
+            backBtnGames.classList.remove('active');
         });
 
-        backBtn.addEventListener('click', () => {
-            newSection.classList.remove('active');
-            dynamicCodeContainer.classList.remove('active');
-            cautionContainer.classList.remove('active');
-            backBtn.classList.remove('active');
-            contentContainer.classList.add('active');
-        });
+        backBtnGemini.addEventListener('click', () => {
+            document.querySelector('.gemini-container').classList.remove('active');
+            document.querySelector('.content-container').classList.add('active');
+            backBtnGemini.classList.remove('active');
+            logo.classList.remove('hidden');
+            themeToggleBtn.classList.remove('hidden');
+        });  
 
-        teacherBtn.addEventListener('click', () => {
-            passcodeContainer.classList.add('active');
-            contentContainer.classList.remove('active');
-            backBtn.classList.remove('active');
+        backBtnDynamic.addEventListener('click', () => {
+            document.querySelector('.dynamic-code-container').classList.remove('active');
+            document.querySelector('.passcode-container').classList.add('active');
+            passcodeInput.value = '';
         });
+        
+        backBtnCaution.addEventListener('click', () => {
+			document.querySelector('.caution-container').classList.remove('active');
+			document.querySelector('.passcode-container').classList.add('active');
+			passcodeInput.value = '';
+		});
 
-        gamesContainer.addEventListener('click', () => {
-            gamesContainer.classList.remove('active');
-        });
-
-        geminiContainer.addEventListener('click', () => {
-            geminiContainer.classList.remove('active');
-        });
+        themeToggleBtn.addEventListener('click', toggleTheme);
+        
+        // Initial update of the dynamic code
+        updateDynamicCode();
+        // Schedule the dynamic code update every 30 minutes
+        setInterval(updateDynamicCode, 30 * 60 * 1000);
     </script>
 </body>
 </html>
-
