@@ -1,354 +1,337 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Futuristic Interactive Website</title>
+    <link rel="icon" type="image/png" href="favicon (1).ico">
+    <title>Home</title>
     <style>
-        /* Global Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #202020;
+            color: #fff;
+            transition: background-color 0.5s ease, color 0.5s ease;
         }
 
-        /* Body and overall page styling */
-        body, html {
-            height: 100%;
-            background: linear-gradient(135deg, #1f1c2c, #928dab);
-            display: flex;
+        .dark-mode {
+            background-color: #202020;
+            color: #fff;
+        }
+
+        .light-mode {
+            background-color: #f0f0f0;
+            color: #000;
+        }
+
+        a {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        a:hover {
+            color: #ccc;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+
+        .passcode-container,
+        .content-container,
+        .new-section,
+        .games-container,
+        .gemini-container,
+        .dynamic-code-container,
+        .caution-container {
+            display: none;
+        }
+
+        .passcode-container.active,
+        .content-container.active,
+        .new-section.active,
+        .games-container.active,
+        .gemini-container.active,
+        .dynamic-code-container.active,
+        .caution-container.active {
+            display: block;
+        }
+
+        .input-field,
+        .btn {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn {
+            background-color: #2A82B1;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #7791A9;
+        }
+
+        .theme-toggle-btn {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            width: 100px;
+            height: 50px;
+            font-size: 14px;
+            border: none;
+            border-radius: 10px;
+            background-color: #2A82B1;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .theme-toggle-btn:hover {
+            background-color: #7791A9;
+        }
+
+        .quote {
+            margin-top: 20px;
+            font-size: 18px;
+            font-style: italic;
+        }
+
+        .feedback-form,
+        .bookmark-list {
+            margin-top: 20px;
+        }
+
+        .back-btn {
+            display: none;
+            width: 100px;
+            height: 40px;
+            font-size: 16px;
+            border: none;
+            border-radius: 10px;
+            background-color: #2A82B1;
+            color: #fff;
+            cursor: pointer;
+            position: fixed;
+            top: 10px;
+            left: 10px;
+        }
+
+        .back-btn.active {
+            display: block;
+        }
+
+        .logo {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 60px;
+            border: 2px solid #2A82B1;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo.hidden,
+        .theme-toggle-btn.hidden {
+            display: none;
+        }
+
+        .new-section hr {
+            border: none;
+            height: 3px;
+            background-color: #000;
+            margin: 20px auto;
+            width: 80%;
+        }
+
+        .teacher-btn {
+            width: 60px;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #2A82B1;
+            color: #fff;
+            border: 2px solid #FFD700;
+            border-radius: 5px;
+            padding: 10px 0px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            z-index: 11;
+        }
+
+        .teacher-btn:hover {
+            background-color: #7791A9;
+            border-color: #000;
+        }
+
+        .gemini-container,
+        .games-container {
+            display: none;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
-        }
-
-        /* Passcode Screen Styling */
-        #passcode-screen, #content {
-            position: absolute;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100vw;
             height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 10;
+            margin: 0;
+            padding: 0;
+        }
+
+        .gemini-container.active,
+        .games-container.active {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.5s ease-in-out;
         }
 
-        /* Passcode screen background and layout */
-        #passcode-screen {
-            background: rgba(0, 0, 0, 0.8);
-            flex-direction: column;
-            z-index: 2;
-        }
-
-        /* Passcode title */
-        .passcode-title {
-            color: white;
-            font-size: 2em;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            animation: fadeIn 2s ease-in-out;
-        }
-
-        /* Passcode input box styling */
-        .passcode-input {
-            padding: 15px;
-            font-size: 1.5em;
-            border: 2px solid rgba(255, 255, 255, 0.5);
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            text-align: center;
-            border-radius: 10px;
-            outline: none;
-            transition: border 0.3s ease;
-            margin-bottom: 20px;
-            width: 300px;
-            animation: fadeIn 2s ease-in-out;
-        }
-
-        /* Passcode input focus state */
-        .passcode-input:focus {
-            border-color: #fff;
-        }
-
-        /* Passcode button styling */
-        .passcode-btn {
-            padding: 10px 20px;
-            font-size: 1.2em;
-            color: white;
-            background: linear-gradient(45deg, #ff0844, #ffb199);
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease-in-out;
-            animation: slideIn 2s ease-in-out;
-        }
-
-        /* Passcode button hover state */
-        .passcode-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(255, 84, 120, 0.4);
-        }
-
-        /* Error message styling for incorrect passcode */
-        .error-msg {
-            color: red;
-            font-size: 1.2em;
-            margin-top: 15px;
-            opacity: 0;
-            animation: fadeIn 2s ease-in-out;
-        }
-
-        /* Content section, initially hidden until passcode entered */
-        #content {
-            opacity: 0;
-            visibility: hidden;
-            z-index: 1;
-            display: flex;
-            flex-direction: column;
-            background: #fff;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Show content when passcode is correct */
-        #content.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* Main header styling for content */
-        .header {
-            color: #333;
-            font-size: 4em;
-            margin-bottom: 30px;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            background: linear-gradient(to right, #ff0844, #ffb199);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: headerAnimation 5s infinite;
-        }
-
-        /* Sub-header styling */
-        .sub-header {
-            color: #666;
-            font-size: 2em;
-            margin-bottom: 50px;
-            text-transform: uppercase;
-            animation: subHeaderAnimation 5s infinite;
-        }
-
-        /* Boxes section for interaction */
-        .animated-boxes {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-        }
-
-        /* Box styling for each interactive element */
-        .box {
-            width: 200px;
-            height: 200px;
-            background: linear-gradient(45deg, #ff0844, #ffb199);
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(255, 84, 120, 0.2);
-            animation: boxMove 3s infinite alternate;
-        }
-
-        /* Box hover state */
-        .box:hover {
-            transform: scale(1.1);
-            box-shadow: 0 10px 20px rgba(255, 84, 120, 0.4);
-        }
-
-        /* Animation for fading in elements */
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
-
-        /* Slide-in animation */
-        @keyframes slideIn {
-            0% {
-                transform: translateY(100px);
-                opacity: 0;
-            }
-            100% {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        /* Header animation styling */
-        @keyframes headerAnimation {
-            0% { color: #ff0844; }
-            50% { color: #ffb199; }
-            100% { color: #ff0844; }
-        }
-
-        /* Sub-header scaling animation */
-        @keyframes subHeaderAnimation {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        /* Box movement animation */
-        @keyframes boxMove {
-            0% {
-                transform: translateX(0px);
-            }
-            100% {
-                transform: translateX(20px);
-            }
-        }
-
-        /* Extra content boxes and interactive elements */
-        .extra {
-            display: flex;
-            flex-wrap: wrap;
-            margin-top: 50px;
-            gap: 30px;
-            justify-content: center;
-        }
-
-        /* Individual extra box styling */
-        .extra-box {
-            width: 150px;
-            height: 150px;
-            background-color: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.5em;
-            color: white;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transition: transform 0.4s ease;
-        }
-
-        /* Extra box hover effect */
-        .extra-box:hover {
-            transform: translateY(-10px);
-        }
-
-        /* Expanding section for more interactive content */
-        .expanding-section {
+        .gemini-container iframe,
+        .games-container iframe {
             width: 100%;
-            background: #333;
-            color: white;
-            padding: 50px 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
+            height: 100%;
+            border: 0;
         }
 
-        /* Expanding section header */
-        .expanding-header {
-            font-size: 3em;
-            text-transform: uppercase;
-            margin-bottom: 30px;
+        .dynamic-code-container {
+            padding: 20px;
+            background-color: #2E2C2B;
+            color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: opacity 0.5s ease;
         }
 
-        /* Expanding content layout */
-        .expanding-content {
-            display: flex;
+        .caution-container {
+            margin-top: 150px;
+            padding: 20px;
+            background-color: #E74C3C;
+            color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: opacity 0.5s ease;
+        }
+
+        .quad-chart {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
+            margin-top: 20px;
         }
 
-        /* Individual boxes in expanding content */
-        .expanding-box {
-            width: 200px;
-            height: 150px;
-            background: linear-gradient(45deg, #ff0844, #ffb199);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            border-radius: 15px;
-            transition: transform 0.3s ease;
+        .file-box {
+            padding: 20px;
+            background-color: #3A3A3A;
+            border: 2px solid red;
+            border-radius: 10px;
         }
 
-        /* Expanding box hover state */
-        .expanding-box:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(255, 84, 120, 0.4);
+        .file-box a {
+            color: red;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
         }
 
-        /* Additional CSS for extra interactive elements */
-        .box1 { background: #ff6f61; }
-        .box2 { background: #ff9f80; }
-        .box3 { background: #ffb066; }
-        .box4 { background: #ffde66; }
-        .box5 { background: #8fd3f4; }
-        .box6 { background: #5cc0bf; }
-        .box7 { background: #a5dee5; }
-        .box8 { background: #5d9ca3; }
-
+        @media (max-width: 768px) {
+            .quad-chart {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
+
 <body>
-    <div id="passcode-screen">
-        <div class="passcode-title">Enter Passcode</div>
-        <input type="text" class="passcode-input" id="passcode-input" placeholder="Enter passcode">
-        <button class="passcode-btn" onclick="checkPasscode()">Unlock</button>
-        <div id="error-msg" class="error-msg">Incorrect Passcode!</div>
+    <button class="theme-toggle-btn" id="theme-toggle-btn">Toggle Light/Dark Mode</button>
+    <button class="btn teacher-btn" id="teacher-btn">Teacher</button>
+
+    <!-- Passcode Section -->
+    <div class="container passcode-container active">
+        <h2>Enter Passcode</h2>
+        <input type="password" id="passcode-input" class="input-field" />
+        <button class="btn" id="submit-btn">Submit</button>
+        <div id="error-message" style="color: red; display: none;">Incorrect passcode. Please try again.</div>
     </div>
 
-    <div id="content">
-        <div class="header">Welcome to the Future</div>
-        <div class="sub-header">Explore the world of tomorrow</div>
-
-        <div class="animated-boxes">
-            <div class="box"></div>
-            <div class="box"></div>
-            <div class="box"></div>
+    <!-- Main Content Section -->
+    <div class="container content-container">
+        <div class="welcome-message" id="welcome-message"></div>
+        <div class="quote" id="quote"></div>
+        <div class="feedback-form" id="feedback-form">
+            <button id="submit-feedback-btn" class="btn" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSdI0M5cOMEgDLxNpwzt6ygNtp02W9JTtOLFKZ-d5E-eoEqr-g/viewform?usp=sf_link', '_blank')">Submit Feedback</button>
         </div>
-
-        <div class="extra">
-            <div class="extra-box box1">Learn</div>
-            <div class="extra-box box2">Discover</div>
-            <div class="extra-box box3">Innovate</div>
-            <div class="extra-box box4">Create</div>
+        <div class="button-container">
+            <button class="btn" id="games-btn">Games</button>
+            <button class="btn" id="hacks-btn">Hacks</button>
+            <button class="btn" id="caution-btn">Caution</button>
         </div>
+    </div>
 
-        <div class="expanding-section">
-            <div class="expanding-header">More to Explore</div>
-            <div class="expanding-content">
-                <div class="expanding-box">Tech</div>
-                <div class="expanding-box">AI</div>
-                <div class="expanding-box">VR</div>
-                <div class="expanding-box">Future</div>
+    <!-- Games Section -->
+    <div class="games-container" id="games-container">
+        <iframe src="https://sites.google.com/view/unblockedgameswtf/home"></iframe>
+    </div>
+
+    <!-- Caution Section -->
+    <div class="caution-container">
+        <h2>Caution Zone</h2>
+        <p>This section is for advanced users only. Proceed with caution!</p>
+        <div class="quad-chart">
+            <div class="file-box">
+                <a href="dangerfile1.com" target="_blank">Dangerous File 1</a>
+            </div>
+            <div class="file-box">
+                <a href="dangerfile2.com" target="_blank">Dangerous File 2</a>
+            </div>
+            <div class="file-box">
+                <a href="dangerfile3.com" target="_blank">Dangerous File 3</a>
+            </div>
+            <div class="file-box">
+                <a href="dangerfile4.com" target="_blank">Dangerous File 4</a>
             </div>
         </div>
     </div>
 
-    <script>
-        function checkPasscode() {
-            const passcode = document.getElementById('passcode-input').value;
-            const content = document.getElementById('content');
-            const errorMsg = document.getElementById('error-msg');
+    <!-- Logo -->
+    <img class="logo hidden" id="logo" src="logo.png" alt="Logo" />
 
+    <!-- JavaScript -->
+    <script>
+        // Add JavaScript here (Passcode, Theme, Navigation)
+        const themeToggleBtn = document.getElementById("theme-toggle-btn");
+        const passcodeInput = document.getElementById("passcode-input");
+        const submitBtn = document.getElementById("submit-btn");
+        const errorMessage = document.getElementById("error-message");
+        const contentContainer = document.querySelector(".content-container");
+        const passcodeContainer = document.querySelector(".passcode-container");
+
+        submitBtn.addEventListener("click", function() {
+            const passcode = passcodeInput.value;
             if (passcode === "1234") {
-                document.getElementById('passcode-screen').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('passcode-screen').style.visibility = 'hidden';
-                    content.classList.add('show');
-                }, 500);
+                passcodeContainer.classList.remove("active");
+                contentContainer.classList.add("active");
             } else {
-                errorMsg.style.opacity = '1';
+                errorMessage.style.display = "block";
             }
-        }
+        });
+
+        themeToggleBtn.addEventListener("click", function() {
+            document.body.classList.toggle("dark-mode");
+            document.body.classList.toggle("light-mode");
+        });
     </script>
 </body>
+
 </html>
