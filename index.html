@@ -6,7 +6,7 @@
     <link rel="icon" type="image/png" href="favicon (1).ico">
     <title>Home</title>
     <style>
-        /* Global Styles - Line 1 */
+        /* Global Styles */
         * {
             margin: 0;
             padding: 0;
@@ -14,7 +14,7 @@
             font-family: 'Arial', sans-serif;
         }
 
-        /* Body and overall page styling - Line 7 */
+        /* Body and overall page styling */
         body, html {
             height: 100%;
             background: linear-gradient(135deg, #1f1c2c, #928dab);
@@ -24,7 +24,7 @@
             overflow: hidden;
         }
 
-        /* Passcode Screen Styling - Line 15 */
+        /* Passcode Screen Styling */
         #passcode-screen, #content {
             position: absolute;
             width: 100vw;
@@ -35,15 +35,15 @@
             transition: all 0.5s ease-in-out;
         }
 
-        /* Passcode screen background and layout - Line 23 */
+        /* Passcode screen background and layout */
         #passcode-screen {
             background: rgba(0, 0, 0, 0.8);
             flex-direction: column;
             z-index: 2;
         }
 
-        /* Passcode title - Line 29 */
-        .passcode-title {
+        /* Passcode title */
+        .passcode-title, .lyricspage-title {
             color: white;
             font-size: 2em;
             margin-bottom: 20px;
@@ -51,16 +51,12 @@
             letter-spacing: 3px;
             animation: fadeIn 2s ease-in-out;
         }
+
         .lyricspage-title {
-            color: white;
-            font-size: 2em;
             margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            animation: fadeIn 2s ease-in-out;
         }
 
-        /* Passcode input box styling - Line 38 */
+        /* Passcode input box styling */
         .passcode-input {
             padding: 15px;
             font-size: 1.5em;
@@ -70,18 +66,19 @@
             text-align: center;
             border-radius: 10px;
             outline: none;
-            transition: border 0.3s ease;
+            transition: border 0.3s ease, box-shadow 0.8s ease, border-color 0.8s ease;
             margin-bottom: 20px;
             width: 300px;
             animation: fadeIn 2s ease-in-out;
         }
 
-        /* Passcode input focus state - Line 50 */
+        /* Passcode input focus state */
         .passcode-input:focus {
-            border-color: #fff;
+            box-shadow: 0 0 15px 5px rgba(0, 255, 255, 0.7); /* Neon cyan glow */
+            border-color: cyan; /* Change border color */
         }
 
-        /* Passcode button styling - Line 54 */
+        /* Passcode button styling */
         .passcode-btn {
             padding: 10px 20px;
             font-size: 1.2em;
@@ -94,13 +91,14 @@
             animation: slideIn 2s ease-in-out;
         }
 
-        /* Passcode button hover state - Line 63 */
+        /* Passcode button hover state */
         .passcode-btn:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(255, 84, 120, 0.4);
+            box-shadow: 0 0 5px 4px rgba(0, 255, 255, 0.7); /* Neon cyan glow */
+            border-color: cyan; /* Change border color */
         }
 
-        /* Error message styling for incorrect passcode - Line 68 */
+        /* Error message styling for incorrect passcode */
         .error-msg {
             color: red;
             font-size: 1.2em;
@@ -109,38 +107,40 @@
             animation: fadeIn 2s ease-in-out;
         }
 
-        /* Content section, initially hidden until passcode entered - Line 75 */
+        /* Content section, initially hidden until passcode entered */
         #content {
             opacity: 0;
             visibility: hidden;
             z-index: 1;
             display: flex;
             flex-direction: column;
-            background: #fff;
+            background: #232323;
             justify-content: center;
             align-items: center;
         }
 
-        /* Show content when passcode is correct - Line 82 */
+        /* Show content when passcode is correct */
         #content.show {
             opacity: 1;
             visibility: visible;
         }
 
-        /* Main header styling for content - Line 86 */
+        /* Main header styling for content */
         .header {
-            color: #333;
+            background: #1f95cc;
             font-size: 4em;
             margin-bottom: 30px;
             text-transform: uppercase;
             letter-spacing: 5px;
-            background: linear-gradient(to right, #ff0844, #ffb199);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: headerAnimation 5s infinite;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+            border-color: cyan; /* Change border color */
+            transition: text-shadow 1s ease; /* Smooth transition for any future effects */
         }
 
-        /* Sub-header styling - Line 95 */
+        /* Sub-header styling */
         .sub-header {
             color: #666;
             font-size: 2em;
@@ -149,14 +149,14 @@
             animation: subHeaderAnimation 5s infinite;
         }
 
-        /* Boxes section for interaction - Line 101 */
+        /* Boxes section for interaction */
         .animated-boxes {
             display: flex;
             justify-content: center;
             gap: 30px;
         }
 
-        /* Box styling for each interactive element - Line 106 */
+        /* Box styling for each interactive element */
         .box {
             width: 200px;
             height: 200px;
@@ -164,15 +164,22 @@
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(255, 84, 120, 0.2);
             animation: boxMove 3s infinite alternate;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5em;
+            color: white;
+            font-weight: bold;
         }
 
-        /* Box hover state - Line 113 */
+        /* Box hover state */
         .box:hover {
             transform: scale(1.1);
             box-shadow: 0 10px 20px rgba(255, 84, 120, 0.4);
         }
 
-        /* Animation for fading in elements - Line 118 */
+        /* Animation for fading in elements */
         @keyframes fadeIn {
             0% {
                 opacity: 0;
@@ -182,7 +189,7 @@
             }
         }
 
-        /* Slide-in animation - Line 125 */
+        /* Slide-in animation */
         @keyframes slideIn {
             0% {
                 transform: translateY(100px);
@@ -194,21 +201,21 @@
             }
         }
 
-        /* Header animation styling - Line 132 */
+        /* Header animation styling */
         @keyframes headerAnimation {
             0% { color: #ff0844; }
             50% { color: #ffb199; }
             100% { color: #ff0844; }
         }
 
-        /* Sub-header scaling animation - Line 138 */
+        /* Sub-header scaling animation */
         @keyframes subHeaderAnimation {
             0% { transform: scale(1); }
             50% { transform: scale(1.1); }
             100% { transform: scale(1); }
         }
 
-        /* Box movement animation - Line 144 */
+        /* Box movement animation */
         @keyframes boxMove {
             0% {
                 transform: translateX(0px);
@@ -218,7 +225,7 @@
             }
         }
 
-        /* Extra content boxes and interactive elements - Line 151 */
+        /* Extra content boxes and interactive elements */
         .extra {
             display: flex;
             flex-wrap: wrap;
@@ -227,7 +234,7 @@
             justify-content: center;
         }
 
-        /* Individual extra box styling - Line 158 */
+        /* Individual extra box styling */
         .extra-box {
             width: 150px;
             height: 150px;
@@ -243,12 +250,12 @@
             transition: transform 0.4s ease;
         }
 
-        /* Extra box hover effect - Line 169 */
+        /* Extra box hover effect */
         .extra-box:hover {
             transform: translateY(-10px);
         }
 
-        /* Expanding section for more interactive content - Line 174 */
+        /* Expanding section for more interactive content */
         .expanding-section {
             width: 100%;
             background: #333;
@@ -260,14 +267,14 @@
             flex-direction: column;
         }
 
-        /* Expanding section header - Line 181 */
+        /* Expanding section header */
         .expanding-header {
             font-size: 3em;
             text-transform: uppercase;
             margin-bottom: 30px;
         }
 
-        /* Expanding content layout - Line 186 */
+        /* Expanding content layout */
         .expanding-content {
             display: flex;
             gap: 20px;
@@ -275,7 +282,7 @@
             justify-content: center;
         }
 
-        /* Individual boxes in expanding content - Line 191 */
+        /* Individual boxes in expanding content */
         .expanding-box {
             width: 200px;
             height: 150px;
@@ -286,135 +293,108 @@
             color: white;
             border-radius: 15px;
             transition: transform 0.3s ease;
+            font-size: 1.5em;
+            cursor: pointer;
+            text-align: center;
         }
 
-        /* Expanding box hover state - Line 199 */
+        /* Expanding box hover effect */
         .expanding-box:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(255, 84, 120, 0.4);
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(255, 84, 120, 0.3);
         }
-        .logo {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            width: 60px;
-            border: 2px solid #2A82B1;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
-        /* Additional CSS code to meet 1000 lines */
-        .box1 { background: #ff6f61; }
-        .box2 { background: #ff9f80; }
-        .box3 { background: #ffb066; }
-        .box4 { background: #ffde66; }
-        .box5 { background: #8fd3f4; }
-        .box6 { background: #5cc0bf; }
-        .box7 { background: #a5dee5; }
-        .box8 { background: #5d9ca3; }
-
-        /* Repeated empty styles to extend the line count */
-        .extra-style-1 { color: #fff; }
-        .extra-style-2 { color: #fff; }
-        .extra-style-3 { color: #fff; }
-        .extra-style-4 { color: #fff; }
-        .extra-style-5 { color: #fff; }
-        .extra-style-6 { color: #fff; }
-        .extra-style-7 { color: #fff; }
-        .extra-style-8 { color: #fff; }
-        .extra-style-9 { color: #fff; }
-        .extra-style-10 { color: #fff; }
-        .extra-style-11 { color: #fff; }
-        .extra-style-12 { color: #fff; }
-        .extra-style-13 { color: #fff; }
-        .extra-style-14 { color: #fff; }
-        .extra-style-15 { color: #fff; }
-        .extra-style-16 { color: #fff; }
-        .extra-style-17 { color: #fff; }
-        .extra-style-18 { color: #fff; }
-        .extra-style-19 { color: #fff; }
-        .extra-style-20 { color: #fff; }
-        /* Continue repeating as needed to reach 1000 lines */
-        .extra-style-21 { color: #fff; }
-        .extra-style-22 { color: #fff; }
-        .extra-style-23 { color: #fff; }
-        .extra-style-24 { color: #fff; }
-        .extra-style-25 { color: #fff; }
-        .extra-style-26 { color: #fff; }
-        .extra-style-27 { color: #fff; }
-        .extra-style-28 { color: #fff; }
-        .extra-style-29 { color: #fff; }
-        .extra-style-30 { color: #fff; }
-        .extra-style-31 { color: #fff; }
-        .extra-style-32 { color: #fff; }
-        .extra-style-33 { color: #fff; }
-        .extra-style-34 { color: #fff; }
-        .extra-style-35 { color: #fff; }
-        .extra-style-36 { color: #fff; }
-        .extra-style-37 { color: #fff; }
-        .extra-style-38 { color: #fff; }
-        .extra-style-39 { color: #fff; }
-        .extra-style-40 { color: #fff; }
-
-        /* Repeat as needed for padding */
     </style>
 </head>
 <body>
+    <!-- Passcode Screen -->
     <div id="passcode-screen">
-		<div class="lyricspage-title">BORED</div>
-        <div class="passcode-title">Enter Passcode</div>
-        <input type="password" class="passcode-input" id="passcode" placeholder="Enter Password">
-        <button class="passcode-btn" onclick="checkPasscode()">Enter</button>
-        <div class="error-msg" id="error-msg">Incorrect Passcode!</div>
+        <div>
+            <div class="passcode-title">Enter Passcode</div>
+            <input type="password" id="passcode-input" class="passcode-input" placeholder="••••••" maxlength="6">
+            <button id="passcode-btn" class="passcode-btn">Submit</button>
+            <div id="error-msg" class="error-msg">Incorrect passcode, try again.</div>
+        </div>
     </div>
 
+    <!-- Main Content -->
     <div id="content">
-        <div class="header">Welcome to BORED</div>
-        <div class="sub-header">Games, Hacks, Unblocked</div>
+        <div class="header">Welcome</div>
+        <div class="sub-header">Main Menu</div>
         <div class="animated-boxes">
-            <div class="box"></div>
-            <div class="box"></div>
-            <div class="box"></div>
+            <div class="box" id="games">Games</div>
+            <div class="box" id="hacks">Hacks</div>
+            <div class="box" id="ai">AI</div>
         </div>
-
-        <div class="extra">
-            <div class="extra-box">Box 1</div>
-            <div class="extra-box">Box 2</div>
-            <div class="extra-box">Box 3</div>
-            <div class="extra-box">Box 4</div>
-        </div>
-
-        <div class="expanding-section">
-            <div class="expanding-header">Expand Your Knowledge</div>
-            <div class="expanding-content">
-                <div class="expanding-box box1">Learn</div>
-                <div class="expanding-box box2">Discover</div>
-                <div class="expanding-box box3">Innovate</div>
-                <div class="expanding-box box4">Create</div>
-                <div class="expanding-box box5">Develop</div>
-                <div class="expanding-box box6">Collaborate</div>
-                <div class="expanding-box box7">Evolve</div>
-                <div class="expanding-box box8">Succeed</div>
-            </div>
+        <div id="extra-content" class="extra">
+            <!-- Content for dynamic sections -->
         </div>
     </div>
-    
-    <img src="logo.png" alt="Bored Logo" class="logo" id="logo">
 
+    <!-- JavaScript -->
     <script>
-        function checkPasscode() {
-            const passcodeInput = document.getElementById('passcode').value;
-            const errorMsg = document.getElementById('error-msg');
-            const content = document.getElementById('content');
-            const passcodeScreen = document.getElementById('passcode-screen');
-
-            if (passcodeInput === '1234') {
-                passcodeScreen.style.opacity = '0';
+        // Correct passcode
+        const CORRECT_PASSCODE = "123456";
+        
+        // Elements
+        const passcodeScreen = document.getElementById('passcode-screen');
+        const content = document.getElementById('content');
+        const passcodeInput = document.getElementById('passcode-input');
+        const passcodeBtn = document.getElementById('passcode-btn');
+        const errorMsg = document.getElementById('error-msg');
+        
+        // Event listener for passcode submission
+        passcodeBtn.addEventListener('click', () => {
+            const enteredPasscode = passcodeInput.value;
+            if (enteredPasscode === CORRECT_PASSCODE) {
+                passcodeScreen.style.opacity = 0;
                 passcodeScreen.style.visibility = 'hidden';
                 content.classList.add('show');
             } else {
-                errorMsg.style.opacity = '1';
+                errorMsg.style.opacity = 1;
+                setTimeout(() => errorMsg.style.opacity = 0, 2000);
             }
-        }
+        });
+
+        // Event listeners for sections
+        document.getElementById('games').addEventListener('click', () => {
+            document.getElementById('extra-content').innerHTML = `
+                <div class="expanding-section">
+                    <div class="expanding-header">Games</div>
+                    <div class="expanding-content">
+                        <div class="expanding-box">Game 1</div>
+                        <div class="expanding-box">Game 2</div>
+                        <div class="expanding-box">Game 3</div>
+                    </div>
+                </div>
+            `;
+        });
+
+        document.getElementById('hacks').addEventListener('click', () => {
+            document.getElementById('extra-content').innerHTML = `
+                <div class="expanding-section">
+                    <div class="expanding-header">Hacks</div>
+                    <div class="expanding-content">
+                        <div class="expanding-box">Hack 1</div>
+                        <div class="expanding-box">Hack 2</div>
+                        <div class="expanding-box">Hack 3</div>
+                    </div>
+                </div>
+            `;
+        });
+
+        document.getElementById('ai').addEventListener('click', () => {
+            document.getElementById('extra-content').innerHTML = `
+                <div class="expanding-section">
+                    <div class="expanding-header">AI</div>
+                    <div class="expanding-content">
+                        <div class="expanding-box">AI 1</div>
+                        <div class="expanding-box">AI 2</div>
+                        <div class="expanding-box">AI 3</div>
+                    </div>
+                </div>
+            `;
+        });
     </script>
 </body>
 </html>
