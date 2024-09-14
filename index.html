@@ -3,398 +3,504 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Futuristic Interactive Website</title>
+    <link rel="icon" type="image/png" href="favicon (1).ico">
+    <title>Home</title>
     <style>
-        /* Global Styles - Line 1 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #202020;
+            color: #fff;
+            transition: background-color 0.5s ease, color 0.5s ease;
         }
-
-        /* Body and overall page styling - Line 7 */
-        body, html {
-            height: 100%;
-            background: linear-gradient(135deg, #1f1c2c, #928dab);
-            display: flex;
+        .dark-mode {
+            background-color: #202020;
+            color: #fff;
+        }
+        .light-mode {
+            background-color: #f0f0f0;
+            color: #000;
+        }
+        a {
+            color: #fff;
+            text-decoration: underline;
+        }
+        a:hover {
+            color: #ccc;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+        .passcode-container, .content-container, .new-section, .games-container, .gemini-container, .dynamic-code-container, .caution-container {
+            display: none;
+        }
+        .passcode-container.active, .content-container.active, .new-section.active, .games-container.active, .gemini-container.active, .dynamic-code-container.active, .caution-container.active  {
+            display: block;
+        }
+        .input-field, .btn {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .btn {
+            background-color: #2A82B1;
+            color: #fff;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #7791A9;
+        }
+        .theme-toggle-btn {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            width: 100px;
+            height: 50px;
+            font-size: 14px;
+            border: none;
+            border-radius: 10px;
+            background-color: #2A82B1;
+            color: #fff;
+            cursor: pointer;
+        }
+        .theme-toggle-btn:hover {
+            background-color: #7791A9;
+        }
+        .quote {
+            margin-top: 20px;
+            font-size: 18px;
+            font-style: italic;
+        }
+        .feedback-form, .bookmark-list {
+            margin-top: 20px;
+        }
+        .back-btn {
+            display: none;
+            width: 100px;
+            height: 40px;
+            font-size: 16px;
+            border: none;
+            border-radius: 10px;
+            background-color: #2A82B1;
+            color: #fff;
+            cursor: pointer;
+            position: fixed;
+            top: 10px;
+            left: 10px;
+        }
+        .back-btn.active {
+            display: block;
+        }
+        .logo {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 60px;
+            border: 2px solid #2A82B1;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .logo.hidden, .theme-toggle-btn.hidden {
+            display: none;
+        }
+        .new-section hr {
+            border: none;
+            height: 3px;
+            background-color: #000;
+            margin: 20px auto;
+            width: 80%;
+        }
+        .teacher-btn {
+            width: 60px;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #2A82B1;
+            color: #fff;
+            border: 2px solid #FFD700;
+            border-radius: 5px;
+            padding: 10px 0px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            z-index: 11;
+        }
+        .teacher-btn:hover {
+            background-color: #7791A9;
+            border-color: #000;
+        }
+        .gemini-container, .games-container {
+            display: none;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
-        }
-
-        /* Passcode Screen Styling - Line 15 */
-        #passcode-screen, #content {
-            position: absolute;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100vw;
             height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 10;
+            margin: 0;
+            padding: 0;
+        }
+
+        .gemini-container.active, .games-container.active {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.5s ease-in-out;
         }
 
-        /* Passcode screen background and layout - Line 23 */
-        #passcode-screen {
-            background: rgba(0, 0, 0, 0.8);
-            flex-direction: column;
-            z-index: 2;
-        }
-
-        /* Passcode title - Line 29 */
-        .passcode-title {
-            color: white;
-            font-size: 2em;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            animation: fadeIn 2s ease-in-out;
-        }
-
-        /* Passcode input box styling - Line 38 */
-        .passcode-input {
-            padding: 15px;
-            font-size: 1.5em;
-            border: 2px solid rgba(255, 255, 255, 0.5);
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            text-align: center;
-            border-radius: 10px;
-            outline: none;
-            transition: border 0.3s ease;
-            margin-bottom: 20px;
-            width: 300px;
-            animation: fadeIn 2s ease-in-out;
-        }
-
-        /* Passcode input focus state - Line 50 */
-        .passcode-input:focus {
-            border-color: #fff;
-        }
-
-        /* Passcode button styling - Line 54 */
-        .passcode-btn {
-            padding: 10px 20px;
-            font-size: 1.2em;
-            color: white;
-            background: linear-gradient(45deg, #ff0844, #ffb199);
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease-in-out;
-            animation: slideIn 2s ease-in-out;
-        }
-
-        /* Passcode button hover state - Line 63 */
-        .passcode-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(255, 84, 120, 0.4);
-        }
-
-        /* Error message styling for incorrect passcode - Line 68 */
-        .error-msg {
-            color: red;
-            font-size: 1.2em;
-            margin-top: 15px;
-            opacity: 0;
-            animation: fadeIn 2s ease-in-out;
-        }
-
-        /* Content section, initially hidden until passcode entered - Line 75 */
-        #content {
-            opacity: 0;
-            visibility: hidden;
-            z-index: 1;
-            display: flex;
-            flex-direction: column;
-            background: #fff;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Show content when passcode is correct - Line 82 */
-        #content.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* Main header styling for content - Line 86 */
-        .header {
-            color: #333;
-            font-size: 4em;
-            margin-bottom: 30px;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            background: linear-gradient(to right, #ff0844, #ffb199);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: headerAnimation 5s infinite;
-        }
-
-        /* Sub-header styling - Line 95 */
-        .sub-header {
-            color: #666;
-            font-size: 2em;
-            margin-bottom: 50px;
-            text-transform: uppercase;
-            animation: subHeaderAnimation 5s infinite;
-        }
-
-        /* Boxes section for interaction - Line 101 */
-        .animated-boxes {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-        }
-
-        /* Box styling for each interactive element - Line 106 */
-        .box {
-            width: 200px;
-            height: 200px;
-            background: linear-gradient(45deg, #ff0844, #ffb199);
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(255, 84, 120, 0.2);
-            animation: boxMove 3s infinite alternate;
-        }
-
-        /* Box hover state - Line 113 */
-        .box:hover {
-            transform: scale(1.1);
-            box-shadow: 0 10px 20px rgba(255, 84, 120, 0.4);
-        }
-
-        /* Animation for fading in elements - Line 118 */
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
-
-        /* Slide-in animation - Line 125 */
-        @keyframes slideIn {
-            0% {
-                transform: translateY(100px);
-                opacity: 0;
-            }
-            100% {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        /* Header animation styling - Line 132 */
-        @keyframes headerAnimation {
-            0% { color: #ff0844; }
-            50% { color: #ffb199; }
-            100% { color: #ff0844; }
-        }
-
-        /* Sub-header scaling animation - Line 138 */
-        @keyframes subHeaderAnimation {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        /* Box movement animation - Line 144 */
-        @keyframes boxMove {
-            0% {
-                transform: translateX(0px);
-            }
-            100% {
-                transform: translateX(20px);
-            }
-        }
-
-        /* Extra content boxes and interactive elements - Line 151 */
-        .extra {
-            display: flex;
-            flex-wrap: wrap;
-            margin-top: 50px;
-            gap: 30px;
-            justify-content: center;
-        }
-
-        /* Individual extra box styling - Line 158 */
-        .extra-box {
-            width: 150px;
-            height: 150px;
-            background-color: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.5em;
-            color: white;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transition: transform 0.4s ease;
-        }
-
-        /* Extra box hover effect - Line 169 */
-        .extra-box:hover {
-            transform: translateY(-10px);
-        }
-
-        /* Expanding section for more interactive content - Line 174 */
-        .expanding-section {
+        .gemini-container iframe, .games-container iframe {
             width: 100%;
-            background: #333;
-            color: white;
-            padding: 50px 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
+            height: 100%;
+            border: 0;
         }
-
-        /* Expanding section header - Line 181 */
-        .expanding-header {
-            font-size: 3em;
-            text-transform: uppercase;
-            margin-bottom: 30px;
+        .dynamic-code-container {
+            padding: 20px;
+            background-color: #2E2C2B;
+            color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: opacity 0.5s ease;
         }
-
-        /* Expanding content layout - Line 186 */
-        .expanding-content {
-            display: flex;
+        
+        .caution-container {
+			margin-top: 150px;
+            padding: 20px;
+            background-color: #E74C3C;
+            color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: opacity 0.5s ease;
+ 
+        }
+        .quad-chart {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
+            margin-top: 20px;
         }
-
-        /* Individual boxes in expanding content - Line 191 */
-        .expanding-box {
-            width: 200px;
-            height: 150px;
-            background: linear-gradient(45deg, #ff0844, #ffb199);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            border-radius: 15px;
-            transition: transform 0.3s ease;
+        .file-box {
+            padding: 20px;
+            background-color: #3A3A3A;
+            border: 2px solid red;
+            border-radius: 10px;
         }
-
-        /* Expanding box hover state - Line 199 */
-        .expanding-box:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(255, 84, 120, 0.4);
+        .file-box a {
+            color: red;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
         }
+        @media (max-width: 768px) {
+			.quad-chart {
+				grid-template-columns: 1fr; /* Stacks the items in a single column */
+		}
+	}
 
-        /* Additional CSS code to meet 1000 lines */
-        .box1 { background: #ff6f61; }
-        .box2 { background: #ff9f80; }
-        .box3 { background: #ffb066; }
-        .box4 { background: #ffde66; }
-        .box5 { background: #8fd3f4; }
-        .box6 { background: #5cc0bf; }
-        .box7 { background: #a5dee5; }
-        .box8 { background: #5d9ca3; }
-
-        /* Repeated empty styles to extend the line count */
-        .extra-style-1 { color: #fff; }
-        .extra-style-2 { color: #fff; }
-        .extra-style-3 { color: #fff; }
-        .extra-style-4 { color: #fff; }
-        .extra-style-5 { color: #fff; }
-        .extra-style-6 { color: #fff; }
-        .extra-style-7 { color: #fff; }
-        .extra-style-8 { color: #fff; }
-        .extra-style-9 { color: #fff; }
-        .extra-style-10 { color: #fff; }
-        .extra-style-11 { color: #fff; }
-        .extra-style-12 { color: #fff; }
-        .extra-style-13 { color: #fff; }
-        .extra-style-14 { color: #fff; }
-        .extra-style-15 { color: #fff; }
-        .extra-style-16 { color: #fff; }
-        .extra-style-17 { color: #fff; }
-        .extra-style-18 { color: #fff; }
-        .extra-style-19 { color: #fff; }
-        .extra-style-20 { color: #fff; }
-        /* Continue repeating as needed to reach 1000 lines */
-        .extra-style-21 { color: #fff; }
-        .extra-style-22 { color: #fff; }
-        .extra-style-23 { color: #fff; }
-        .extra-style-24 { color: #fff; }
-        .extra-style-25 { color: #fff; }
-        .extra-style-26 { color: #fff; }
-        .extra-style-27 { color: #fff; }
-        .extra-style-28 { color: #fff; }
-        .extra-style-29 { color: #fff; }
-        .extra-style-30 { color: #fff; }
-        .extra-style-31 { color: #fff; }
-        .extra-style-32 { color: #fff; }
-        .extra-style-33 { color: #fff; }
-        .extra-style-34 { color: #fff; }
-        .extra-style-35 { color: #fff; }
-        .extra-style-36 { color: #fff; }
-        .extra-style-37 { color: #fff; }
-        .extra-style-38 { color: #fff; }
-        .extra-style-39 { color: #fff; }
-        .extra-style-40 { color: #fff; }
-
-        /* Repeat as needed for padding */
+        
     </style>
 </head>
 <body>
-    <div id="passcode-screen">
-        <div class="passcode-title">Enter Passcode</div>
-        <input type="password" class="passcode-input" id="passcode" placeholder="****">
-        <button class="passcode-btn" onclick="checkPasscode()">Enter</button>
-        <div class="error-msg" id="error-msg">Incorrect Passcode!</div>
+    <button class="theme-toggle-btn" id="theme-toggle-btn">Toggle Light/Dark Mode</button>
+    <button class="btn teacher-btn" id="teacher-btn">Teacher</button>
+
+    <div class="container passcode-container active">
+        <h2>Enter Passcode</h2>
+        <input type="password" id="passcode-input" class="input-field" />
+        <button class="btn" id="submit-btn">Submit</button>
+        <div id="error-message" style="color: red; display: none;">Incorrect passcode. Please try again.</div>
     </div>
 
-    <div id="content">
-        <div class="header">Welcome to the Future</div>
-        <div class="sub-header">Experience the cutting-edge design</div>
-        <div class="animated-boxes">
-            <div class="box"></div>
-            <div class="box"></div>
-            <div class="box"></div>
+    <div class="container content-container">
+        <div class="welcome-message" id="welcome-message"></div>
+        <div class="quote" id="quote"></div>
+        <div class="feedback-form" id="feedback-form">
+            <button id="submit-feedback-btn" class="btn" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSdI0M5cOMEgDLxNpwzt6ygNtp02W9JTtOLFKZ-d5E-eoEqr-g/viewform?usp=sf_link', '_blank')">Submit Feedback</button>
         </div>
-
-        <div class="extra">
-            <div class="extra-box">Box 1</div>
-            <div class="extra-box">Box 2</div>
-            <div class="extra-box">Box 3</div>
-            <div class="extra-box">Box 4</div>
-        </div>
-
-        <div class="expanding-section">
-            <div class="expanding-header">Expand Your Knowledge</div>
-            <div class="expanding-content">
-                <div class="expanding-box box1">Learn</div>
-                <div class="expanding-box box2">Discover</div>
-                <div class="expanding-box box3">Innovate</div>
-                <div class="expanding-box box4">Create</div>
-                <div class="expanding-box box5">Develop</div>
-                <div class="expanding-box box6">Collaborate</div>
-                <div class="expanding-box box7">Evolve</div>
-                <div class="expanding-box box8">Succeed</div>
-            </div>
+        <div class="button-container">
+            <button class="btn" id="games-btn">Games</button>
+            <button class="btn" id="hacks-btn">Hacks</button>
+            <button class="btn" id="gemini-btn">Blackbox AI</button>
         </div>
     </div>
+
+    <div class="container new-section">
+        <h3>How to Use Bookmarklets</h3>
+        <p>To use a bookmarklet, drag the link to your bookmarks bar. Click the bookmark whenever you want to activate the bookmarklet on a page.</p>
+        <hr>
+        <div class="bookmarklet-container"></div>
+        <button class="back-btn back-btn-hacks">Back</button>
+    </div>
+
+    <div class="games-container">
+        <iframe src="https://unblocked-gamespremium.github.io/go/subway-surfers-newyork.html#"></iframe>
+        <button class="back-btn back-btn-games">Back</button>
+    </div>
+
+    <div class="gemini-container">
+        <iframe src="https://blackbox.ai"></iframe>
+        <button class="back-btn back-btn-gemini">Back</button>
+    </div>
+
+    <div class="container dynamic-code-container">
+        <h3>Welcome, Lyric</h3>
+        <p>Current secret code: </p>
+        <div id="dynamic-code"></div>
+        <button class="back-btn back-btn-dynamic">Back</button>
+    </div>
+    
+    <div class="container caution-container">
+    <h3>Caution Section</h3>
+    <p>Caution: these links have dangerous potential</p>
+    <p>These links aren't technically links but are code hidden into a link</p>
+    <p>Warning: Use could end in loses of friendships</p>
+    <div class="quad-chart">
+        <div class="file-box">
+            <a href="javascript:(function(){var url='https://www.youtube.com/watch?v=pAH1B_z4_MI';for(var i=0;i<50;i++){window.open(url,'_blank','noopener,noreferrer');}})();">Open 50 YouTube Windows</a>
+			<p>Description: DO NOT CLICK. This is not cool math games but instead a disquised bookmarklet that tab bombs your browser with 50 empty tabs</p>
+        </div>
+        <div class="file-box">
+            <a href="<a href="javascript:(function(){window.open('https://www.coolmathgames.com'); window.open('https://www.hoodamath.com'); window.open('https://gemini.google.com');})();">lookproductive</a>
+            <p> Description: Send this boomarklet to a "friend in need" tell them it opens classroom and your work to make them "lookproductive" but really it opens two game websites and an ai to make it look like they are cheating as the teacher walks past</p>
+        </div>
+        <div class="file-box">
+            <a href="javascript:(function() { if (document.body.style.transform === 'rotate(180deg)') { document.body.style.transform = ''; } else { document.body.style.transform = 'rotate(180deg)'; } })();">Kahoot hack</a>
+            <p>Description: NOT a kahoot hack it flips their webpage upside down</p>
+        </div>
+        <div class="file-box">
+            <a href="javascript:(function(){
+        const message = document.createElement('div');
+        message.textContent = 'WAT THE SIGMA';
+        message.style.position = 'fixed';
+        message.style.top = '50%';
+        message.style.left = '50%';
+        message.style.transform = 'translate(-50%, -50%)';
+        message.style.fontSize = '50px';
+        message.style.fontWeight = 'bold';
+        message.style.color = 'red';
+        message.style.backgroundColor = 'black';
+        message.style.padding = '20px';
+        message.style.borderRadius = '10px';
+        message.style.zIndex = '10000';
+        document.body.appendChild(message);
+    })();">WAT THE SIGMA</a>
+            <p>Description: Wat the sigma</p>
+        </div>
+    </div>
+    <button class="back-btn back-btn-caution">Back</button>
+</div>
+    
+    <img src="logo.png" alt="Bored Logo" class="logo" id="logo">
 
     <script>
-        function checkPasscode() {
-            const passcodeInput = document.getElementById('passcode').value;
-            const errorMsg = document.getElementById('error-msg');
-            const content = document.getElementById('content');
-            const passcodeScreen = document.getElementById('passcode-screen');
+        const passcodeInput = document.getElementById('passcode-input');
+        const submitBtn = document.getElementById('submit-btn');
+        const errorMessage = document.getElementById('error-message');
+        const gamesBtn = document.getElementById('games-btn');
+        const hacksBtn = document.getElementById('hacks-btn');
+        const geminiBtn = document.getElementById('gemini-btn');
+        const backBtnHacks = document.querySelector('.back-btn-hacks');
+        const backBtnGames = document.querySelector('.back-btn-games');
+        const backBtnGemini = document.querySelector('.back-btn-gemini');
+        const backBtnDynamic = document.querySelector('.back-btn-dynamic');
+        const backBtnCaution = document.querySelector('.back-btn-caution');
+        const bookmarkletContainer = document.querySelector('.bookmarklet-container');
+        const themeToggleBtn = document.getElementById('theme-toggle-btn');
+        const welcomeMessage = document.getElementById('welcome-message');
+        const quote = document.getElementById('quote');
+        const teacherBtn = document.getElementById('teacher-btn');
+        const logo = document.getElementById('logo');
+        const dynamicCode = document.getElementById('dynamic-code');
 
-            if (passcodeInput === '1234') {
-                passcodeScreen.style.opacity = '0';
-                passcodeScreen.style.visibility = 'hidden';
-                content.classList.add('show');
-            } else {
-                errorMsg.style.opacity = '1';
-            }
+        const quotes = [
+            "Do one thing every day that scares you. - Eleanor Roosevelt",
+            "Success is not final, failure is not fatal: It is the courage to continue that counts. - Winston Churchill",
+            "The only way to do great work is to love what you do. - Steve Jobs",
+            "Believe you can and you're halfway there. - Theodore Roosevelt",
+            "Act as if what you do makes a difference. It does. - William James"
+        ];
+
+        let currentDynamicCode = '';
+
+        function getRandomQuote() {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            return quotes[randomIndex];
         }
+
+        function updateGreeting() {
+            const now = new Date();
+            const hours = now.getHours();
+            let greeting;
+            if (hours < 12) {
+                greeting = "Good Morning";
+            } else if (hours < 18) {
+                greeting = "Good Afternoon";
+            } else {
+                greeting = "Good Evening";
+            }
+            welcomeMessage.textContent = `${greeting}, Welcome to BORED`;
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            document.body.classList.toggle('dark-mode');
+        }
+
+        function clearBookmarklet() {
+            bookmarkletContainer.innerHTML = '';
+        }
+
+        function generateDynamicCode() {
+			const now = new Date();
+			const hours = now.getHours().toString().padStart(2, '0');
+			const minutes = now.getMinutes().toString().padStart(2, '0');
+			const dynamicCodeValue = `${hours}${minutes}`;
+			return dynamicCodeValue;
+		}
+
+        function updateDynamicCode() {
+			currentDynamicCode = generateDynamicCode();
+			dynamicCode.textContent = currentDynamicCode;
+		}
+
+        document.body.addEventListener('keyup', (event) => {
+            if (event.key === 'Enter') {
+                submitBtn.click();
+            }
+        });
+
+        submitBtn.addEventListener('click', () => {
+    if (passcodeInput.value === '1234') {
+        document.querySelector('.passcode-container').classList.remove('active');
+        document.querySelector('.content-container').classList.add('active');
+        errorMessage.style.display = 'none';
+        updateGreeting();
+        quote.textContent = getRandomQuote();
+    } else if (passcodeInput.value === '120120107') {
+        document.querySelector('.passcode-container').classList.remove('active');
+        document.querySelector('.dynamic-code-container').classList.add('active');
+        backBtnDynamic.classList.add('active');
+        updateDynamicCode();
+        setInterval(updateDynamicCode, 30 * 60 * 1000); // Update every 30 minutes
+        errorMessage.style.display = 'none';
+    } else if (passcodeInput.value === currentDynamicCode) {
+        document.querySelector('.passcode-container').classList.remove('active');
+        document.querySelector('.caution-container').classList.add('active');
+        backBtnCaution.classList.add('active');
+        dynamicCodeView.textContent = currentDynamicCode;
+        console.log(`Access granted: ${currentDynamicCode}`);
+    } else {
+        errorMessage.style.display = 'block';
+        passcodeInput.value = '';
+        console.log(`Access denied: ${passcodeInput.value} !== ${currentDynamicCode}`);
+    }
+});
+        teacherBtn.addEventListener('click', () => {
+          window.location.href = 'https://classroom.google.com/';
+        });
+
+        hacksBtn.addEventListener('click', () => {
+            clearBookmarklet();
+            document.querySelector('.content-container').classList.remove('active');
+            document.querySelector('.new-section').classList.add('active');
+            backBtnHacks.classList.add('active');
+
+            const bookmarklets = [
+                {
+                    name: 'Edpuzzle',
+                    url: "javascript:(() => { const script = document.createElement('script'); script.src = 'https://cdn.jsdelivr.net/gh/ading2210/edpuzzle-answers@latest/script.js'; document.body.appendChild(script); })();"
+                },
+                {
+                    name: 'Disguise any tab',
+                    url: "javascript:(()=>{fetch('https://raw.githubusercontent.com/bananaontop/TabMask/main/Ignore.js').then(r=>r.text()).then(c=>eval(c)).catch(e=>alert('Failed to fetch code.',e));})();"
+                },
+                {
+                    name: 'Change any tab into Classroom',
+                    url: "javascript:window.location.href='https://classroom.google.com/';"
+                },
+                {
+					name: 'quizizz hack this one is not a bookmarklet just click',
+					url: "https://quizit.online/services/quizizz/"
+				},
+				{
+					name: 'kahoot hack "link" use on phone',
+					url: "https://mem.rip/kahoot/"
+			    }
+			];
+
+            bookmarklets.forEach(bookmarklet => {
+                const bookmarkletHtml = `
+                    <a href="${bookmarklet.url}">
+                        ${bookmarklet.name}
+                    </a>
+                `;
+                const bookmarkletContainerDiv = document.createElement('div');
+                bookmarkletContainerDiv.innerHTML = bookmarkletHtml;
+                bookmarkletContainer.appendChild(bookmarkletContainerDiv);
+            });
+        });
+
+        gamesBtn.addEventListener('click', () => {
+            document.querySelector('.content-container').classList.remove('active');
+            document.querySelector('.games-container').classList.add('active');
+            backBtnGames.classList.add('active');
+        });
+
+        geminiBtn.addEventListener('click', () => {
+            document.querySelector('.content-container').classList.remove('active');
+            document.querySelector('.gemini-container').classList.add('active');
+            backBtnGemini.classList.add('active');
+            logo.classList.add('hidden');
+            themeToggleBtn.classList.add('hidden');
+        });
+
+        backBtnHacks.addEventListener('click', () => {
+            document.querySelector('.new-section').classList.remove('active');
+            document.querySelector('.content-container').classList.add('active');
+            backBtnHacks.classList.remove('active');
+        });
+
+        backBtnGames.addEventListener('click', () => {
+            document.querySelector('.games-container').classList.remove('active');
+            document.querySelector('.content-container').classList.add('active');
+            backBtnGames.classList.remove('active');
+        });
+
+        backBtnGemini.addEventListener('click', () => {
+            document.querySelector('.gemini-container').classList.remove('active');
+            document.querySelector('.content-container').classList.add('active');
+            backBtnGemini.classList.remove('active');
+            logo.classList.remove('hidden');
+            themeToggleBtn.classList.remove('hidden');
+        });  
+
+        backBtnDynamic.addEventListener('click', () => {
+            document.querySelector('.dynamic-code-container').classList.remove('active');
+            document.querySelector('.passcode-container').classList.add('active');
+            passcodeInput.value = '';
+        });
+        
+        backBtnCaution.addEventListener('click', () => {
+			document.querySelector('.caution-container').classList.remove('active');
+			document.querySelector('.passcode-container').classList.add('active');
+			passcodeInput.value = '';
+		});
+
+        themeToggleBtn.addEventListener('click', toggleTheme);
+        
+        // Initial update of the dynamic code
+        updateDynamicCode();
+        // Schedule the dynamic code update every 30 minutes
+        setInterval(updateDynamicCode, 30 * 60 * 1000);
     </script>
 </body>
 </html>
