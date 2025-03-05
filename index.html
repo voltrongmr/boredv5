@@ -74,6 +74,10 @@
             animation: pulse 0.5s infinite alternate;
         }
 
+        .custom-cursor.hidden {
+            visibility: hidden;
+        }
+
         @keyframes pulse {
             0% { transform: scale(1.5); }
             100% { transform: scale(1.8); }
@@ -495,7 +499,7 @@
             background: #ff0000;
             border-radius: 10px;
             box-shadow: 0 0 15px #ff0000, 0 0 30px #ff0000;
-            animation: glitch 0.3s infinite; /* Glitch effect on red bar */
+            animation: glitch 0.3s infinite;
         }
 
         @keyframes glitch {
@@ -512,36 +516,18 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: #000000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
+            display: none;
             z-index: 15;
         }
 
         .overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        /* Loading Circle */
-        .loading-circle {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 50px;
-            height: 50px;
-            border: 5px solid #ff0000;
-            border-top: 5px solid transparent;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            z-index: 16;
-            display: none;
-        }
-
-        .loading-circle.active {
             display: block;
+        }
+
+        .overlay iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
         }
 
         /* Notification System */
@@ -724,8 +710,9 @@
     <img src="logo.png" alt="Bored Logo" class="logo" id="logo">
     <div class="spin-counter" id="spin-counter">Spins: 0</div>
     <div class="glow-dot" id="glow-dot"></div>
-    <div class="overlay" id="overlay"></div>
-    <div class="loading-circle" id="loading-circle"></div>
+    <div class="overlay" id="overlay">
+        <iframe src="https://fakeupdate.net/win10ue/"></iframe>
+    </div>
     <div class="notification" id="notification"></div>
     <div class="shortcut-menu" id="shortcut-menu">
         <h3>Keyboard Shortcuts</h3>
@@ -767,7 +754,6 @@
             cautionContainer: document.getElementById('caution-container'),
             glowDot: document.getElementById('glow-dot'),
             overlay: document.getElementById('overlay'),
-            loadingCircle: document.getElementById('loading-circle'),
             notification: document.getElementById('notification'),
             shortcutMenu: document.getElementById('shortcut-menu'),
             particlesContainer: document.getElementById('particles'),
@@ -1067,15 +1053,15 @@
             if (event.key === '`') {
                 elements.glowDot.classList.add('expanded');
                 elements.overlay.classList.add('active');
-                elements.loadingCircle.classList.add('active');
                 elements.particlesContainer.classList.add('hidden');
+                elements.customCursor.classList.add('hidden'); // Hide cursor
                 showNotification("Blackout Activated", "warning");
             }
             if (event.ctrlKey && event.key === 'b') {
                 elements.glowDot.classList.remove('expanded');
                 elements.overlay.classList.remove('active');
-                elements.loadingCircle.classList.remove('active');
                 elements.particlesContainer.classList.remove('hidden');
+                elements.customCursor.classList.remove('hidden'); // Show cursor
                 showNotification("Blackout Deactivated", "warning");
             }
             if (event.key === '?') {
