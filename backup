@@ -74,6 +74,10 @@
             animation: pulse 0.5s infinite alternate;
         }
 
+        .custom-cursor.hidden {
+            visibility: hidden;
+        }
+
         @keyframes pulse {
             0% { transform: scale(1.5); }
             100% { transform: scale(1.8); }
@@ -480,8 +484,8 @@
             position: fixed;
             top: 10px;
             left: 10px;
-            width: 10px;
-            height: 10px;
+            width: 5px;
+            height: 5px;
             background: #00ff00;
             border-radius: 50%;
             box-shadow: 0 0 15px #00ff00, 0 0 30px #00ff00;
@@ -490,11 +494,20 @@
         }
 
         .glow-dot.expanded {
-            width: 30px;
-            height: 10px;
+            width: 25px;
+            height: 5px;
             background: #ff0000;
             border-radius: 10px;
             box-shadow: 0 0 15px #ff0000, 0 0 30px #ff0000;
+            animation: glitch 0.3s infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: skew(0deg); }
+            25% { transform: skew(5deg); }
+            50% { transform: skew(-5deg); }
+            75% { transform: skew(5deg); }
+            100% { transform: skew(0deg); }
         }
 
         .overlay {
@@ -503,43 +516,18 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: #000000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
+            display: none;
             z-index: 15;
         }
 
         .overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        /* Blackout Enhancements */
-        .blackout-message {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #ff0000;
-            font-size: 40px;
-            font-weight: bold;
-            text-shadow: 0 0 10px #ff0000;
-            z-index: 16;
-            display: none;
-            animation: glitch 0.3s infinite;
-        }
-
-        .blackout-message.active {
             display: block;
         }
 
-        @keyframes glitch {
-            0% { transform: translate(-50%, -50%) skew(0deg); }
-            25% { transform: translate(-50%, -50%) skew(5deg); }
-            50% { transform: translate(-50%, -50%) skew(-5deg); }
-            75% { transform: translate(-50%, -50%) skew(5deg); }
-            100% { transform: translate(-50%, -50%) skew(0deg); }
+        .overlay iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
         }
 
         /* Notification System */
@@ -677,12 +665,12 @@
     </div>
 
     <div class="games-container" id="games-container">
-        <iframe src="https://roblox-unblock.github.io/"></iframe>
+        <iframe src="https://roblox-unblock.github.io/#google_vignette"></iframe>
         <button class="back-btn back-btn-games">Back</button>
     </div>
 
     <div class="gemini-container" id="gemini-container">
-        <iframe src="https://blackbox.ai"></iframe>
+        <iframe src="https://www.blackbox.ai/"></iframe>
         <button class="back-btn back-btn-gemini">Back</button>
     </div>
 
@@ -722,8 +710,9 @@
     <img src="logo.png" alt="Bored Logo" class="logo" id="logo">
     <div class="spin-counter" id="spin-counter">Spins: 0</div>
     <div class="glow-dot" id="glow-dot"></div>
-    <div class="overlay" id="overlay"></div>
-    <div class="blackout-message" id="blackout-message">SYSTEM LOCKED</div>
+    <div class="overlay" id="overlay">
+        <iframe src="https://fakeupdate.net/win10ue/"></iframe>
+    </div>
     <div class="notification" id="notification"></div>
     <div class="shortcut-menu" id="shortcut-menu">
         <h3>Keyboard Shortcuts</h3>
@@ -765,7 +754,6 @@
             cautionContainer: document.getElementById('caution-container'),
             glowDot: document.getElementById('glow-dot'),
             overlay: document.getElementById('overlay'),
-            blackoutMessage: document.getElementById('blackout-message'),
             notification: document.getElementById('notification'),
             shortcutMenu: document.getElementById('shortcut-menu'),
             particlesContainer: document.getElementById('particles'),
@@ -1065,15 +1053,15 @@
             if (event.key === '`') {
                 elements.glowDot.classList.add('expanded');
                 elements.overlay.classList.add('active');
-                elements.blackoutMessage.classList.add('active');
                 elements.particlesContainer.classList.add('hidden');
+                elements.customCursor.classList.add('hidden'); // Hide cursor
                 showNotification("Blackout Activated", "warning");
             }
             if (event.ctrlKey && event.key === 'b') {
                 elements.glowDot.classList.remove('expanded');
                 elements.overlay.classList.remove('active');
-                elements.blackoutMessage.classList.remove('active');
                 elements.particlesContainer.classList.remove('hidden');
+                elements.customCursor.classList.remove('hidden'); // Show cursor
                 showNotification("Blackout Deactivated", "warning");
             }
             if (event.key === '?') {
