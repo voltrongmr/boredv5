@@ -363,7 +363,7 @@
     }
 
     .menu-item.active[data-section="AI"]:hover ~ .menu-indicator {
-      width: 250px !important;
+      width: 210px !important;
     }
 
     .menu-indicator {
@@ -661,8 +661,7 @@
       const urls = {
         "AI": {
           "blackbox": "https://www.blackbox.ai/",
-          "deep": "https://deep.ai/",
-          "gemini": "https://gemini.google.com/"
+          "deep": "https://writesonic.com/free-tools/text-humanizer"
         },
         "Games": "https://roblox-unblock.github.io/#google_vignette"
       };
@@ -737,14 +736,13 @@
 
     const aiModels = [
       { id: 'blackbox', name: 'Blackbox', active: true },
-      { id: 'deep', name: 'Deep', active: false },
-      { id: 'gemini', name: 'Gemini', active: false }
+      { id: 'deep', name: 'Humanize', active: false }
     ];
 
     function createAIModels() {
       const aiModelsContainer = document.querySelector('.ai-models');
       aiModelsContainer.innerHTML = aiModels.map((model, index) => `
-        <span data-model="${model.id}" class="${model.active ? 'active' : ''}">${model.name}</span>
+        <span data-model="${model.id}" class="${model.id === currentAIModel ? 'active' : ''}">${model.name}</span>
         ${index < aiModels.length - 1 ? '|' : ''}
       `).join('');
 
@@ -753,9 +751,7 @@
         span.addEventListener('click', (e) => {
           e.stopPropagation();
           currentAIModel = span.dataset.model;
-          aiModelsContainer.querySelectorAll('span').forEach(s => {
-            s.classList.toggle('active', s === span);
-          });
+          createAIModels(); // Re-render to update highlight
           updateIframeDisplay();
           showNotification(`Switched to ${span.textContent}`, "info");
         });
@@ -775,7 +771,7 @@
         item.addEventListener("mouseenter", () => {
           if (item.classList.contains('active')) {
             const indicator = document.querySelector('.menu-indicator');
-            indicator.style.width = '250px';
+            indicator.style.width = '210px';
             createAIModels(); // Create the model buttons when hovering
           }
         });
