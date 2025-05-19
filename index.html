@@ -363,7 +363,7 @@
     }
 
     .menu-item.active[data-section="AI"]:hover ~ .menu-indicator {
-      width: 300px !important;
+      width: 250px !important;
     }
 
     .menu-indicator {
@@ -501,6 +501,13 @@
       <div class="menu-item" data-section="Hacks" tabindex="0">Hacks</div>
     </div>
     <button id="teacher-btn">Teacher</button>
+    <button id="fullscreen-btn" style="position: fixed; bottom: 2em; right: 8em; background: #161b22; color: white; padding: 0.5em 1em; border-radius: 9999px; font-weight: bold; cursor: pointer; border: 2px solid rgba(255, 255, 255, 0.3); box-shadow: 0 0 15px rgba(255, 255, 255, 0.2); z-index: 11; transition: all 0.3s ease; height: 42px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; white-space: nowrap; display: none;">
+      <span id="fullscreen-icon" style="display: flex; align-items: center;">
+        <svg id="fullscreen-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 9V3h6M21 15v6h-6M21 9V3h-6M3 15v6h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    </button>
   </div>
 
   <script>
@@ -768,7 +775,7 @@
         item.addEventListener("mouseenter", () => {
           if (item.classList.contains('active')) {
             const indicator = document.querySelector('.menu-indicator');
-            indicator.style.width = '300px';
+            indicator.style.width = '250px';
             createAIModels(); // Create the model buttons when hovering
           }
         });
@@ -789,13 +796,69 @@
       window.location.href = "https://classroom.google.com/";
     });
 
-    // Add event listener for Escape key
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") {
-        showNotification("Redirecting to Google Classroom", "info");
-        window.location.href = "https://classroom.google.com/";
+    const fullscreenBtn = document.getElementById("fullscreen-btn");
+    const teacherBtn = document.getElementById("teacher-btn");
+    const iframeContainer = document.getElementById("iframe-container");
+    const mainContent = document.getElementById("main-content");
+    let isFullscreen = false;
+
+    function updateFullscreenBtnVisibility() {
+      const activeSection = document.querySelector('.menu-item.active').dataset.section;
+      fullscreenBtn.style.display = (activeSection === "AI" || activeSection === "Games") ? "flex" : "none";
+    }
+
+    const fullscreenIcon = document.getElementById("fullscreen-icon");
+    const fullscreenSVG = document.getElementById("fullscreen-svg");
+
+    fullscreenBtn.addEventListener("click", () => {
+      if (!isFullscreen) {
+        isFullscreen = true;
+        iframeContainer.style.position = "fixed";
+        iframeContainer.style.top = "0";
+        iframeContainer.style.left = "0";
+        iframeContainer.style.right = "0";
+        iframeContainer.style.bottom = "0";
+        iframeContainer.style.zIndex = "1000";
+        iframeContainer.style.background = "#232323";
+        // Change icon to exit fullscreen (arrows pointing inward)
+        fullscreenSVG.innerHTML = '<path d="M9 3H3v6M15 21h6v-6M15 3h6v6M9 21H3v-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
+        // Hide other UI
+        document.getElementById("island-menu").style.display = "none";
+        teacherBtn.style.display = "none";
+      } else {
+        exitFullscreenIframe();
       }
     });
+
+    function exitFullscreenIframe() {
+      isFullscreen = false;
+      iframeContainer.style.position = "absolute";
+      iframeContainer.style.top = "0";
+      iframeContainer.style.left = "0";
+      iframeContainer.style.right = "0";
+      iframeContainer.style.bottom = "100px";
+      iframeContainer.style.zIndex = "";
+      iframeContainer.style.background = "";
+      // Change icon back to fullscreen (arrows pointing outward)
+      fullscreenSVG.innerHTML = '<path d="M3 9V3h6M21 15v6h-6M21 9V3h-6M3 15v6h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
+      document.getElementById("island-menu").style.display = "flex";
+      teacherBtn.style.display = "flex";
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (isFullscreen && event.key === "Escape") {
+        exitFullscreenIframe();
+      }
+    });
+
+    // Update fullscreen button visibility on menu change
+    const originalSelectMenu = selectMenu;
+    selectMenu = function(element) {
+      originalSelectMenu(element);
+      updateFullscreenBtnVisibility();
+    };
+
+    window.addEventListener('load', updateFullscreenBtnVisibility);
 
     const iframe = document.getElementById("main-iframe");
     iframe.addEventListener("error", () => {
