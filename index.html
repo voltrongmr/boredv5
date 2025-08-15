@@ -882,13 +882,16 @@
         <span class="shortcut">Ctrl + ;</span>
     </button>
 
-    <div class="teacher-status fixed-ui inactive" id="teacher-status">
-        <div class="status-indicator"></div>
-        <span>Teacher Mode: <strong id="status-text">Inactive</strong></span>
+    <!-- Redirecting Overlay -->
+    <div class="redirecting-overlay" id="redirecting-overlay">
+        <div class="redirecting-message">Redirecting to Teacher Mode</div>
+        <div class="redirecting-subtitle">Switching to Google Classroom...</div>
+        <div class="loading-dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
     </div>
-
-    <!-- Teacher Mode iframe -->
-    <iframe id="teacher-iframe" src="https://classroom.google.com" title="Google Classroom"></iframe>
 
     <script>
         // Simple particle system
