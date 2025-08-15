@@ -1,867 +1,1168 @@
-                           <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>  <link rel="icon" type="image/x-icon" href="favicon (1).ico">  <title>Home</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #232323;
-      color: white;
-      overflow: hidden;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon (1).ico">
+    <title>BORED - Modern Hub</title>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Modern CSS Reset & Variables */
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --background: #0f0f23;
+            --surface: #1a1a2e;
+            --surface-light: #16213e;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border: rgba(255, 255, 255, 0.1);
+            --shadow: rgba(0, 0, 0, 0.3);
+            --glow: rgba(99, 102, 241, 0.4);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
 
-    canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: -1;
-      opacity: 0.5;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    #lock-screen, #main-content {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      transition: opacity 0.5s ease;
-    }
+        body, html {
+            height: 100%;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: radial-gradient(ellipse at center, var(--surface) 0%, var(--background) 100%);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
 
-    #lock-screen {
-      background: radial-gradient(circle at center, rgba(169, 169, 169, 0.1) 0%, transparent 70%);
-    }
+        /* Modern Background Animation */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(6, 182, 212, 0.05) 0%, transparent 50%);
+            z-index: -2;
+            animation: backgroundShift 20s ease-in-out infinite;
+        }
 
-    #main-content {
-      display: none;
-      opacity: 0;
-    }
+        @keyframes backgroundShift {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
 
-    #lock-screen.loading::before {
-      content: '';
-      position: absolute;
-      width: 40px;
-      height: 40px;
-      border: 4px solid white;
-      border-top-color: transparent;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
+        /* Animated Particles Canvas */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
 
-    .lock-card {
-      background: #161b22;
-      padding: 2em;
-      border-radius: 15px;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.4), 0 0 40px rgba(255, 255, 255, 0.2);
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      text-align: center;
-      width: 300px;
-      position: relative;
-    }
+        /* Modern Glassmorphism Components */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
 
-    .lock-card.loading::after {
-      content: "Verifying...";
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: -2.5em;
-      color: #60606088;
-      font-size: 1em;
-      text-shadow: 0 0 5px #00ffff88;
-    }
+        /* Passcode Screen - Modern Design */
+        #passcode-screen {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: var(--background);
+            z-index: 1000;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+        #passcode-screen.hide {
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.95);
+        }
 
-        .site-title {      font-size: 4em;      color: transparent;      -webkit-text-stroke: 2px white;      text-shadow:         0 0 10px rgba(255, 255, 255, 0.8),        0 0 20px rgba(255, 255, 255, 0.3);      margin-bottom: 1em;      animation: glitch 2s linear infinite;      position: relative;      font-weight: bold;      text-transform: uppercase;    }
+        .brand-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            animation: gradientShift 3s ease-in-out infinite, titleFloat 6s ease-in-out infinite;
+            text-shadow: 0 0 40px var(--glow);
+        }
 
-    @keyframes glitch {
-      0% {
-        transform: translate(0);
-        text-shadow: 
-          -1px -1px 0 #fff,
-          1px -1px 0 #fff,
-          -1px 1px 0 #fff,
-          1px 1px 0 #fff,
-          0 0 10px rgba(255, 255, 255, 0.8),
-          0 0 20px rgba(255, 255, 255, 0.3);
-      }
-      2% {
-        transform: translate(2px, -2px);
-        text-shadow: 
-          -1px -1px 0 #fff,
-          1px -1px 0 #fff,
-          -1px 1px 0 #fff,
-          1px 1px 0 #fff,
-          0 0 10px rgba(255, 255, 255, 0.8),
-          0 0 20px rgba(255, 255, 255, 0.3);
-      }
-      4% {
-        transform: translate(-2px, 2px);
-        text-shadow: 
-          -1px -1px 0 #fff,
-          1px -1px 0 #fff,
-          -1px 1px 0 #fff,
-          1px 1px 0 #fff,
-          0 0 10px rgba(255, 255, 255, 0.8),
-          0 0 20px rgba(255, 255, 255, 0.3);
-      }
-      6% {
-        transform: translate(0);
-        text-shadow: 
-          -1px -1px 0 #fff,
-          1px -1px 0 #fff,
-          -1px 1px 0 #fff,
-          1px 1px 0 #fff,
-          0 0 10px rgba(255, 255, 255, 0.8),
-          0 0 20px rgba(255, 255, 255, 0.3);
-      }
-      8% {
-        transform: translate(3px, 1px);
-        text-shadow: 
-          -1px -1px 0 #fff,
-          1px -1px 0 #fff,
-          -1px 1px 0 #fff,
-          1px 1px 0 #fff,
-          0 0 10px rgba(255, 255, 255, 0.8),
-          0 0 20px rgba(255, 255, 255, 0.3);
-      }
-      10% {
-        transform: translate(-3px, -1px);
-        text-shadow: 
-          -1px -1px 0 #fff,
-          1px -1px 0 #fff,
-          -1px 1px 0 #fff,
-          1px 1px 0 #fff,
-          0 0 10px rgba(255, 255, 255, 0.8),
-          0 0 20px rgba(255, 255, 255, 0.3);
-      }
-      12% {
-        transform: translate(0);
-        text-shadow: 
-          -1px -1px 0 #fff,
-          1px -1px 0 #fff,
-          -1px 1px 0 #fff,
-          1px 1px 0 #fff,
-          0 0 10px rgba(255, 255, 255, 0.8),
-          0 0 20px rgba(255, 255, 255, 0.3);
-      }
-      100% {
-        transform: translate(0);
-        text-shadow: 
-          -1px -1px 0 #fff,
-          1px -1px 0 #fff,
-          -1px 1px 0 #fff,
-          1px 1px 0 #fff,
-          0 0 10px rgba(255, 255, 255, 0.8),
-          0 0 20px rgba(255, 255, 255, 0.3);
-      }
-    }
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
 
-    input[type="password"] {
-      padding: 0.6em 1em;
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      border-radius: 8px;
-      font-size: 1em;
-      background: #0d1117;
-      color: white;
-      width: 100%;
-      box-sizing: border-box;
-      transition: border-color 0.3s, box-shadow 0.3s;
-    }
+        @keyframes titleFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
 
-    input[type="password"]:focus {
-      outline: none;
-      border-color: white;
-      box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
-    }
+        .passcode-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.5s forwards;
+        }
 
-    button {
-      margin-top: 1.5em;
-      padding: 0.6em 1.5em;
-      font-size: 1em;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 8px;
-      cursor: pointer;
-      background: #161b22;
-      color: white;
-      transition: all 0.3s ease;
-    }
+        .passcode-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.8s forwards;
+        }
 
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
-      border-color: white;
-    }
+        .passcode-card {
+            padding: 2.5rem;
+            min-width: 400px;
+            text-align: center;
+        }
 
-    #iframe-container {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 100px;
-      display: none;
-      padding: 1em;
-      box-sizing: border-box;
-    }
+        .input-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
 
-    #iframe-container iframe {
-      width: 100%;
-      height: 100%;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-    }
+        .passcode-input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            padding-left: 3.5rem;
+            background: var(--glass-bg);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-family: 'JetBrains Mono', monospace;
+            text-align: center;
+            letter-spacing: 0.2em;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+        }
 
-    #bookmarklet-container {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 100px;
-      padding: 2em;
-      overflow-y: auto;
-      box-sizing: border-box;
-      justify-content: center;
-      align-items: flex-start;
-    }
+        .passcode-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 
+                0 0 0 4px rgba(99, 102, 241, 0.1),
+                0 8px 25px rgba(99, 102, 241, 0.3);
+            transform: translateY(-2px);
+        }
 
-    .bookmarklet-box {
-      background: #161b22;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      border-radius: 20px;
-      padding: 2em;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-      max-width: 700px;
-      width: 100%;
-    }
+        .input-icon {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+        }
 
-    .bookmarklet-box h2 {
-      text-align: center;
-      color: #909090;
-      margin-bottom: 1.5em;
-    }
+        .passcode-input:focus + .input-icon {
+            color: var(--primary);
+        }
 
-    #bookmarklet-list {
-      list-style: none;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 1em;
-    }
+        .unlock-btn {
+            position: relative;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border: none;
+            border-radius: 16px;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            min-width: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
 
-    .bookmarklet-item {
-      background: #0d1117;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      padding: 1em;
-      border-radius: 999px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      transition: all 0.3s ease;
-    }
+        .unlock-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--primary-light), var(--secondary));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
 
-    .bookmarklet-item:hover {
-      transform: scale(1.02);
-      box-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
-      border-color: white;
-    }
+        .unlock-btn:hover::before {
+            opacity: 1;
+        }
 
-    .bookmarklet-item a {
-      color: #909090;
-      font-weight: bold;
-      text-decoration: none;
-      font-size: 1.1em;
-    }
+        .unlock-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                0 10px 25px rgba(99, 102, 241, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+        }
 
-    .bookmarklet-item div {
-      color: #ccc;
-      font-size: 0.9em;
-      margin-top: 0.3em;
-    }
+        .unlock-btn:active {
+            transform: translateY(-1px);
+        }
 
-    /* Menu and button shared styles */
-    .menu-height {
-      height: 42px;
-      box-sizing: border-box;
-      display: flex;
-      align-items: center;
-    }
+        .unlock-btn.loading {
+            pointer-events: none;
+        }
 
-    #island-menu {
-      position: fixed;
-      bottom: 2em;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #161b22;
-      padding: 0.5em 1em;
-      border-radius: 9999px;
-      display: flex;
-      gap: 1em;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.3);
-      border: 2px solid white;
-      overflow: visible;
-      z-index: 10;
-      transition: all 0.4s ease;
-      height: 42px;
-      box-sizing: border-box;
-      align-items: center;
-    }
+        .btn-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
 
-    .menu-item {
-      padding: 0.5em 1.2em;
-      border-radius: 9999px;
-      cursor: pointer;
-      position: relative;
-      z-index: 1;
-      transition: all 0.3s ease;
-      white-space: nowrap;
-      color: #909090;
-    }
+        .unlock-btn.loading .btn-content {
+            opacity: 0.7;
+        }
 
-    .menu-item:hover {
-      color: white;
-    }
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid currentColor;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
 
-    .menu-item.active {
-      color: white;
-    }
+        .unlock-btn.loading .loading-spinner {
+            display: block;
+        }
 
-    .menu-item[data-section="AI"] {
-      display: flex;
-      align-items: center;
-      position: relative;
-      transition: all 0.3s ease;
-      white-space: nowrap;
-    }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
 
-    .ai-models {
-      font-size: 0.9em;
-      color: #888;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5em;
-      margin-left: 0.5em;
-      white-space: nowrap;
-    }
+        .error-message {
+            color: var(--error);
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-content: center;
+        }
 
-    .menu-item[data-section="AI"]:hover .ai-models {
-      opacity: 1;
-      visibility: visible;
-    }
+        .error-message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-    .menu-item.active[data-section="AI"] ~ .menu-indicator {
-      width: 60px !important;
-      transition: all 0.4s ease;
-    }
+        /* Main Content */
+        #content {
+            position: relative;
+            min-height: 100vh;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 2rem;
+        }
 
-    .menu-item.active[data-section="AI"]:hover ~ .menu-indicator {
-      width: 210px !important;
-    }
+        #content.show {
+            opacity: 1;
+            visibility: visible;
+        }
 
-    .menu-indicator {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      background: #444;
-      border-radius: 9999px;
-      transition: all 0.4s ease;
-      pointer-events: none;
-      z-index: 0;
-      width: 0;
-    }
+        .main-header {
+            text-align: center;
+            margin: 4rem 0;
+        }
 
-    .ai-models span {
-      cursor: pointer;
-      padding: 0 0.3em;
-      transition: color 0.2s ease;
-      color: #909090;
-    }
+        .welcome-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out;
+        }
 
-    .ai-models span.active {
-      color: white;
-    }
+        .welcome-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.3rem;
+            font-weight: 400;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
 
-    .ai-models span:hover {
-      color: white;
-    }
+        /* Modern Navigation Cards */
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 1rem;
+        }
 
-    #teacher-btn {
-      position: fixed;
-      bottom: 2em;
-      right: 2em;
-      background: #161b22;
-      color: white;
-      padding: 0.5em 1em;
-      border-radius: 9999px;
-      font-weight: bold;
-      cursor: pointer;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-      z-index: 10;
-      transition: all 0.3s ease;
-      height: 42px;
-      box-sizing: border-box;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      white-space: nowrap;
-    }
+        .nav-card {
+            position: relative;
+            padding: 2.5rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            border-radius: 24px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
 
-    #teacher-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
-      border-color: white;
-    }
+        .nav-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
 
-        #logo {      position: fixed;      bottom: 2em;      left: 2em;      width: 50px;      height: 50px;      border-radius: 12px;      border: 2px solid #909090;      background: url('logo.png') center/cover;      box-shadow: 0 0 10px rgba(169, 169, 169, 0.6);    }
+        .nav-card.games::before {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+        }
 
-    .notification {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 0.8em 1.5em;
-      border-radius: 8px;
-      color: white;
-      font-size: 1em;
-      z-index: 100;
-      opacity: 0;
-      transition: all 0.3s ease;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      min-width: 200px;
-      text-align: center;
-    }
+        .nav-card.hacks::before {
+            background: linear-gradient(135deg, #ff512f, #dd2476);
+        }
 
-    .notification.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
+        .nav-card.ai::before {
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+        }
 
-    .notification.success {
-      background: #161b22;
-      border-color: rgba(255, 255, 255, 0.6);
-    }
+        .nav-card:hover::before {
+            opacity: 0.1;
+        }
 
-    .notification.error {
-      background: #161b22;
-      border-color: rgba(255, 0, 0, 0.6);
-    }
+        .nav-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+        }
 
-    .notification.info {
-      background: #161b22;
-      border-color: rgba(255, 255, 255, 0.6);
-    }
-  </style>
+        .nav-card-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--glass-bg);
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .nav-card:hover .nav-card-icon {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .nav-card-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        /* Fixed UI Elements */
+        .fixed-ui {
+            position: fixed;
+            z-index: 100;
+        }
+
+        .logo {
+            bottom: 2rem;
+            left: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 8px 25px var(--glow);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: url('logo.png') center/cover;
+            overflow: hidden;
+        }
+
+        .logo:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 12px 35px var(--glow);
+        }
+
+        .teacher-btn {
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem 1.5rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--glass-border);
+            border-radius: 16px;
+            color: var(--text-primary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .teacher-btn:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+            box-shadow: 
+                0 12px 35px rgba(0, 0, 0, 0.4),
+                0 0 25px var(--glow);
+        }
+
+        .teacher-btn .shortcut {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .teacher-status {
+            top: 2rem;
+            right: 2rem;
+            padding: 1rem 1.5rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--glass-border);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--error);
+            box-shadow: 0 0 10px currentColor;
+            transition: all 0.3s ease;
+        }
+
+        .teacher-status.active .status-indicator {
+            background: var(--success);
+        }
+
+        .teacher-status.hidden {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        /* Teacher Mode iframe */
+        #teacher-iframe {
+            display: none;
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            z-index: 1000;
+            background: white;
+        }
+
+        /* Content Containers */
+        .content-container {
+            display: none;
+            position: fixed;
+            inset: 2rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2rem;
+            z-index: 50;
+            animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .content-container.show {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .content-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .back-btn {
+            padding: 0.75rem 1.5rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(-2px);
+        }
+
+        .content-body {
+            flex: 1;
+            overflow: hidden;
+            border-radius: 16px;
+        }
+
+        .content-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 16px;
+            background: white;
+        }
+
+        /* Notifications */
+        .notification {
+            position: fixed;
+            top: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            padding: 1rem 1.5rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-weight: 500;
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .notification.success {
+            border-color: var(--success);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .notification.error {
+            border-color: var(--error);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .passcode-card {
+                min-width: 90vw;
+                padding: 2rem;
+            }
+
+            .nav-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 0 1rem;
+            }
+
+            .nav-card {
+                padding: 2rem;
+            }
+
+            .teacher-btn {
+                bottom: 1rem;
+                right: 1rem;
+                padding: 0.75rem 1rem;
+            }
+
+            .logo {
+                bottom: 1rem;
+                left: 1rem;
+                width: 50px;
+                height: 50px;
+            }
+
+            .teacher-status {
+                top: 1rem;
+                right: 1rem;
+                padding: 0.75rem 1rem;
+            }
+
+            .content-container {
+                inset: 1rem;
+            }
+        }
+
+        /* Loading States */
+        .loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 15, 35, 0.8);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .loading-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .loading-content {
+            text-align: center;
+        }
+
+        .loading-spinner-large {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+    </style>
 </head>
 <body>
-  <div id="logo"></div>
-  <canvas id="particle-canvas"></canvas>
-  <div id="lock-screen" role="dialog" aria-labelledby="lock-title">
-    <div class="site-title">BORED</div>
-    <div class="lock-card">
-      <h1 id="lock-title">Enter Password</h1>
-      <input
-        type="password"
-        id="password"
-        placeholder="Password"
-        autocomplete="off"
-        autofocus
-        aria-label="Password input"
-      />
-      <button id="unlock-btn">Unlock</button>
-    </div>
-  </div>
+    <canvas id="particle-canvas"></canvas>
 
-  <div id="main-content">
-    <div id="iframe-container">
-      <iframe id="main-iframe" src="https://www.blackbox.ai/"></iframe>
-    </div>
-    <div id="bookmarklet-container">
-      <div class="bookmarklet-box">
-        <h2>Bookmarklets</h2>
-        <ul id="bookmarklet-list"></ul>
-      </div>
-    </div>
-    <div id="island-menu">
-      <div class="menu-indicator"></div>
-      <div class="menu-item active" data-section="AI" tabindex="0">
-        AI
-        <div class="ai-models"></div>
-      </div>
-      <div class="menu-item" data-section="Games" tabindex="0">Games</div>
-      <div class="menu-item" data-section="Hacks" tabindex="0">Hacks</div>
-    </div>
-    <button id="teacher-btn">Teacher</button>
-    <button id="fullscreen-btn" style="position: fixed; bottom: 2em; right: 8em; background: #161b22; color: white; padding: 0.5em 1em; border-radius: 9999px; font-weight: bold; cursor: pointer; border: 2px solid rgba(255, 255, 255, 0.3); box-shadow: 0 0 15px rgba(255, 255, 255, 0.2); z-index: 11; transition: all 0.3s ease; height: 42px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; white-space: nowrap; display: none;">
-      <span id="fullscreen-icon" style="display: flex; align-items: center;">
-        <svg id="fullscreen-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3 9V3h6M21 15v6h-6M21 9V3h-6M3 15v6h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </span>
-    </button>
-  </div>
-
-  <script>
-    const canvas = document.getElementById('particle-canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    let currentAIModel = "blackbox"; // Track current AI model
-
-    const particles = [];
-    class Particle {
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2 + 1;
-        this.speedX = Math.random() * 0.5 - 0.25;
-        this.speedY = Math.random() * 0.5 - 0.25;
-      }
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-      }
-      draw() {
-        ctx.fillStyle = 'rgba(0, 255, 255, 0.5)';
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
-
-    function initParticles() {
-      for (let i = 0; i < 100; i++) {
-        particles.push(new Particle());
-      }
-    }
-
-    function animateParticles() {
-      if (document.hidden || document.getElementById("lock-screen").style.display === "none") {
-        return;
-      }
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => {
-        p.update();
-        p.draw();
-      });
-      requestAnimationFrame(animateParticles);
-    }
-
-    initParticles();
-    animateParticles();
-
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      particles.length = 0;
-      initParticles();
-    });
-
-    document.addEventListener("visibilitychange", () => {
-      if (!document.hidden) animateParticles();
-    });
-
-    const correctPassword = btoa("1234");
-
-    const bookmarklets = [
-      {
-        name: "Edpuzzle",
-        description: "Skip Edpuzzles and answer all right",
-        code: "javascript:(() => { const script = document.createElement('script'); script.src = 'https://cdn.jsdelivr.net/gh/ading2210/edpuzzle-answers@latest/script.js'; document.body.appendChild(script); })();"
-      },
-      {
-        name: "Tab Disguise",
-        description: "Disguise any tab.",
-        code: "javascript:(()=>{fetch('https://raw.githubusercontent.com/bananaontop/TabMask/main/Ignore.js').then(r=>r.text()).then(c=>eval(c)).catch(e=>alert('Failed to fetch code.',e));})();"
-      }
-    ];
-
-    function showNotification(message, type = 'info') {
-      const notification = document.createElement('div');
-      notification.className = `notification ${type}`;
-      notification.textContent = message;
-      document.body.appendChild(notification);
-
-      setTimeout(() => {
-        notification.classList.add('show');
-      }, 100);
-
-      setTimeout(() => {
-        notification.classList.remove('show');
-        setTimeout(() => {
-          notification.remove();
-        }, 300);
-      }, 3000);
-    }
-
-    function unlock() {
-      const input = document.getElementById("password");
-      const lockScreen = document.getElementById("lock-screen");
-      const mainContent = document.getElementById("main-content");
-
-      if (!input.value) {
-        showNotification("Please enter a password", "error");
-        input.focus();
-        return;
-      }
-
-      lockScreen.classList.add('loading');
-      setTimeout(() => {
-        if (btoa(input.value) === correctPassword) {
-          showNotification("Welcome back!", "success");
-          lockScreen.style.opacity = "0";
-          setTimeout(() => {
-            lockScreen.style.display = "none";
-            mainContent.style.display = "flex";
-            mainContent.style.opacity = "1";
-            document.body.style.overflow = "auto";
-            moveIndicatorTo(document.querySelector('.menu-item.active'));
-            updateIframeDisplay();
-          }, 500);
-        } else {
-          showNotification("Incorrect password", "error");
-          input.value = "";
-          input.focus();
-          lockScreen.classList.remove('loading');
-        }
-      }, 1000);
-    }
-
-    function selectMenu(element) {
-      document.querySelectorAll('.menu-item').forEach(item => {
-        item.classList.remove('active');
-        if (item.dataset.section === "AI") {
-          item.style.width = "auto";
-        }
-      });
-      element.classList.add('active');
-      moveIndicatorTo(element);
-      updateIframeDisplay();
-      showNotification(`Switched to ${element.dataset.section}`, "info");
-    }
-
-    function updateIframeDisplay() {
-      const active = document.querySelector('.menu-item.active').dataset.section;
-      const iframeContainer = document.getElementById("iframe-container");
-      const bookmarkletContainer = document.getElementById("bookmarklet-container");
-      const iframe = document.getElementById("main-iframe");
-
-      const urls = {
-        "AI": {
-          "blackbox": "https://www.blackbox.ai/",
-          "deep": "https://writesonic.com/free-tools/text-humanizer"
-        },
-        "Games": "https://roblox-unblock.github.io/#google_vignette"
-      };
-
-      if (active === "Hacks") {
-        iframeContainer.style.display = "none";
-        bookmarkletContainer.style.display = "flex";
-        renderBookmarklets();
-      } else {
-        bookmarkletContainer.style.display = "none";
-        if (urls[active]) {
-          iframeContainer.style.display = "block";
-          if (active === "AI") {
-            iframe.src = urls.AI[currentAIModel];
-          } else {
-            iframe.src = urls[active];
-          }
-        } else {
-          iframeContainer.style.display = "none";
-        }
-      }
-    }
-
-    function renderBookmarklets() {
-      const list = document.getElementById("bookmarklet-list");
-      list.innerHTML = "";
-
-      bookmarklets.forEach(b => {
-        const li = document.createElement("li");
-        li.className = "bookmarklet-item";
-
-        const link = document.createElement("a");
-        link.href = b.code;
-        link.textContent = b.name;
-        link.addEventListener("click", () => {
-          showNotification(`Activated ${b.name}`, "info");
-        });
-
-        const desc = document.createElement("div");
-        desc.textContent = b.description;
-
-        li.appendChild(link);
-        li.appendChild(desc);
-        list.appendChild(li);
-      });
-    }
-
-    function moveIndicatorTo(element) {
-      const indicator = document.querySelector('.menu-indicator');
-      const menuRect = element.parentElement.getBoundingClientRect();
-      const itemRect = element.getBoundingClientRect();
-
-      const left = itemRect.left - menuRect.left;
-      indicator.style.left = `${left}px`;
-      
-      // Don't set the width here - let CSS handle it
-      if (!element.matches('.menu-item[data-section="AI"]')) {
-        indicator.style.width = `${itemRect.width}px`;
-      }
-    }
-
-    window.addEventListener('load', () => {
-      const active = document.querySelector('.menu-item.active');
-      if (active) moveIndicatorTo(active);
-    });
-
-    document.getElementById("password").addEventListener("keypress", (event) => {
-      if (event.key === "Enter") unlock();
-    });
-
-    document.getElementById("unlock-btn").addEventListener("click", unlock);
-
-    const aiModels = [
-      { id: 'blackbox', name: 'Blackbox', active: true },
-      { id: 'deep', name: 'Humanize', active: false }
-    ];
-
-    function createAIModels() {
-      const aiModelsContainer = document.querySelector('.ai-models');
-      aiModelsContainer.innerHTML = aiModels.map((model, index) => `
-        <span data-model="${model.id}" class="${model.id === currentAIModel ? 'active' : ''}">${model.name}</span>
-        ${index < aiModels.length - 1 ? '|' : ''}
-      `).join('');
-
-      // Add click handlers to the newly created model buttons
-      aiModelsContainer.querySelectorAll('span').forEach(span => {
-        span.addEventListener('click', (e) => {
-          e.stopPropagation();
-          currentAIModel = span.dataset.model;
-          createAIModels(); // Re-render to update highlight
-          updateIframeDisplay();
-          showNotification(`Switched to ${span.textContent}`, "info");
-        });
-      });
-    }
-
-    document.querySelectorAll(".menu-item").forEach(item => {
-      item.addEventListener("click", () => selectMenu(item));
-      item.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          selectMenu(item);
-        }
-      });
-      
-      // Handle AI section hover states
-      if (item.dataset.section === "AI") {
-        item.addEventListener("mouseenter", () => {
-          if (item.classList.contains('active')) {
-            const indicator = document.querySelector('.menu-indicator');
-            indicator.style.width = '210px';
-            createAIModels(); // Create the model buttons when hovering
-          }
-        });
+    <!-- Passcode Screen -->
+    <div id="passcode-screen">
+        <div class="brand-title">BORED</div>
+        <div class="passcode-subtitle">Enter your access code to continue</div>
         
-        item.addEventListener("mouseleave", () => {
-          if (item.classList.contains('active')) {
-            const indicator = document.querySelector('.menu-indicator');
-            indicator.style.width = '60px';
-            const aiModelsContainer = item.querySelector('.ai-models');
-            aiModelsContainer.innerHTML = ''; // Remove the model buttons when not hovering
-          }
+        <div class="passcode-container">
+            <div class="passcode-card glass-card">
+                <div class="input-group">
+                    <input type="password" class="passcode-input" id="passcode" placeholder="Enter Password" autocomplete="off" autofocus>
+                    <i data-lucide="lock" class="input-icon"></i>
+                </div>
+                
+                <button class="unlock-btn" id="unlock-btn">
+                    <div class="btn-content">
+                        <i data-lucide="unlock" size="20"></i>
+                        <span>Unlock</span>
+                    </div>
+                    <div class="loading-spinner"></div>
+                </button>
+                
+                <div class="error-message" id="error-msg">
+                    <i data-lucide="alert-circle" size="16"></i>
+                    <span>Incorrect password. Please try again.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="content">
+        <div class="main-header">
+            <h1 class="welcome-title">Welcome to BORED</h1>
+            <p class="welcome-subtitle">Your gateway to games, hacks, and AI tools</p>
+        </div>
+
+        <div class="nav-grid">
+            <div class="nav-card games" data-section="games">
+                <div class="nav-card-icon">
+                    <i data-lucide="gamepad-2" size="28"></i>
+                </div>
+                <h3 class="nav-card-title">Games</h3>
+                <p class="nav-card-description">Explore unblocked games and entertainment</p>
+            </div>
+
+            <div class="nav-card hacks" data-section="hacks">
+                <div class="nav-card-icon">
+                    <i data-lucide="code" size="28"></i>
+                </div>
+                <h3 class="nav-card-title">Hacks</h3>
+                <p class="nav-card-description">Useful bookmarklets and browser tools</p>
+            </div>
+
+            <div class="nav-card ai" data-section="ai">
+                <div class="nav-card-icon">
+                    <i data-lucide="brain" size="28"></i>
+                </div>
+                <h3 class="nav-card-title">AI Tools</h3>
+                <p class="nav-card-description">AI-powered utilities and applications</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Containers -->
+    <div id="games-container" class="content-container">
+        <div class="content-header">
+            <h2 class="content-title">
+                <i data-lucide="gamepad-2" size="24"></i>
+                Games Hub
+            </h2>
+            <button class="back-btn" data-back="games">
+                <i data-lucide="arrow-left" size="16"></i>
+                Back
+            </button>
+        </div>
+        <div class="content-body">
+            <iframe class="content-iframe" src="https://unblocked-gamespremium.github.io/go/subway-surfers-newyork.html" title="Games"></iframe>
+        </div>
+    </div>
+
+    <div id="hacks-container" class="content-container">
+        <div class="content-header">
+            <h2 class="content-title">
+                <i data-lucide="code" size="24"></i>
+                Browser Hacks
+            </h2>
+            <button class="back-btn" data-back="hacks">
+                <i data-lucide="arrow-left" size="16"></i>
+                Back
+            </button>
+        </div>
+        <div class="content-body">
+            <div style="padding: 2rem; color: var(--text-primary);">
+                <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i data-lucide="bookmark" size="20"></i>
+                    Available Bookmarklets
+                </h3>
+                <div style="display: grid; gap: 1rem;">
+                    <div style="padding: 1.5rem; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px;">
+                        <h4 style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <i data-lucide="zap" size="16"></i>
+                            Edpuzzle Skip
+                        </h4>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.9rem;">Skip Edpuzzles and get all answers right</p>
+                        <a href="javascript:(() => { const script = document.createElement('script'); script.src = 'https://cdn.jsdelivr.net/gh/ading2210/edpuzzle-answers@latest/script.js'; document.body.appendChild(script); })();" 
+                           style="color: var(--primary); text-decoration: none; font-weight: 500; display: flex; align-items: center; gap: 0.5rem;">
+                            <i data-lucide="external-link" size="14"></i>
+                            Activate Bookmarklet
+                        </a>
+                    </div>
+                    <div style="padding: 1.5rem; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px;">
+                        <h4 style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <i data-lucide="eye-off" size="16"></i>
+                            Tab Disguise
+                        </h4>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.9rem;">Disguise any tab to look like something else</p>
+                        <a href="javascript:(()=>{fetch('https://raw.githubusercontent.com/bananaontop/TabMask/main/Ignore.js').then(r=>r.text()).then(c=>eval(c)).catch(e=>alert('Failed to fetch code.',e));})();" 
+                           style="color: var(--primary); text-decoration: none; font-weight: 500; display: flex; align-items: center; gap: 0.5rem;">
+                            <i data-lucide="external-link" size="14"></i>
+                            Activate Bookmarklet
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ai-container" class="content-container">
+        <div class="content-header">
+            <h2 class="content-title">
+                <i data-lucide="brain" size="24"></i>
+                AI Tools
+            </h2>
+            <button class="back-btn" data-back="ai">
+                <i data-lucide="arrow-left" size="16"></i>
+                Back
+            </button>
+        </div>
+        <div class="content-body">
+            <iframe class="content-iframe" src="https://www.blackbox.ai/" title="AI Tools"></iframe>
+        </div>
+    </div>
+
+    <!-- Fixed UI Elements -->
+    <div class="logo fixed-ui" id="logo"></div>
+    
+    <button class="teacher-btn fixed-ui" id="teacher-btn">
+        <i data-lucide="graduation-cap" size="20"></i>
+        <span>Teacher</span>
+        <span class="shortcut">Ctrl + ;</span>
+    </button>
+
+    <div class="teacher-status fixed-ui inactive" id="teacher-status">
+        <div class="status-indicator"></div>
+        <span>Teacher Mode: <strong id="status-text">Inactive</strong></span>
+    </div>
+
+    <!-- Teacher Mode iframe -->
+    <iframe id="teacher-iframe" src="https://classroom.google.com" title="Google Classroom"></iframe>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-spinner-large"></div>
+            <p style="color: var(--text-secondary);">Loading...</p>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Particle system
+        class ModernParticleSystem {
+            constructor() {
+                this.canvas = document.getElementById('particle-canvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.particles = [];
+                this.mouse = { x: 0, y: 0 };
+                this.init();
+            }
+
+            init() {
+                this.resize();
+                this.createParticles();
+                this.animate();
+                this.bindEvents();
+            }
+
+            resize() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+            }
+
+            createParticles() {
+                const particleCount = Math.min(80, Math.floor((this.canvas.width * this.canvas.height) / 10000));
+                
+                for (let i = 0; i < particleCount; i++) {
+                    this.particles.push({
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height,
+                        size: Math.random() * 2 + 0.5,
+                        speedX: (Math.random() - 0.5) * 0.5,
+                        speedY: (Math.random() - 0.5) * 0.5,
+                        opacity: Math.random() * 0.5 + 0.2,
+                        color: `hsl(${240 + Math.random() * 60}, 70%, 60%)`
+                    });
+                }
+            }
+
+            animate() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                this.particles.forEach((particle, index) => {
+                    particle.x += particle.speedX;
+                    particle.y += particle.speedY;
+
+                    if (particle.x < 0 || particle.x > this.canvas.width) particle.speedX *= -1;
+                    if (particle.y < 0 || particle.y > this.canvas.height) particle.speedY *= -1;
+
+                    // Mouse interaction
+                    const dx = this.mouse.x - particle.x;
+                    const dy = this.mouse.y - particle.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 100) {
+                        const force = (100 - distance) / 100;
+                        particle.x -= dx * force * 0.001;
+                        particle.y -= dy * force * 0.001;
+                    }
+
+                    this.ctx.save();
+                    this.ctx.globalAlpha = particle.opacity;
+                    this.ctx.fillStyle = particle.color;
+                    this.ctx.beginPath();
+                    this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                    this.ctx.fill();
+                    this.ctx.restore();
+
+                    // Draw connections
+                    this.particles.slice(index + 1).forEach(otherParticle => {
+                        const dx = particle.x - otherParticle.x;
+                        const dy = particle.y - otherParticle.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+
+                        if (distance < 120) {
+                            this.ctx.save();
+                            this.ctx.globalAlpha = (120 - distance) / 120 * 0.2;
+                            this.ctx.strokeStyle = particle.color;
+                            this.ctx.lineWidth = 0.5;
+                            this.ctx.beginPath();
+                            this.ctx.moveTo(particle.x, particle.y);
+                            this.ctx.lineTo(otherParticle.x, otherParticle.y);
+                            this.ctx.stroke();
+                            this.ctx.restore();
+                        }
+                    });
+                });
+
+                requestAnimationFrame(() => this.animate());
+            }
+
+            bindEvents() {
+                window.addEventListener('resize', () => {
+                    this.resize();
+                    this.particles = [];
+                    this.createParticles();
+                });
+
+                window.addEventListener('mousemove', (e) => {
+                    this.mouse.x = e.clientX;
+                    this.mouse.y = e.clientY;
+                });
+            }
+        }
+
+        // Initialize particle system
+        new ModernParticleSystem();
+
+        // App state
+        let teacherModeActive = false;
+        let currentSection = null;
+
+        // Notification system
+        function showNotification(message, type = 'info', icon = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            
+            notification.innerHTML = `
+                <i data-lucide="${icon}" size="16"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            lucide.createIcons();
+            
+            setTimeout(() => notification.classList.add('show'), 100);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 400);
+            }, 3000);
+        }
+
+        // Passcode functionality
+        function checkPasscode() {
+            const input = document.getElementById('passcode');
+            const button = document.getElementById('unlock-btn');
+            const errorMsg = document.getElementById('error-msg');
+            
+            if (!input.value.trim()) {
+                showNotification('Please enter a password', 'error', 'alert-circle');
+                input.focus();
+                return;
+            }
+
+            button.classList.add('loading');
+            errorMsg.classList.remove('show');
+
+            setTimeout(() => {
+                if (input.value === '1234') {
+                    showNotification('Welcome back!', 'success', 'check-circle');
+                    
+                    setTimeout(() => {
+                        document.getElementById('passcode-screen').classList.add('hide');
+                        setTimeout(() => {
+                            document.getElementById('content').classList.add('show');
+                        }, 400);
+                    }, 500);
+                } else {
+                    button.classList.remove('loading');
+                    errorMsg.classList.add('show');
+                    input.value = '';
+                    input.focus();
+                    showNotification('Incorrect password', 'error', 'x-circle');
+                }
+            }, 1200);
+        }
+
+        // Navigation
+        function openSection(sectionName) {
+            currentSection = sectionName;
+            document.querySelectorAll('.content-container').forEach(container => {
+                container.classList.remove('show');
+            });
+            
+            const container = document.getElementById(`${sectionName}-container`);
+            if (container) {
+                container.classList.add('show');
+                showNotification(`Opening ${sectionName.charAt(0).toUpperCase() + sectionName.slice(1)}`, 'success', 'external-link');
+            }
+        }
+
+        function closeSection() {
+            document.querySelectorAll('.content-container').forEach(container => {
+                container.classList.remove('show');
+            });
+            currentSection = null;
+        }
+
+        // Teacher Mode
+        function toggleTeacherMode() {
+            teacherModeActive = !teacherModeActive;
+            const iframe = document.getElementById('teacher-iframe');
+            const status = document.getElementById('teacher-status');
+            const statusText = document.getElementById('status-text');
+            
+            if (teacherModeActive) {
+                iframe.style.display = 'block';
+                status.classList.add('active', 'hidden');
+                status.classList.remove('inactive');
+                statusText.textContent = 'Active';
+                showNotification('Teacher Mode activated', 'success', 'graduation-cap');
+            } else {
+                iframe.style.display = 'none';
+                status.classList.remove('active', 'hidden');
+                status.classList.add('inactive');
+                statusText.textContent = 'Inactive';
+                showNotification('Teacher Mode deactivated', 'info', 'graduation-cap');
+            }
+        }
+
+        // Event listeners
+        document.getElementById('passcode').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') checkPasscode();
         });
-      }
-    });
 
-    document.getElementById("teacher-btn").addEventListener("click", () => {
-      showNotification("Redirecting to Google Classroom", "info");
-      window.location.href = "https://classroom.google.com/";
-    });
+        document.getElementById('unlock-btn').addEventListener('click', checkPasscode);
 
-    const fullscreenBtn = document.getElementById("fullscreen-btn");
-    const teacherBtn = document.getElementById("teacher-btn");
-    const iframeContainer = document.getElementById("iframe-container");
-    const mainContent = document.getElementById("main-content");
-    let isFullscreen = false;
+        // Navigation cards
+        document.querySelectorAll('.nav-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const section = card.dataset.section;
+                openSection(section);
+            });
+        });
 
-    function updateFullscreenBtnVisibility() {
-      const activeSection = document.querySelector('.menu-item.active').dataset.section;
-      fullscreenBtn.style.display = (activeSection === "AI" || activeSection === "Games") ? "flex" : "none";
-    }
+        // Back buttons
+        document.querySelectorAll('.back-btn').forEach(btn => {
+            btn.addEventListener('click', closeSection);
+        });
 
-    const fullscreenIcon = document.getElementById("fullscreen-icon");
-    const fullscreenSVG = document.getElementById("fullscreen-svg");
+        // Teacher button
+        document.getElementById('teacher-btn').addEventListener('click', toggleTeacherMode);
 
-    fullscreenBtn.addEventListener("click", () => {
-      if (!isFullscreen) {
-        isFullscreen = true;
-        iframeContainer.style.position = "fixed";
-        iframeContainer.style.top = "0";
-        iframeContainer.style.left = "0";
-        iframeContainer.style.right = "0";
-        iframeContainer.style.bottom = "0";
-        iframeContainer.style.zIndex = "1000";
-        iframeContainer.style.background = "#232323";
-        // Change icon to exit fullscreen (arrows pointing inward)
-        fullscreenSVG.innerHTML = '<path d="M9 3H3v6M15 21h6v-6M15 3h6v6M9 21H3v-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
-        // Hide other UI
-        document.getElementById("island-menu").style.display = "none";
-        teacherBtn.style.display = "none";
-      } else {
-        exitFullscreenIframe();
-      }
-    });
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === ';') {
+                e.preventDefault();
+                toggleTeacherMode();
+            }
+            
+            if (e.key === 'Escape' && currentSection) {
+                closeSection();
+            }
+        });
 
-    function exitFullscreenIframe() {
-      isFullscreen = false;
-      iframeContainer.style.position = "absolute";
-      iframeContainer.style.top = "0";
-      iframeContainer.style.left = "0";
-      iframeContainer.style.right = "0";
-      iframeContainer.style.bottom = "100px";
-      iframeContainer.style.zIndex = "";
-      iframeContainer.style.background = "";
-      // Change icon back to fullscreen (arrows pointing outward)
-      fullscreenSVG.innerHTML = '<path d="M3 9V3h6M21 15v6h-6M21 9V3h-6M3 15v6h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
-      document.getElementById("island-menu").style.display = "flex";
-      teacherBtn.style.display = "flex";
-    }
+        // Logo click easter egg
+        document.getElementById('logo').addEventListener('click', () => {
+            showNotification('BORED - Made with ❤️', 'info', 'heart');
+        });
 
-    document.addEventListener("keydown", (event) => {
-      if (isFullscreen && event.key === "Escape") {
-        exitFullscreenIframe();
-      }
-    });
-
-    // Update fullscreen button visibility on menu change
-    const originalSelectMenu = selectMenu;
-    selectMenu = function(element) {
-      originalSelectMenu(element);
-      updateFullscreenBtnVisibility();
-    };
-
-    window.addEventListener('load', updateFullscreenBtnVisibility);
-
-    const iframe = document.getElementById("main-iframe");
-    iframe.addEventListener("error", () => {
-      document.getElementById("iframe-container").innerHTML =
-        "<p style='color: #ff5555; text-align: center;'>Failed to load content. Please try again later.</p>";
-      showNotification("Failed to load content", "error");
-    });
-  </script>
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+    </script>
 </body>
 </html>
