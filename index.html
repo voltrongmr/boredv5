@@ -4,41 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="favicon (1).ico">
-    <title>BORED - Elite Access Terminal</title>
+    <title>BORED - Modern Hub</title>
     
-    <!-- Font Awesome Icons -->
+    <!-- Modern Icons via CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     
     <style>
-        /* Ultra Dark Theme Variables */
+        /* Modern CSS Variables */
         :root {
-            --primary: #00ff88;
-            --primary-light: #33ffaa;
-            --primary-dark: #00cc66;
-            --secondary: #0099ff;
-            --accent: #ff0099;
-            --success: #00ff66;
-            --warning: #ffaa00;
-            --error: #ff3366;
-            --background: #000000;
-            --surface: #0a0a0a;
-            --surface-light: #111111;
-            --surface-dark: #050505;
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --error: #ef4444;
+            --background: #0f0f23;
+            --surface: #1a1a2e;
             --text-primary: #ffffff;
-            --text-secondary: #88ffcc;
-            --text-muted: #446655;
-            --text-accent: #00ff88;
-            --border: rgba(0, 255, 136, 0.2);
-            --glass-bg: rgba(0, 255, 136, 0.03);
-            --glass-border: rgba(0, 255, 136, 0.15);
-            --shadow: rgba(0, 255, 136, 0.3);
-            --glow: rgba(0, 255, 136, 0.6);
-            --matrix-green: #00ff41;
-            --cyber-blue: #00d4ff;
-            --neon-pink: #ff0080;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border: rgba(255, 255, 255, 0.1);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --shadow: rgba(0, 0, 0, 0.3);
         }
 
         * {
@@ -50,25 +41,13 @@
         body, html {
             height: 100%;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: radial-gradient(ellipse at center, var(--surface) 0%, var(--background) 100%);
+            background: linear-gradient(135deg, var(--background) 0%, var(--surface) 100%);
             color: var(--text-primary);
             overflow-x: hidden;
             line-height: 1.6;
-            cursor: crosshair;
         }
 
-        /* Matrix Rain Effect */
-        .matrix-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -3;
-            opacity: 0.1;
-        }
-
-        /* Animated Grid Background */
+        /* Animated Background */
         body::before {
             content: '';
             position: fixed;
@@ -76,20 +55,19 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
-                linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: gridMove 20s linear infinite;
-            z-index: -2;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+            z-index: -1;
+            animation: backgroundPulse 8s ease-in-out infinite;
         }
 
-        @keyframes gridMove {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
+        @keyframes backgroundPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
         }
 
-        /* Enhanced Particle Canvas */
+        /* Canvas for particles */
         #particle-canvas {
             position: fixed;
             top: 0;
@@ -97,41 +75,20 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            opacity: 0.6;
+            opacity: 0.4;
         }
 
-        /* Glassmorphism Ultra */
+        /* Glassmorphism card component */
         .glass-card {
             background: var(--glass-bg);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 2px solid var(--glass-border);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
             border-radius: 20px;
-            box-shadow: 
-                0 8px 32px var(--shadow),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1),
-                0 0 50px rgba(0, 255, 136, 0.1);
-            position: relative;
-            overflow: hidden;
+            box-shadow: 0 8px 32px var(--shadow);
         }
 
-        .glass-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.1), transparent);
-            animation: shimmer 3s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { left: -100%; }
-            100% { left: 100%; }
-        }
-
-        /* Ultra Animated Passcode Screen */
+        /* Passcode Screen */
         #passcode-screen {
             position: fixed;
             inset: 0;
@@ -140,415 +97,137 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            background: radial-gradient(circle at center, rgba(0, 255, 136, 0.05) 0%, var(--background) 70%);
+            transition: all 0.8s ease;
         }
 
         #passcode-screen.hide {
             opacity: 0;
             visibility: hidden;
-            transform: scale(0.8) rotateX(20deg);
-            filter: blur(10px);
+            transform: scale(0.9);
         }
 
-        /* Holographic Brand Title */
         .brand-title {
-            font-family: 'Orbitron', monospace;
-            font-size: clamp(4rem, 12vw, 10rem);
-            font-weight: 900;
-            background: linear-gradient(45deg, var(--primary), var(--cyber-blue), var(--neon-pink), var(--primary));
-            background-size: 400% 400%;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(4rem, 10vw, 8rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            background-size: 200% 200%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             margin-bottom: 1rem;
-            animation: 
-                holographicShift 4s ease-in-out infinite,
-                titleFloat 6s ease-in-out infinite,
-                glitchEffect 8s linear infinite;
+            animation: gradientMove 4s ease-in-out infinite, titleBounce 3s ease-in-out infinite;
             text-align: center;
-            position: relative;
-            text-shadow: 
-                0 0 20px var(--glow),
-                0 0 40px var(--glow),
-                0 0 60px var(--glow);
         }
 
-        .brand-title::before {
-            content: 'BORED';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, var(--matrix-green), transparent);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: glitchLayer1 0.3s infinite linear alternate-reverse;
-            opacity: 0.7;
+        @keyframes gradientMove {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
-        .brand-title::after {
-            content: 'BORED';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, var(--neon-pink), transparent);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: glitchLayer2 0.3s infinite linear alternate-reverse;
-            opacity: 0.7;
+        @keyframes titleBounce {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
         }
 
-        @keyframes holographicShift {
-            0%, 100% { 
-                background-position: 0% 50%;
-                filter: hue-rotate(0deg);
-            }
-            25% { 
-                background-position: 100% 50%;
-                filter: hue-rotate(90deg);
-            }
-            50% { 
-                background-position: 100% 100%;
-                filter: hue-rotate(180deg);
-            }
-            75% { 
-                background-position: 0% 100%;
-                filter: hue-rotate(270deg);
-            }
-        }
-
-        @keyframes titleFloat {
-            0%, 100% { transform: translateY(0px) rotateY(0deg); }
-            33% { transform: translateY(-15px) rotateY(5deg); }
-            66% { transform: translateY(-10px) rotateY(-5deg); }
-        }
-
-        @keyframes glitchEffect {
-            0%, 90%, 100% { transform: translate(0); }
-            91% { transform: translate(-2px, 0); }
-            92% { transform: translate(2px, -2px); }
-            93% { transform: translate(-2px, 2px); }
-            94% { transform: translate(2px, 0); }
-            95% { transform: translate(0, -2px); }
-        }
-
-        @keyframes glitchLayer1 {
-            0% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(-2px, -2px); }
-            60% { transform: translate(2px, 2px); }
-            80% { transform: translate(2px, -2px); }
-            100% { transform: translate(0); }
-        }
-
-        @keyframes glitchLayer2 {
-            0% { transform: translate(0); }
-            20% { transform: translate(2px, -2px); }
-            40% { transform: translate(2px, 2px); }
-            60% { transform: translate(-2px, -2px); }
-            80% { transform: translate(-2px, 2px); }
-            100% { transform: translate(0); }
-        }
-
-        /* Typewriter Subtitle */
         .passcode-subtitle {
             color: var(--text-secondary);
-            font-size: 1.4rem;
-            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
             margin-bottom: 3rem;
             text-align: center;
-            position: relative;
-            overflow: hidden;
-            white-space: nowrap;
-            width: 0;
-            animation: 
-                typewriter 3s steps(40) 1s forwards,
-                blinkCursor 1s infinite step-end;
+            animation: fadeInUp 1s ease-out 0.5s both;
         }
 
-        .passcode-subtitle::after {
-            content: '|';
-            position: absolute;
-            right: 0;
-            color: var(--primary);
-            animation: blinkCursor 1s infinite step-end;
-        }
-
-        @keyframes typewriter {
-            0% { width: 0; }
-            100% { width: 100%; }
-        }
-
-        @keyframes blinkCursor {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
-        }
-
-        /* Terminal-style Container */
         .passcode-container {
-            animation: slideInFromBottom 1.5s ease-out 2s both;
-            position: relative;
-        }
-
-        .terminal-window {
-            background: var(--surface-dark);
-            border: 2px solid var(--primary);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 
-                0 0 50px var(--glow),
-                inset 0 0 50px rgba(0, 255, 136, 0.1);
-            animation: terminalPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes terminalPulse {
-            0%, 100% { box-shadow: 0 0 30px var(--glow), inset 0 0 30px rgba(0, 255, 136, 0.1); }
-            50% { box-shadow: 0 0 60px var(--glow), inset 0 0 60px rgba(0, 255, 136, 0.2); }
-        }
-
-        .terminal-header {
-            background: linear-gradient(90deg, var(--primary), var(--cyber-blue));
-            padding: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-
-        .terminal-controls {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .terminal-control {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            animation: controlPulse 2s ease-in-out infinite;
-        }
-
-        .terminal-control.close { background: #ff5f56; }
-        .terminal-control.minimize { background: #ffbd2e; }
-        .terminal-control.maximize { background: #27ca3f; }
-
-        @keyframes controlPulse {
-            0%, 100% { opacity: 0.7; }
-            50% { opacity: 1; }
-        }
-
-        .terminal-title {
-            margin-left: auto;
-            color: var(--surface-dark);
-            font-weight: 700;
+            animation: fadeInUp 1s ease-out 0.8s both;
         }
 
         .passcode-card {
             padding: 3rem;
-            min-width: 500px;
-            background: var(--surface-dark);
-            position: relative;
+            min-width: 400px;
+            text-align: center;
         }
 
-        /* Scanning Lines Effect */
-        .passcode-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
-            animation: scanLine 3s ease-in-out infinite;
-        }
-
-        @keyframes scanLine {
-            0% { top: 0; opacity: 1; }
-            100% { top: 100%; opacity: 0; }
-        }
-
-        /* Biometric Scanner Input */
         .input-group {
             position: relative;
             margin-bottom: 2rem;
         }
 
-        .biometric-scanner {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 40px;
-            height: 40px;
-            border: 2px solid var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: biometricScan 2s ease-in-out infinite;
-        }
-
-        @keyframes biometricScan {
-            0%, 100% { 
-                border-color: var(--primary);
-                box-shadow: 0 0 10px var(--primary);
-            }
-            50% { 
-                border-color: var(--cyber-blue);
-                box-shadow: 0 0 20px var(--cyber-blue);
-            }
-        }
-
         .passcode-input {
             width: 100%;
-            padding: 1.5rem 2rem;
-            padding-left: 5rem;
-            background: rgba(0, 0, 0, 0.8);
+            padding: 1.2rem 1.5rem;
+            padding-left: 3.5rem;
+            background: var(--glass-bg);
             border: 2px solid var(--border);
-            border-radius: 50px;
+            border-radius: 16px;
             color: var(--text-primary);
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-family: 'JetBrains Mono', monospace;
             text-align: center;
-            letter-spacing: 0.3em;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .passcode-input::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .passcode-input:focus::before {
-            left: 100%;
+            letter-spacing: 0.2em;
+            transition: all 0.3s ease;
         }
 
         .passcode-input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 
-                0 0 0 4px rgba(0, 255, 136, 0.3),
-                0 0 30px var(--glow),
-                inset 0 0 20px rgba(0, 255, 136, 0.1);
-            transform: translateY(-3px) scale(1.02);
-            background: rgba(0, 20, 0, 0.9);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+            transform: translateY(-2px);
         }
 
-        /* Matrix-style Unlock Button */
+        .input-icon {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .passcode-input:focus + .input-icon {
+            color: var(--primary);
+        }
+
         .unlock-btn {
             position: relative;
-            padding: 1.5rem 4rem;
-            background: linear-gradient(45deg, var(--surface-dark), var(--surface));
-            border: 2px solid var(--primary);
-            border-radius: 50px;
-            color: var(--text-primary);
-            font-weight: 700;
-            font-size: 1.2rem;
-            font-family: 'Orbitron', monospace;
+            padding: 1.2rem 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 16px;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            min-width: 250px;
+            transition: all 0.3s ease;
+            min-width: 200px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 1rem;
+            gap: 0.5rem;
             margin: 0 auto;
-            overflow: hidden;
-            text-transform: uppercase;
-            letter-spacing: 0.2rem;
-        }
-
-        .unlock-btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(45deg, var(--primary), var(--cyber-blue), var(--neon-pink));
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .unlock-btn::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
-            transition: all 0.6s ease;
-            transform: translate(-50%, -50%);
-        }
-
-        .unlock-btn:hover::before {
-            opacity: 0.2;
-        }
-
-        .unlock-btn:hover::after {
-            width: 300px;
-            height: 300px;
         }
 
         .unlock-btn:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 
-                0 15px 35px var(--shadow),
-                0 0 50px var(--glow),
-                inset 0 0 20px rgba(0, 255, 136, 0.2);
-            border-color: var(--cyber-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
         }
 
         .unlock-btn:active {
-            transform: translateY(-2px) scale(0.98);
+            transform: translateY(-1px);
         }
 
         .unlock-btn.loading {
             pointer-events: none;
-            animation: loadingPulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes loadingPulse {
-            0%, 100% { 
-                box-shadow: 0 0 20px var(--glow);
-                border-color: var(--primary);
-            }
-            50% { 
-                box-shadow: 0 0 40px var(--glow);
-                border-color: var(--cyber-blue);
-            }
-        }
-
-        .btn-content {
-            position: relative;
-            z-index: 2;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            transition: all 0.3s ease;
-        }
-
-        .unlock-btn.loading .btn-content {
-            opacity: 0.7;
+            opacity: 0.8;
         }
 
         .loading-spinner {
             display: none;
-            width: 24px;
-            height: 24px;
-            border: 3px solid transparent;
-            border-top: 3px solid var(--primary);
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid currentColor;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -557,124 +236,35 @@
             display: block;
         }
 
-        /* Holographic Error Message */
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         .error-message {
             color: var(--error);
-            font-size: 1rem;
-            font-family: 'JetBrains Mono', monospace;
-            margin-top: 2rem;
+            font-size: 0.9rem;
+            margin-top: 1.5rem;
             opacity: 0;
-            transform: translateY(-20px);
-            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 0.8rem;
+            gap: 0.5rem;
             justify-content: center;
-            text-transform: uppercase;
-            letter-spacing: 0.1rem;
-            position: relative;
         }
 
         .error-message.show {
             opacity: 1;
             transform: translateY(0);
-            animation: errorGlitch 0.5s ease-in-out;
         }
 
-        @keyframes errorGlitch {
-            0%, 100% { transform: translateY(0); }
-            25% { transform: translateY(-2px) translateX(-2px); }
-            50% { transform: translateY(2px) translateX(2px); }
-            75% { transform: translateY(-1px) translateX(1px); }
-        }
-
-        .error-message::before {
-            content: '⚠';
-            font-size: 1.2rem;
-            animation: warningBlink 1s ease-in-out infinite;
-        }
-
-        @keyframes warningBlink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0.3; }
-        }
-
-        /* Security Level Indicator */
-        .security-level {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
-
-        .security-bars {
-            display: flex;
-            gap: 2px;
-        }
-
-        .security-bar {
-            width: 4px;
-            height: 20px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            animation: securityScan 2s ease-in-out infinite;
-        }
-
-        .security-bar:nth-child(1) { animation-delay: 0s; }
-        .security-bar:nth-child(2) { animation-delay: 0.2s; }
-        .security-bar:nth-child(3) { animation-delay: 0.4s; }
-        .security-bar:nth-child(4) { animation-delay: 0.6s; }
-        .security-bar:nth-child(5) { animation-delay: 0.8s; }
-
-        @keyframes securityScan {
-            0%, 100% { background: var(--surface); }
-            50% { background: var(--primary); box-shadow: 0 0 10px var(--primary); }
-        }
-
-        /* Sound Wave Visualization */
-        .sound-visualizer {
-            position: absolute;
-            bottom: 1rem;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 3px;
-            align-items: end;
-        }
-
-        .sound-bar {
-            width: 3px;
-            background: var(--primary);
-            border-radius: 2px;
-            animation: soundWave 1.5s ease-in-out infinite;
-        }
-
-        .sound-bar:nth-child(1) { height: 10px; animation-delay: 0s; }
-        .sound-bar:nth-child(2) { height: 15px; animation-delay: 0.1s; }
-        .sound-bar:nth-child(3) { height: 8px; animation-delay: 0.2s; }
-        .sound-bar:nth-child(4) { height: 20px; animation-delay: 0.3s; }
-        .sound-bar:nth-child(5) { height: 12px; animation-delay: 0.4s; }
-        .sound-bar:nth-child(6) { height: 18px; animation-delay: 0.5s; }
-        .sound-bar:nth-child(7) { height: 6px; animation-delay: 0.6s; }
-
-        @keyframes soundWave {
-            0%, 100% { transform: scaleY(1); opacity: 0.5; }
-            50% { transform: scaleY(2); opacity: 1; }
-        }
-
-        /* Main Content - Enhanced Dark Theme */
+        /* Main Content */
         #content {
             position: relative;
             min-height: 100vh;
             opacity: 0;
             visibility: hidden;
-            transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: all 0.8s ease;
             padding: 2rem;
         }
 
@@ -686,48 +276,45 @@
         .main-header {
             text-align: center;
             margin: 4rem 0;
-            position: relative;
         }
 
         .welcome-title {
-            font-family: 'Orbitron', monospace;
+            font-family: 'JetBrains Mono', monospace;
             font-size: clamp(2.5rem, 6vw, 4rem);
             font-weight: 700;
-            background: linear-gradient(135deg, var(--primary), var(--cyber-blue));
+            background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 1rem;
             animation: fadeInUp 1s ease-out;
-            text-shadow: 0 0 30px var(--glow);
         }
 
         .welcome-subtitle {
             color: var(--text-secondary);
             font-size: 1.3rem;
-            font-family: 'JetBrains Mono', monospace;
             animation: fadeInUp 1s ease-out 0.2s both;
         }
 
-        /* Enhanced Navigation Grid */
+        /* Navigation Grid */
         .nav-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2.5rem;
-            max-width: 1400px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
             margin: 4rem auto;
             padding: 0 1rem;
         }
 
         .nav-card {
             position: relative;
-            padding: 3.5rem 2.5rem;
+            padding: 3rem 2rem;
             cursor: pointer;
-            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            border-radius: 25px;
+            transition: all 0.4s ease;
+            border-radius: 24px;
             background: var(--glass-bg);
-            backdrop-filter: blur(25px);
-            border: 2px solid var(--glass-border);
-            box-shadow: 0 10px 40px var(--shadow);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px var(--shadow);
             text-align: center;
             overflow: hidden;
         }
@@ -737,7 +324,7 @@
             position: absolute;
             inset: 0;
             opacity: 0;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.4s ease;
             z-index: -1;
         }
 
@@ -753,83 +340,47 @@
             background: linear-gradient(135deg, #43e97b, #38f9d7);
         }
 
-        .nav-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.7s;
-        }
-
         .nav-card:hover::before {
-            opacity: 0.15;
-        }
-
-        .nav-card:hover::after {
-            left: 100%;
+            opacity: 0.1;
         }
 
         .nav-card:hover {
-            transform: translateY(-12px) scale(1.03);
-            box-shadow: 
-                0 25px 50px rgba(0, 0, 0, 0.5),
-                0 0 50px var(--glow);
-            border-color: var(--primary);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
 
         .nav-card-icon {
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 2rem;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
             background: var(--glass-bg);
-            border-radius: 25px;
-            border: 2px solid var(--glass-border);
-            font-size: 2.5rem;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-card-icon::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(45deg, var(--primary), var(--cyber-blue));
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .nav-card:hover .nav-card-icon::before {
-            opacity: 0.2;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            font-size: 2rem;
+            transition: all 0.3s ease;
         }
 
         .nav-card:hover .nav-card-icon {
-            transform: scale(1.15) rotateY(10deg);
-            box-shadow: 0 0 30px var(--glow);
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.15);
         }
 
         .nav-card-title {
-            font-size: 2rem;
-            font-weight: 700;
-            font-family: 'Orbitron', monospace;
-            margin-bottom: 0.8rem;
-            color: var(--text-primary);
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
         }
 
         .nav-card-description {
             color: var(--text-secondary);
-            font-size: 1.1rem;
+            font-size: 1rem;
             line-height: 1.6;
-            font-family: 'JetBrains Mono', monospace;
         }
 
-        /* Enhanced Fixed UI Elements */
+        /* Fixed UI Elements */
         .fixed-ui {
             position: fixed;
             z-index: 100;
@@ -838,119 +389,75 @@
         .logo {
             bottom: 2rem;
             left: 2rem;
-            width: 70px;
-            height: 70px;
-            border-radius: 20px;
-            border: 3px solid var(--primary);
-            box-shadow: 0 0 30px var(--glow);
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+            transition: all 0.3s ease;
             background: url('logo.png') center/cover;
             cursor: pointer;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .logo::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(45deg, var(--primary), var(--cyber-blue));
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .logo:hover::before {
-            opacity: 0.3;
         }
 
         .logo:hover {
-            transform: translateY(-6px) scale(1.1) rotateZ(5deg);
-            box-shadow: 0 15px 40px var(--glow);
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(99, 102, 241, 0.6);
         }
 
         .teacher-btn {
             bottom: 2rem;
             right: 2rem;
-            padding: 1.2rem 2rem;
+            padding: 1rem 1.5rem;
             background: var(--glass-bg);
-            backdrop-filter: blur(25px);
+            backdrop-filter: blur(20px);
             border: 2px solid var(--glass-border);
-            border-radius: 20px;
+            border-radius: 16px;
             color: var(--text-primary);
             font-weight: 600;
-            font-family: 'Orbitron', monospace;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 1rem;
-            box-shadow: 0 10px 30px var(--shadow);
-            overflow: hidden;
-            position: relative;
-        }
-
-        .teacher-btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(45deg, var(--primary), var(--cyber-blue));
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .teacher-btn:hover::before {
-            opacity: 0.2;
+            gap: 0.75rem;
+            box-shadow: 0 8px 25px var(--shadow);
         }
 
         .teacher-btn:hover {
-            transform: translateY(-6px) scale(1.05);
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.1);
             border-color: var(--primary);
-            box-shadow: 
-                0 15px 40px rgba(0, 0, 0, 0.5),
-                0 0 30px var(--glow);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
         }
 
         .shortcut {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
             font-family: 'JetBrains Mono', monospace;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 0.2rem 0.5rem;
-            border-radius: 6px;
-            border: 1px solid var(--border);
         }
 
         .teacher-status {
             top: 2rem;
             right: 2rem;
-            padding: 1.2rem 2rem;
+            padding: 1rem 1.5rem;
             background: var(--glass-bg);
-            backdrop-filter: blur(25px);
+            backdrop-filter: blur(20px);
             border: 2px solid var(--glass-border);
-            border-radius: 20px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
-            gap: 1rem;
-            font-size: 1rem;
-            font-weight: 600;
-            font-family: 'Orbitron', monospace;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: 0 10px 30px var(--shadow);
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
         }
 
         .status-indicator {
-            width: 15px;
-            height: 15px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
             background: var(--error);
-            box-shadow: 0 0 15px currentColor;
-            transition: all 0.4s ease;
-            animation: statusPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes statusPulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(1.2); }
+            box-shadow: 0 0 10px currentColor;
+            transition: all 0.3s ease;
         }
 
         .teacher-status.active .status-indicator {
@@ -959,22 +466,21 @@
 
         .teacher-status.hidden {
             opacity: 0;
-            transform: translateY(-30px);
+            transform: translateY(-20px);
         }
 
-        /* Enhanced Content Containers */
+        /* Content Containers */
         .content-container {
             display: none;
             position: fixed;
             inset: 2rem;
             background: var(--glass-bg);
-            backdrop-filter: blur(25px);
-            border: 2px solid var(--glass-border);
-            border-radius: 25px;
-            padding: 2.5rem;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2rem;
             z-index: 50;
-            animation: slideInScale 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: 0 20px 60px var(--shadow);
+            animation: slideIn 0.5s ease;
         }
 
         .content-container.show {
@@ -982,38 +488,76 @@
             flex-direction: column;
         }
 
-        @keyframes slideInScale {
-            from {
-                opacity: 0;
-                transform: scale(0.9) translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
         }
 
-        /* Enhanced Notifications */
+        .content-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .back-btn {
+            padding: 0.75rem 1.5rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(-2px);
+        }
+
+        .content-body {
+            flex: 1;
+            overflow: hidden;
+            border-radius: 16px;
+        }
+
+        .content-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 16px;
+            background: white;
+        }
+
+        /* Notifications */
         .notification {
             position: fixed;
             top: 2rem;
             left: 50%;
             transform: translateX(-50%) translateY(-100px);
-            padding: 1.2rem 2rem;
+            padding: 1rem 1.5rem;
             background: var(--glass-bg);
-            backdrop-filter: blur(25px);
-            border: 2px solid var(--glass-border);
-            border-radius: 15px;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
             color: var(--text-primary);
-            font-weight: 600;
-            font-family: 'Orbitron', monospace;
+            font-weight: 500;
             z-index: 1000;
             opacity: 0;
-            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: all 0.4s ease;
             display: flex;
             align-items: center;
-            gap: 0.8rem;
-            box-shadow: 0 15px 40px var(--shadow);
+            gap: 0.5rem;
+            box-shadow: 0 8px 25px var(--shadow);
         }
 
         .notification.show {
@@ -1023,58 +567,74 @@
 
         .notification.success {
             border-color: var(--success);
-            box-shadow: 0 15px 40px rgba(0, 255, 102, 0.4);
         }
 
         .notification.error {
             border-color: var(--error);
-            box-shadow: 0 15px 40px rgba(255, 51, 102, 0.4);
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .passcode-card {
-                min-width: 90vw;
-                padding: 2.5rem;
-            }
-
-            .brand-title {
-                font-size: clamp(3rem, 15vw, 6rem);
-            }
-
-            .nav-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .nav-card {
-                padding: 2.5rem;
-            }
-
-            .fixed-ui {
-                bottom: 1rem;
-                right: 1rem;
-                left: 1rem;
-                top: 1rem;
-            }
-
-            .content-container {
-                inset: 1rem;
-            }
+        /* Teacher Mode iframe */
+        #teacher-iframe {
+            display: none;
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            z-index: 1000;
+            background: white;
         }
 
-        /* Additional Animations */
-        @keyframes slideInFromBottom {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* Hack content styles */
+        .hack-grid {
+            display: grid;
+            gap: 1.5rem;
+            padding: 2rem;
         }
 
+        .hack-item {
+            padding: 2rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .hack-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .hack-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .hack-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .hack-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .hack-link:hover {
+            color: var(--primary-light);
+        }
+
+        /* Animations */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -1086,81 +646,84 @@
             }
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .passcode-card {
+                min-width: 90vw;
+                padding: 2rem;
+            }
+
+            .nav-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .nav-card {
+                padding: 2rem;
+            }
+
+            .teacher-btn, .logo, .teacher-status {
+                bottom: 1rem;
+                right: 1rem;
+                left: 1rem;
+                top: 1rem;
+            }
+
+            .content-container {
+                inset: 1rem;
+            }
+
+            .brand-title {
+                font-size: clamp(3rem, 15vw, 5rem);
+            }
         }
     </style>
 </head>
 <body>
-    <canvas class="matrix-bg" id="matrix-canvas"></canvas>
     <canvas id="particle-canvas"></canvas>
 
-    <!-- Ultra Animated Passcode Screen -->
+    <!-- Passcode Screen -->
     <div id="passcode-screen">
         <div class="brand-title">BORED</div>
-        <div class="passcode-subtitle">INITIALIZING SECURE ACCESS PROTOCOL...</div>
+        <div class="passcode-subtitle">Enter your access code to continue</div>
         
         <div class="passcode-container">
-            <div class="terminal-window">
-                <div class="terminal-header">
-                    <div class="terminal-controls">
-                        <div class="terminal-control close"></div>
-                        <div class="terminal-control minimize"></div>
-                        <div class="terminal-control maximize"></div>
-                    </div>
-                    <div class="terminal-title">SECURE_TERMINAL_v2.1</div>
+            <div class="passcode-card glass-card">
+                <div class="input-group">
+                    <input type="password" class="passcode-input" id="passcode" placeholder="Enter Password" autocomplete="off" autofocus>
+                    <i class="fas fa-lock input-icon"></i>
                 </div>
                 
-                <div class="passcode-card">
-                    <div class="security-level">
-                        <div class="security-bars">
-                            <div class="security-bar"></div>
-                            <div class="security-bar"></div>
-                            <div class="security-bar"></div>
-                            <div class="security-bar"></div>
-                            <div class="security-bar"></div>
-                        </div>
-                        <div>SEC LEVEL: MAX</div>
-                    </div>
-
-                    <div class="input-group">
-                        <div class="biometric-scanner">
-                            <i class="fas fa-fingerprint"></i>
-                        </div>
-                        <input type="password" class="passcode-input" id="passcode" placeholder="● ● ● ●" autocomplete="off" autofocus>
-                    </div>
-                    
-                    <button class="unlock-btn" id="unlock-btn">
-                        <div class="btn-content">
-                            <i class="fas fa-shield-alt"></i>
-                            <span>AUTHENTICATE</span>
-                        </div>
-                        <div class="loading-spinner"></div>
-                    </button>
-                    
-                    <div class="error-message" id="error-msg">
-                        <span>ACCESS DENIED - INVALID CREDENTIALS</span>
-                    </div>
-
-                    <div class="sound-visualizer">
-                        <div class="sound-bar"></div>
-                        <div class="sound-bar"></div>
-                        <div class="sound-bar"></div>
-                        <div class="sound-bar"></div>
-                        <div class="sound-bar"></div>
-                        <div class="sound-bar"></div>
-                        <div class="sound-bar"></div>
-                    </div>
+                <button class="unlock-btn" id="unlock-btn">
+                    <i class="fas fa-unlock"></i>
+                    <span>Unlock</span>
+                    <div class="loading-spinner"></div>
+                </button>
+                
+                <div class="error-message" id="error-msg">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>Incorrect password. Please try again.</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Enhanced Main Content -->
+    <!-- Main Content -->
     <div id="content">
         <div class="main-header">
-            <h1 class="welcome-title">SYSTEM ONLINE</h1>
-            <p class="welcome-subtitle">// ACCESS GRANTED - ELITE TERMINAL ACTIVE //</p>
+            <h1 class="welcome-title">Welcome to BORED</h1>
+            <p class="welcome-subtitle">Your gateway to games, hacks, and AI tools</p>
         </div>
 
         <div class="nav-grid">
@@ -1168,24 +731,24 @@
                 <div class="nav-card-icon">
                     <i class="fas fa-gamepad"></i>
                 </div>
-                <h3 class="nav-card-title">GAMES</h3>
-                <p class="nav-card-description">// UNBLOCKED ENTERTAINMENT PROTOCOLS //</p>
+                <h3 class="nav-card-title">Games</h3>
+                <p class="nav-card-description">Explore unblocked games and entertainment</p>
             </div>
 
             <div class="nav-card hacks" data-section="hacks">
                 <div class="nav-card-icon">
-                    <i class="fas fa-terminal"></i>
+                    <i class="fas fa-code"></i>
                 </div>
-                <h3 class="nav-card-title">HACKS</h3>
-                <p class="nav-card-description">// ADVANCED BROWSER EXPLOITS //</p>
+                <h3 class="nav-card-title">Hacks</h3>
+                <p class="nav-card-description">Useful bookmarklets and browser tools</p>
             </div>
 
             <div class="nav-card ai" data-section="ai">
                 <div class="nav-card-icon">
-                    <i class="fas fa-robot"></i>
+                    <i class="fas fa-brain"></i>
                 </div>
-                <h3 class="nav-card-title">AI CORE</h3>
-                <p class="nav-card-description">// ARTIFICIAL INTELLIGENCE MATRIX //</p>
+                <h3 class="nav-card-title">AI Tools</h3>
+                <p class="nav-card-description">AI-powered utilities and applications</p>
             </div>
         </div>
     </div>
@@ -1195,11 +758,11 @@
         <div class="content-header">
             <h2 class="content-title">
                 <i class="fas fa-gamepad"></i>
-                GAMES TERMINAL
+                Games Hub
             </h2>
             <button class="back-btn" data-back="games">
                 <i class="fas fa-arrow-left"></i>
-                BACK
+                Back
             </button>
         </div>
         <div class="content-body">
@@ -1210,39 +773,39 @@
     <div id="hacks-container" class="content-container">
         <div class="content-header">
             <h2 class="content-title">
-                <i class="fas fa-terminal"></i>
-                EXPLOIT TERMINAL
+                <i class="fas fa-code"></i>
+                Browser Hacks
             </h2>
             <button class="back-btn" data-back="hacks">
                 <i class="fas fa-arrow-left"></i>
-                BACK
+                Back
             </button>
         </div>
         <div class="content-body">
             <div class="hack-grid">
                 <div class="hack-item">
                     <h4 class="hack-title">
-                        <i class="fas fa-bolt"></i>
-                        EDPUZZLE_BYPASS.EXE
+                        <i class="fas fa-zap"></i>
+                        Edpuzzle Skip
                     </h4>
-                    <p class="hack-description">// AUTO-COMPLETE PROTOCOL FOR EDUCATIONAL PLATFORMS //</p>
+                    <p class="hack-description">Skip Edpuzzles and get all answers right automatically</p>
                     <a href="javascript:(() => { const script = document.createElement('script'); script.src = 'https://cdn.jsdelivr.net/gh/ading2210/edpuzzle-answers@latest/script.js'; document.body.appendChild(script); })();" 
                        class="hack-link">
-                        <i class="fas fa-download"></i>
-                        EXECUTE EXPLOIT
+                        <i class="fas fa-external-link-alt"></i>
+                        Activate Bookmarklet
                     </a>
                 </div>
                 
                 <div class="hack-item">
                     <h4 class="hack-title">
-                        <i class="fas fa-mask"></i>
-                        TAB_CLOAK.EXE
+                        <i class="fas fa-eye-slash"></i>
+                        Tab Disguise
                     </h4>
-                    <p class="hack-description">// DIGITAL CAMOUFLAGE FOR BROWSER TABS //</p>
+                    <p class="hack-description">Disguise any tab to look like something else</p>
                     <a href="javascript:(()=>{fetch('https://raw.githubusercontent.com/bananaontop/TabMask/main/Ignore.js').then(r=>r.text()).then(c=>eval(c)).catch(e=>alert('Failed to fetch code.',e));})();" 
                        class="hack-link">
-                        <i class="fas fa-download"></i>
-                        EXECUTE EXPLOIT
+                        <i class="fas fa-external-link-alt"></i>
+                        Activate Bookmarklet
                     </a>
                 </div>
             </div>
@@ -1252,12 +815,12 @@
     <div id="ai-container" class="content-container">
         <div class="content-header">
             <h2 class="content-title">
-                <i class="fas fa-robot"></i>
-                AI COMMAND CENTER
+                <i class="fas fa-brain"></i>
+                AI Tools
             </h2>
             <button class="back-btn" data-back="ai">
                 <i class="fas fa-arrow-left"></i>
-                BACK
+                Back
             </button>
         </div>
         <div class="content-body">
@@ -1265,78 +828,31 @@
         </div>
     </div>
 
-    <!-- Enhanced Fixed UI Elements -->
+    <!-- Fixed UI Elements -->
     <div class="logo fixed-ui" id="logo"></div>
     
     <button class="teacher-btn fixed-ui" id="teacher-btn">
-        <i class="fas fa-user-secret"></i>
-        <span>STEALTH</span>
+        <i class="fas fa-graduation-cap"></i>
+        <span>Teacher</span>
         <span class="shortcut">Ctrl + ;</span>
     </button>
 
     <div class="teacher-status fixed-ui inactive" id="teacher-status">
         <div class="status-indicator"></div>
-        <span>STEALTH MODE: <strong id="status-text">INACTIVE</strong></span>
+        <span>Teacher Mode: <strong id="status-text">Inactive</strong></span>
     </div>
 
     <!-- Teacher Mode iframe -->
     <iframe id="teacher-iframe" src="https://classroom.google.com" title="Google Classroom"></iframe>
 
     <script>
-        // Matrix Rain Effect
-        class MatrixRain {
-            constructor() {
-                this.canvas = document.getElementById('matrix-canvas');
-                this.ctx = this.canvas.getContext('2d');
-                this.chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
-                this.fontSize = 14;
-                this.columns = 0;
-                this.drops = [];
-                this.init();
-            }
-
-            init() {
-                this.resize();
-                this.animate();
-                window.addEventListener('resize', () => this.resize());
-            }
-
-            resize() {
-                this.canvas.width = window.innerWidth;
-                this.canvas.height = window.innerHeight;
-                this.columns = Math.floor(this.canvas.width / this.fontSize);
-                this.drops = Array(this.columns).fill(1);
-            }
-
-            animate() {
-                this.ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-
-                this.ctx.fillStyle = '#00ff41';
-                this.ctx.font = `${this.fontSize}px monospace`;
-
-                for (let i = 0; i < this.drops.length; i++) {
-                    const text = this.chars[Math.floor(Math.random() * this.chars.length)];
-                    this.ctx.fillText(text, i * this.fontSize, this.drops[i] * this.fontSize);
-
-                    if (this.drops[i] * this.fontSize > this.canvas.height && Math.random() > 0.975) {
-                        this.drops[i] = 0;
-                    }
-                    this.drops[i]++;
-                }
-
-                requestAnimationFrame(() => this.animate());
-            }
-        }
-
-        // Enhanced Particle System
-        class CyberParticleSystem {
+        // Simple particle system
+        class ParticleSystem {
             constructor() {
                 this.canvas = document.getElementById('particle-canvas');
                 this.ctx = this.canvas.getContext('2d');
                 this.particles = [];
                 this.mouse = { x: 0, y: 0 };
-                this.connections = [];
                 this.init();
             }
 
@@ -1353,18 +869,16 @@
             }
 
             createParticles() {
-                const count = Math.min(120, Math.floor((this.canvas.width * this.canvas.height) / 8000));
+                const count = Math.min(50, Math.floor((this.canvas.width * this.canvas.height) / 15000));
                 
                 for (let i = 0; i < count; i++) {
                     this.particles.push({
                         x: Math.random() * this.canvas.width,
                         y: Math.random() * this.canvas.height,
-                        size: Math.random() * 3 + 1,
-                        speedX: (Math.random() - 0.5) * 1.2,
-                        speedY: (Math.random() - 0.5) * 1.2,
-                        opacity: Math.random() * 0.8 + 0.2,
-                        hue: Math.random() * 60 + 120, // Green-blue spectrum
-                        pulse: Math.random() * Math.PI * 2
+                        size: Math.random() * 2 + 0.5,
+                        speedX: (Math.random() - 0.5) * 0.8,
+                        speedY: (Math.random() - 0.5) * 0.8,
+                        opacity: Math.random() * 0.6 + 0.2
                     });
                 }
             }
@@ -1372,59 +886,20 @@
             animate() {
                 this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
                 
-                // Update and draw particles
-                this.particles.forEach((particle, index) => {
+                this.particles.forEach(particle => {
                     particle.x += particle.speedX;
                     particle.y += particle.speedY;
-                    particle.pulse += 0.02;
 
-                    // Bounce off edges
                     if (particle.x < 0 || particle.x > this.canvas.width) particle.speedX *= -1;
                     if (particle.y < 0 || particle.y > this.canvas.height) particle.speedY *= -1;
 
-                    // Mouse interaction
-                    const dx = this.mouse.x - particle.x;
-                    const dy = this.mouse.y - particle.y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    
-                    if (distance < 150) {
-                        const force = (150 - distance) / 150;
-                        particle.x -= dx * force * 0.002;
-                        particle.y -= dy * force * 0.002;
-                    }
-
-                    // Draw particle with pulsing effect
-                    const pulseSize = particle.size + Math.sin(particle.pulse) * 0.5;
-                    const pulseOpacity = particle.opacity + Math.sin(particle.pulse) * 0.3;
-                    
                     this.ctx.save();
-                    this.ctx.globalAlpha = pulseOpacity;
-                    this.ctx.fillStyle = `hsl(${particle.hue}, 100%, 60%)`;
-                    this.ctx.shadowBlur = 10;
-                    this.ctx.shadowColor = `hsl(${particle.hue}, 100%, 60%)`;
+                    this.ctx.globalAlpha = particle.opacity;
+                    this.ctx.fillStyle = '#6366f1';
                     this.ctx.beginPath();
-                    this.ctx.arc(particle.x, particle.y, pulseSize, 0, Math.PI * 2);
+                    this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
                     this.ctx.fill();
                     this.ctx.restore();
-
-                    // Draw connections
-                    this.particles.slice(index + 1).forEach(otherParticle => {
-                        const dx = particle.x - otherParticle.x;
-                        const dy = particle.y - otherParticle.y;
-                        const distance = Math.sqrt(dx * dx + dy * dy);
-
-                        if (distance < 120) {
-                            this.ctx.save();
-                            this.ctx.globalAlpha = (120 - distance) / 120 * 0.3;
-                            this.ctx.strokeStyle = `hsl(${(particle.hue + otherParticle.hue) / 2}, 100%, 60%)`;
-                            this.ctx.lineWidth = 1;
-                            this.ctx.beginPath();
-                            this.ctx.moveTo(particle.x, particle.y);
-                            this.ctx.lineTo(otherParticle.x, otherParticle.y);
-                            this.ctx.stroke();
-                            this.ctx.restore();
-                        }
-                    });
                 });
 
                 requestAnimationFrame(() => this.animate());
@@ -1436,167 +911,70 @@
                     this.particles = [];
                     this.createParticles();
                 });
-
-                window.addEventListener('mousemove', (e) => {
-                    this.mouse.x = e.clientX;
-                    this.mouse.y = e.clientY;
-                });
             }
         }
 
-        // Initialize effects
-        new MatrixRain();
-        new CyberParticleSystem();
+        // Initialize particle system
+        new ParticleSystem();
 
         // App state
         let teacherModeActive = false;
         let currentSection = null;
-        let soundEnabled = true;
 
-        // Sound Effects (Web Audio API)
-        class SoundSystem {
-            constructor() {
-                this.audioContext = null;
-                this.init();
-            }
-
-            init() {
-                try {
-                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                } catch (e) {
-                    console.log('Web Audio API not supported');
-                }
-            }
-
-            playBeep(frequency = 800, duration = 200, type = 'sine') {
-                if (!this.audioContext || !soundEnabled) return;
-
-                const oscillator = this.audioContext.createOscillator();
-                const gain = this.audioContext.createGain();
-                
-                oscillator.connect(gain);
-                gain.connect(this.audioContext.destination);
-                
-                oscillator.frequency.value = frequency;
-                oscillator.type = type;
-                
-                gain.gain.setValueAtTime(0.1, this.audioContext.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration / 1000);
-                
-                oscillator.start(this.audioContext.currentTime);
-                oscillator.stop(this.audioContext.currentTime + duration / 1000);
-            }
-
-            playSuccess() {
-                this.playBeep(600, 100);
-                setTimeout(() => this.playBeep(800, 100), 100);
-                setTimeout(() => this.playBeep(1000, 200), 200);
-            }
-
-            playError() {
-                this.playBeep(300, 200, 'sawtooth');
-                setTimeout(() => this.playBeep(250, 200, 'sawtooth'), 100);
-            }
-
-            playClick() {
-                this.playBeep(1200, 50, 'square');
-            }
-        }
-
-        const soundSystem = new SoundSystem();
-
-        // Enhanced notification system
+        // Notification system
         function showNotification(message, type = 'info') {
             const notification = document.createElement('div');
             notification.className = `notification ${type}`;
-            
-            let icon = 'fas fa-info-circle';
-            if (type === 'success') icon = 'fas fa-check-circle';
-            if (type === 'error') icon = 'fas fa-exclamation-triangle';
-            
-            notification.innerHTML = `
-                <i class="${icon}"></i>
-                <span>${message}</span>
-            `;
+            notification.innerHTML = `<span>${message}</span>`;
             
             document.body.appendChild(notification);
             
             setTimeout(() => notification.classList.add('show'), 100);
             
-            // Play sound
-            if (type === 'success') soundSystem.playSuccess();
-            if (type === 'error') soundSystem.playError();
-            else soundSystem.playClick();
-            
             setTimeout(() => {
                 notification.classList.remove('show');
-                setTimeout(() => notification.remove(), 500);
-            }, 4000);
+                setTimeout(() => notification.remove(), 400);
+            }, 3000);
         }
 
-        // Enhanced passcode functionality
+        // Passcode functionality
         function checkPasscode() {
             const input = document.getElementById('passcode');
             const button = document.getElementById('unlock-btn');
             const errorMsg = document.getElementById('error-msg');
             
             if (!input.value.trim()) {
-                showNotification('ACCESS CODE REQUIRED', 'error');
-                soundSystem.playError();
+                showNotification('Please enter a password', 'error');
                 input.focus();
                 return;
             }
 
             button.classList.add('loading');
             errorMsg.classList.remove('show');
-            soundSystem.playClick();
 
-            // Simulate authentication process
             setTimeout(() => {
                 if (input.value === '1234') {
-                    showNotification('AUTHENTICATION SUCCESSFUL', 'success');
-                    soundSystem.playSuccess();
+                    showNotification('Welcome back!', 'success');
                     
                     setTimeout(() => {
                         document.getElementById('passcode-screen').classList.add('hide');
                         setTimeout(() => {
                             document.getElementById('content').classList.add('show');
-                        }, 600);
-                    }, 800);
+                        }, 400);
+                    }, 500);
                 } else {
                     button.classList.remove('loading');
                     errorMsg.classList.add('show');
                     input.value = '';
                     input.focus();
-                    showNotification('ACCESS DENIED - INVALID CREDENTIALS', 'error');
-                    soundSystem.playError();
-                    
-                    // Screen shake effect
-                    document.getElementById('passcode-screen').style.animation = 'shake 0.5s ease-in-out';
-                    setTimeout(() => {
-                        document.getElementById('passcode-screen').style.animation = '';
-                    }, 500);
+                    showNotification('Incorrect password', 'error');
                 }
-            }, 1500);
+            }, 1200);
         }
 
-        // Screen shake animation
-        const shakeKeyframes = `
-            @keyframes shake {
-                0%, 100% { transform: translateX(0); }
-                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-                20%, 40%, 60%, 80% { transform: translateX(5px); }
-            }
-        `;
-        const style = document.createElement('style');
-        style.textContent = shakeKeyframes;
-        document.head.appendChild(style);
-
-        // Navigation with enhanced effects
+        // Navigation
         function openSection(sectionName) {
             currentSection = sectionName;
-            soundSystem.playClick();
-            
             document.querySelectorAll('.content-container').forEach(container => {
                 container.classList.remove('show');
             });
@@ -1604,62 +982,51 @@
             const container = document.getElementById(`${sectionName}-container`);
             if (container) {
                 container.classList.add('show');
-                showNotification(`ACCESSING ${sectionName.toUpperCase()} TERMINAL`, 'success');
+                showNotification(`Opening ${sectionName.charAt(0).toUpperCase() + sectionName.slice(1)}`, 'success');
             }
         }
 
         function closeSection() {
-            soundSystem.playClick();
             document.querySelectorAll('.content-container').forEach(container => {
                 container.classList.remove('show');
             });
             currentSection = null;
         }
 
-        // Enhanced teacher mode
+        // Teacher Mode
         function toggleTeacherMode() {
             teacherModeActive = !teacherModeActive;
             const iframe = document.getElementById('teacher-iframe');
             const status = document.getElementById('teacher-status');
             const statusText = document.getElementById('status-text');
             
-            soundSystem.playClick();
-            
             if (teacherModeActive) {
                 iframe.style.display = 'block';
                 status.classList.add('active', 'hidden');
                 status.classList.remove('inactive');
-                statusText.textContent = 'ACTIVE';
-                showNotification('STEALTH MODE ACTIVATED', 'success');
+                statusText.textContent = 'Active';
+                showNotification('Teacher Mode activated', 'success');
             } else {
                 iframe.style.display = 'none';
                 status.classList.remove('active', 'hidden');
                 status.classList.add('inactive');
-                statusText.textContent = 'INACTIVE';
-                showNotification('STEALTH MODE DEACTIVATED', 'info');
+                statusText.textContent = 'Inactive';
+                showNotification('Teacher Mode deactivated', 'info');
             }
         }
 
-        // Event listeners with sound effects
+        // Event listeners
         document.getElementById('passcode').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                checkPasscode();
-            } else {
-                soundSystem.playBeep(1000, 50);
-            }
+            if (e.key === 'Enter') checkPasscode();
         });
 
         document.getElementById('unlock-btn').addEventListener('click', checkPasscode);
 
-        // Navigation cards with enhanced interactions
+        // Navigation cards
         document.querySelectorAll('.nav-card').forEach(card => {
             card.addEventListener('click', () => {
                 const section = card.dataset.section;
                 openSection(section);
-            });
-            
-            card.addEventListener('mouseenter', () => {
-                soundSystem.playBeep(1200, 30);
             });
         });
 
@@ -1671,7 +1038,7 @@
         // Teacher button
         document.getElementById('teacher-btn').addEventListener('click', toggleTeacherMode);
 
-        // Enhanced keyboard shortcuts
+        // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
             if (e.ctrlKey && e.key === ';') {
                 e.preventDefault();
@@ -1681,65 +1048,15 @@
             if (e.key === 'Escape' && currentSection) {
                 closeSection();
             }
-            
-            // Sound toggle
-            if (e.ctrlKey && e.key === 'm') {
-                e.preventDefault();
-                soundEnabled = !soundEnabled;
-                showNotification(`SOUND ${soundEnabled ? 'ENABLED' : 'DISABLED'}`, 'info');
-            }
         });
 
-        // Logo click with easter egg
+        // Logo click
         document.getElementById('logo').addEventListener('click', () => {
-            showNotification('BORED v2.1 - ELITE TERMINAL SYSTEM', 'info');
-            soundSystem.playSuccess();
+            showNotification('BORED - Made with ❤️', 'info');
         });
 
-        // Initialize system
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log('%c🚀 BORED ELITE TERMINAL v2.1 LOADED', 'color: #00ff88; font-size: 16px; font-weight: bold;');
-            console.log('%c🎵 Press Ctrl+M to toggle sound effects', 'color: #00d4ff; font-size: 12px;');
-            console.log('%c🔐 Default access code: 1234', 'color: #ff0099; font-size: 12px;');
-            
-            // Auto-focus password input
-            setTimeout(() => {
-                const input = document.getElementById('passcode');
-                if (input) input.focus();
-            }, 3000);
-        });
-
-        // Prevent right-click context menu for immersion
-        document.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-            showNotification('CONTEXT MENU DISABLED', 'error');
-        });
-
-        // Enhanced cursor effects
-        document.addEventListener('mousemove', (e) => {
-            const cursor = document.querySelector('.cursor-glow');
-            if (!cursor) {
-                const glowCursor = document.createElement('div');
-                glowCursor.className = 'cursor-glow';
-                glowCursor.style.cssText = `
-                    position: fixed;
-                    width: 20px;
-                    height: 20px;
-                    background: radial-gradient(circle, rgba(0,255,136,0.3) 0%, transparent 70%);
-                    border-radius: 50%;
-                    pointer-events: none;
-                    z-index: 9999;
-                    transition: transform 0.1s ease;
-                `;
-                document.body.appendChild(glowCursor);
-            }
-            
-            const glowElement = document.querySelector('.cursor-glow');
-            if (glowElement) {
-                glowElement.style.left = (e.clientX - 10) + 'px';
-                glowElement.style.top = (e.clientY - 10) + 'px';
-            }
-        });
+        // Initialize
+        console.log('BORED - Modern Hub Loaded Successfully!');
     </script>
 </body>
 </html>
