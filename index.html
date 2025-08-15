@@ -6,34 +6,30 @@
     <link rel="icon" type="image/png" href="favicon (1).ico">
     <title>BORED - Modern Hub</title>
     
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <!-- Modern Icons via CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     
     <style>
-        /* Modern CSS Reset & Variables */
+        /* Modern CSS Variables */
         :root {
             --primary: #6366f1;
             --primary-light: #818cf8;
-            --primary-dark: #4f46e5;
             --secondary: #8b5cf6;
             --accent: #06b6d4;
             --success: #10b981;
-            --warning: #f59e0b;
             --error: #ef4444;
             --background: #0f0f23;
             --surface: #1a1a2e;
-            --surface-light: #16213e;
             --text-primary: #ffffff;
             --text-secondary: #94a3b8;
             --text-muted: #64748b;
             --border: rgba(255, 255, 255, 0.1);
-            --shadow: rgba(0, 0, 0, 0.3);
-            --glow: rgba(99, 102, 241, 0.4);
             --glass-bg: rgba(255, 255, 255, 0.05);
             --glass-border: rgba(255, 255, 255, 0.1);
+            --shadow: rgba(0, 0, 0, 0.3);
         }
 
         * {
@@ -45,13 +41,13 @@
         body, html {
             height: 100%;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: radial-gradient(ellipse at center, var(--surface) 0%, var(--background) 100%);
+            background: linear-gradient(135deg, var(--background) 0%, var(--surface) 100%);
             color: var(--text-primary);
             overflow-x: hidden;
             line-height: 1.6;
         }
 
-        /* Modern Background Animation */
+        /* Animated Background */
         body::before {
             content: '';
             position: fixed;
@@ -61,18 +57,17 @@
             height: 100%;
             background: 
                 radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(6, 182, 212, 0.05) 0%, transparent 50%);
-            z-index: -2;
-            animation: backgroundShift 20s ease-in-out infinite;
+                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+            z-index: -1;
+            animation: backgroundPulse 8s ease-in-out infinite;
         }
 
-        @keyframes backgroundShift {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.1); }
+        @keyframes backgroundPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
         }
 
-        /* Animated Particles Canvas */
+        /* Canvas for particles */
         #particle-canvas {
             position: fixed;
             top: 0;
@@ -80,22 +75,20 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            opacity: 0.3;
+            opacity: 0.4;
         }
 
-        /* Modern Glassmorphism Components */
+        /* Glassmorphism card component */
         .glass-card {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
-            box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px var(--shadow);
         }
 
-        /* Passcode Screen - Modern Design */
+        /* Passcode Screen */
         #passcode-screen {
             position: fixed;
             inset: 0;
@@ -103,20 +96,19 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: var(--background);
             z-index: 1000;
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.8s ease;
         }
 
         #passcode-screen.hide {
             opacity: 0;
             visibility: hidden;
-            transform: scale(0.95);
+            transform: scale(0.9);
         }
 
         .brand-title {
             font-family: 'JetBrains Mono', monospace;
-            font-size: clamp(3rem, 8vw, 6rem);
+            font-size: clamp(4rem, 10vw, 8rem);
             font-weight: 700;
             background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
             background-size: 200% 200%;
@@ -124,16 +116,16 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             margin-bottom: 1rem;
-            animation: gradientShift 3s ease-in-out infinite, titleFloat 6s ease-in-out infinite;
-            text-shadow: 0 0 40px var(--glow);
+            animation: gradientMove 4s ease-in-out infinite, titleBounce 3s ease-in-out infinite;
+            text-align: center;
         }
 
-        @keyframes gradientShift {
+        @keyframes gradientMove {
             0%, 100% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
         }
 
-        @keyframes titleFloat {
+        @keyframes titleBounce {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
         }
@@ -141,35 +133,29 @@
         .passcode-subtitle {
             color: var(--text-secondary);
             font-size: 1.2rem;
-            font-weight: 400;
             margin-bottom: 3rem;
-            opacity: 0;
-            animation: fadeInUp 1s ease-out 0.5s forwards;
+            text-align: center;
+            animation: fadeInUp 1s ease-out 0.5s both;
         }
 
         .passcode-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1.5rem;
-            opacity: 0;
-            animation: fadeInUp 1s ease-out 0.8s forwards;
+            animation: fadeInUp 1s ease-out 0.8s both;
         }
 
         .passcode-card {
-            padding: 2.5rem;
+            padding: 3rem;
             min-width: 400px;
             text-align: center;
         }
 
         .input-group {
             position: relative;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .passcode-input {
             width: 100%;
-            padding: 1rem 1.5rem;
+            padding: 1.2rem 1.5rem;
             padding-left: 3.5rem;
             background: var(--glass-bg);
             border: 2px solid var(--border);
@@ -179,16 +165,13 @@
             font-family: 'JetBrains Mono', monospace;
             text-align: center;
             letter-spacing: 0.2em;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
         }
 
         .passcode-input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 
-                0 0 0 4px rgba(99, 102, 241, 0.1),
-                0 8px 25px rgba(99, 102, 241, 0.3);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
             transform: translateY(-2px);
         }
 
@@ -198,6 +181,7 @@
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-muted);
+            font-size: 1.2rem;
             transition: color 0.3s ease;
         }
 
@@ -207,41 +191,26 @@
 
         .unlock-btn {
             position: relative;
-            padding: 1rem 2.5rem;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            padding: 1.2rem 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             border: none;
             border-radius: 16px;
             color: white;
             font-weight: 600;
             font-size: 1.1rem;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
+            transition: all 0.3s ease;
             min-width: 200px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
-        }
-
-        .unlock-btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, var(--primary-light), var(--secondary));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .unlock-btn:hover::before {
-            opacity: 1;
+            margin: 0 auto;
         }
 
         .unlock-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 
-                0 10px 25px rgba(99, 102, 241, 0.4),
-                0 0 0 1px rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
         }
 
         .unlock-btn:active {
@@ -250,19 +219,7 @@
 
         .unlock-btn.loading {
             pointer-events: none;
-        }
-
-        .btn-content {
-            position: relative;
-            z-index: 1;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .unlock-btn.loading .btn-content {
-            opacity: 0.7;
+            opacity: 0.8;
         }
 
         .loading-spinner {
@@ -286,10 +243,10 @@
         .error-message {
             color: var(--error);
             font-size: 0.9rem;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
             opacity: 0;
             transform: translateY(-10px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -307,7 +264,7 @@
             min-height: 100vh;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.8s ease;
             padding: 2rem;
         }
 
@@ -335,14 +292,13 @@
         .welcome-subtitle {
             color: var(--text-secondary);
             font-size: 1.3rem;
-            font-weight: 400;
             animation: fadeInUp 1s ease-out 0.2s both;
         }
 
-        /* Modern Navigation Cards */
+        /* Navigation Grid */
         .nav-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
             max-width: 1200px;
             margin: 4rem auto;
@@ -351,22 +307,22 @@
 
         .nav-card {
             position: relative;
-            padding: 2.5rem;
+            padding: 3rem 2rem;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
+            transition: all 0.4s ease;
             border-radius: 24px;
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 32px var(--shadow);
+            text-align: center;
+            overflow: hidden;
         }
 
         .nav-card::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
             opacity: 0;
             transition: opacity 0.4s ease;
             z-index: -1;
@@ -390,40 +346,37 @@
 
         .nav-card:hover {
             transform: translateY(-8px) scale(1.02);
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.4),
-                0 0 0 1px rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
 
         .nav-card-icon {
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
             margin: 0 auto 1.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
             background: var(--glass-bg);
-            border-radius: 16px;
+            border-radius: 20px;
             border: 1px solid var(--glass-border);
+            font-size: 2rem;
             transition: all 0.3s ease;
         }
 
         .nav-card:hover .nav-card-icon {
             transform: scale(1.1);
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
         }
 
         .nav-card-title {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
-            text-align: center;
         }
 
         .nav-card-description {
             color: var(--text-secondary);
-            font-size: 0.95rem;
-            text-align: center;
+            font-size: 1rem;
             line-height: 1.6;
         }
 
@@ -440,15 +393,15 @@
             height: 60px;
             border-radius: 16px;
             border: 2px solid var(--primary);
-            box-shadow: 0 8px 25px var(--glow);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+            transition: all 0.3s ease;
             background: url('logo.png') center/cover;
-            overflow: hidden;
+            cursor: pointer;
         }
 
         .logo:hover {
             transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 12px 35px var(--glow);
+            box-shadow: 0 12px 35px rgba(99, 102, 241, 0.6);
         }
 
         .teacher-btn {
@@ -462,23 +415,21 @@
             color: var(--text-primary);
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            gap: 0.75rem;
+            box-shadow: 0 8px 25px var(--shadow);
         }
 
         .teacher-btn:hover {
             transform: translateY(-4px);
             background: rgba(255, 255, 255, 0.1);
             border-color: var(--primary);
-            box-shadow: 
-                0 12px 35px rgba(0, 0, 0, 0.4),
-                0 0 25px var(--glow);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
         }
 
-        .teacher-btn .shortcut {
+        .shortcut {
             font-size: 0.8rem;
             color: var(--text-muted);
             font-family: 'JetBrains Mono', monospace;
@@ -495,9 +446,9 @@
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             font-size: 0.9rem;
             font-weight: 500;
+            transition: all 0.3s ease;
         }
 
         .status-indicator {
@@ -518,18 +469,6 @@
             transform: translateY(-20px);
         }
 
-        /* Teacher Mode iframe */
-        #teacher-iframe {
-            display: none;
-            position: fixed;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-            z-index: 1000;
-            background: white;
-        }
-
         /* Content Containers */
         .content-container {
             display: none;
@@ -541,7 +480,7 @@
             border-radius: 24px;
             padding: 2rem;
             z-index: 50;
-            animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: slideIn 0.5s ease;
         }
 
         .content-container.show {
@@ -614,11 +553,11 @@
             font-weight: 500;
             z-index: 1000;
             opacity: 0;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s ease;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 25px var(--shadow);
         }
 
         .notification.show {
@@ -628,12 +567,71 @@
 
         .notification.success {
             border-color: var(--success);
-            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
         }
 
         .notification.error {
             border-color: var(--error);
-            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
+        }
+
+        /* Teacher Mode iframe */
+        #teacher-iframe {
+            display: none;
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            z-index: 1000;
+            background: white;
+        }
+
+        /* Hack content styles */
+        .hack-grid {
+            display: grid;
+            gap: 1.5rem;
+            padding: 2rem;
+        }
+
+        .hack-item {
+            padding: 2rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .hack-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .hack-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .hack-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .hack-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .hack-link:hover {
+            color: var(--primary-light);
         }
 
         /* Animations */
@@ -669,69 +667,26 @@
             .nav-grid {
                 grid-template-columns: 1fr;
                 gap: 1.5rem;
-                padding: 0 1rem;
             }
 
             .nav-card {
                 padding: 2rem;
             }
 
-            .teacher-btn {
+            .teacher-btn, .logo, .teacher-status {
                 bottom: 1rem;
                 right: 1rem;
-                padding: 0.75rem 1rem;
-            }
-
-            .logo {
-                bottom: 1rem;
                 left: 1rem;
-                width: 50px;
-                height: 50px;
-            }
-
-            .teacher-status {
                 top: 1rem;
-                right: 1rem;
-                padding: 0.75rem 1rem;
             }
 
             .content-container {
                 inset: 1rem;
             }
-        }
 
-        /* Loading States */
-        .loading-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(15, 15, 35, 0.8);
-            backdrop-filter: blur(4px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .loading-overlay.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .loading-content {
-            text-align: center;
-        }
-
-        .loading-spinner-large {
-            width: 40px;
-            height: 40px;
-            border: 3px solid var(--border);
-            border-top: 3px solid var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
+            .brand-title {
+                font-size: clamp(3rem, 15vw, 5rem);
+            }
         }
     </style>
 </head>
@@ -747,19 +702,17 @@
             <div class="passcode-card glass-card">
                 <div class="input-group">
                     <input type="password" class="passcode-input" id="passcode" placeholder="Enter Password" autocomplete="off" autofocus>
-                    <i data-lucide="lock" class="input-icon"></i>
+                    <i class="fas fa-lock input-icon"></i>
                 </div>
                 
                 <button class="unlock-btn" id="unlock-btn">
-                    <div class="btn-content">
-                        <i data-lucide="unlock" size="20"></i>
-                        <span>Unlock</span>
-                    </div>
+                    <i class="fas fa-unlock"></i>
+                    <span>Unlock</span>
                     <div class="loading-spinner"></div>
                 </button>
                 
                 <div class="error-message" id="error-msg">
-                    <i data-lucide="alert-circle" size="16"></i>
+                    <i class="fas fa-exclamation-circle"></i>
                     <span>Incorrect password. Please try again.</span>
                 </div>
             </div>
@@ -776,7 +729,7 @@
         <div class="nav-grid">
             <div class="nav-card games" data-section="games">
                 <div class="nav-card-icon">
-                    <i data-lucide="gamepad-2" size="28"></i>
+                    <i class="fas fa-gamepad"></i>
                 </div>
                 <h3 class="nav-card-title">Games</h3>
                 <p class="nav-card-description">Explore unblocked games and entertainment</p>
@@ -784,7 +737,7 @@
 
             <div class="nav-card hacks" data-section="hacks">
                 <div class="nav-card-icon">
-                    <i data-lucide="code" size="28"></i>
+                    <i class="fas fa-code"></i>
                 </div>
                 <h3 class="nav-card-title">Hacks</h3>
                 <p class="nav-card-description">Useful bookmarklets and browser tools</p>
@@ -792,7 +745,7 @@
 
             <div class="nav-card ai" data-section="ai">
                 <div class="nav-card-icon">
-                    <i data-lucide="brain" size="28"></i>
+                    <i class="fas fa-brain"></i>
                 </div>
                 <h3 class="nav-card-title">AI Tools</h3>
                 <p class="nav-card-description">AI-powered utilities and applications</p>
@@ -804,11 +757,11 @@
     <div id="games-container" class="content-container">
         <div class="content-header">
             <h2 class="content-title">
-                <i data-lucide="gamepad-2" size="24"></i>
+                <i class="fas fa-gamepad"></i>
                 Games Hub
             </h2>
             <button class="back-btn" data-back="games">
-                <i data-lucide="arrow-left" size="16"></i>
+                <i class="fas fa-arrow-left"></i>
                 Back
             </button>
         </div>
@@ -820,45 +773,40 @@
     <div id="hacks-container" class="content-container">
         <div class="content-header">
             <h2 class="content-title">
-                <i data-lucide="code" size="24"></i>
+                <i class="fas fa-code"></i>
                 Browser Hacks
             </h2>
             <button class="back-btn" data-back="hacks">
-                <i data-lucide="arrow-left" size="16"></i>
+                <i class="fas fa-arrow-left"></i>
                 Back
             </button>
         </div>
         <div class="content-body">
-            <div style="padding: 2rem; color: var(--text-primary);">
-                <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
-                    <i data-lucide="bookmark" size="20"></i>
-                    Available Bookmarklets
-                </h3>
-                <div style="display: grid; gap: 1rem;">
-                    <div style="padding: 1.5rem; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px;">
-                        <h4 style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
-                            <i data-lucide="zap" size="16"></i>
-                            Edpuzzle Skip
-                        </h4>
-                        <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.9rem;">Skip Edpuzzles and get all answers right</p>
-                        <a href="javascript:(() => { const script = document.createElement('script'); script.src = 'https://cdn.jsdelivr.net/gh/ading2210/edpuzzle-answers@latest/script.js'; document.body.appendChild(script); })();" 
-                           style="color: var(--primary); text-decoration: none; font-weight: 500; display: flex; align-items: center; gap: 0.5rem;">
-                            <i data-lucide="external-link" size="14"></i>
-                            Activate Bookmarklet
-                        </a>
-                    </div>
-                    <div style="padding: 1.5rem; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px;">
-                        <h4 style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
-                            <i data-lucide="eye-off" size="16"></i>
-                            Tab Disguise
-                        </h4>
-                        <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.9rem;">Disguise any tab to look like something else</p>
-                        <a href="javascript:(()=>{fetch('https://raw.githubusercontent.com/bananaontop/TabMask/main/Ignore.js').then(r=>r.text()).then(c=>eval(c)).catch(e=>alert('Failed to fetch code.',e));})();" 
-                           style="color: var(--primary); text-decoration: none; font-weight: 500; display: flex; align-items: center; gap: 0.5rem;">
-                            <i data-lucide="external-link" size="14"></i>
-                            Activate Bookmarklet
-                        </a>
-                    </div>
+            <div class="hack-grid">
+                <div class="hack-item">
+                    <h4 class="hack-title">
+                        <i class="fas fa-zap"></i>
+                        Edpuzzle Skip
+                    </h4>
+                    <p class="hack-description">Skip Edpuzzles and get all answers right automatically</p>
+                    <a href="javascript:(() => { const script = document.createElement('script'); script.src = 'https://cdn.jsdelivr.net/gh/ading2210/edpuzzle-answers@latest/script.js'; document.body.appendChild(script); })();" 
+                       class="hack-link">
+                        <i class="fas fa-external-link-alt"></i>
+                        Activate Bookmarklet
+                    </a>
+                </div>
+                
+                <div class="hack-item">
+                    <h4 class="hack-title">
+                        <i class="fas fa-eye-slash"></i>
+                        Tab Disguise
+                    </h4>
+                    <p class="hack-description">Disguise any tab to look like something else</p>
+                    <a href="javascript:(()=>{fetch('https://raw.githubusercontent.com/bananaontop/TabMask/main/Ignore.js').then(r=>r.text()).then(c=>eval(c)).catch(e=>alert('Failed to fetch code.',e));})();" 
+                       class="hack-link">
+                        <i class="fas fa-external-link-alt"></i>
+                        Activate Bookmarklet
+                    </a>
                 </div>
             </div>
         </div>
@@ -867,11 +815,11 @@
     <div id="ai-container" class="content-container">
         <div class="content-header">
             <h2 class="content-title">
-                <i data-lucide="brain" size="24"></i>
+                <i class="fas fa-brain"></i>
                 AI Tools
             </h2>
             <button class="back-btn" data-back="ai">
-                <i data-lucide="arrow-left" size="16"></i>
+                <i class="fas fa-arrow-left"></i>
                 Back
             </button>
         </div>
@@ -884,7 +832,7 @@
     <div class="logo fixed-ui" id="logo"></div>
     
     <button class="teacher-btn fixed-ui" id="teacher-btn">
-        <i data-lucide="graduation-cap" size="20"></i>
+        <i class="fas fa-graduation-cap"></i>
         <span>Teacher</span>
         <span class="shortcut">Ctrl + ;</span>
     </button>
@@ -897,20 +845,9 @@
     <!-- Teacher Mode iframe -->
     <iframe id="teacher-iframe" src="https://classroom.google.com" title="Google Classroom"></iframe>
 
-    <!-- Loading Overlay -->
-    <div class="loading-overlay" id="loading-overlay">
-        <div class="loading-content">
-            <div class="loading-spinner-large"></div>
-            <p style="color: var(--text-secondary);">Loading...</p>
-        </div>
-    </div>
-
     <script>
-        // Initialize Lucide icons
-        lucide.createIcons();
-
-        // Particle system
-        class ModernParticleSystem {
+        // Simple particle system
+        class ParticleSystem {
             constructor() {
                 this.canvas = document.getElementById('particle-canvas');
                 this.ctx = this.canvas.getContext('2d');
@@ -932,17 +869,16 @@
             }
 
             createParticles() {
-                const particleCount = Math.min(80, Math.floor((this.canvas.width * this.canvas.height) / 10000));
+                const count = Math.min(50, Math.floor((this.canvas.width * this.canvas.height) / 15000));
                 
-                for (let i = 0; i < particleCount; i++) {
+                for (let i = 0; i < count; i++) {
                     this.particles.push({
                         x: Math.random() * this.canvas.width,
                         y: Math.random() * this.canvas.height,
                         size: Math.random() * 2 + 0.5,
-                        speedX: (Math.random() - 0.5) * 0.5,
-                        speedY: (Math.random() - 0.5) * 0.5,
-                        opacity: Math.random() * 0.5 + 0.2,
-                        color: `hsl(${240 + Math.random() * 60}, 70%, 60%)`
+                        speedX: (Math.random() - 0.5) * 0.8,
+                        speedY: (Math.random() - 0.5) * 0.8,
+                        opacity: Math.random() * 0.6 + 0.2
                     });
                 }
             }
@@ -950,50 +886,20 @@
             animate() {
                 this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
                 
-                this.particles.forEach((particle, index) => {
+                this.particles.forEach(particle => {
                     particle.x += particle.speedX;
                     particle.y += particle.speedY;
 
                     if (particle.x < 0 || particle.x > this.canvas.width) particle.speedX *= -1;
                     if (particle.y < 0 || particle.y > this.canvas.height) particle.speedY *= -1;
 
-                    // Mouse interaction
-                    const dx = this.mouse.x - particle.x;
-                    const dy = this.mouse.y - particle.y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    
-                    if (distance < 100) {
-                        const force = (100 - distance) / 100;
-                        particle.x -= dx * force * 0.001;
-                        particle.y -= dy * force * 0.001;
-                    }
-
                     this.ctx.save();
                     this.ctx.globalAlpha = particle.opacity;
-                    this.ctx.fillStyle = particle.color;
+                    this.ctx.fillStyle = '#6366f1';
                     this.ctx.beginPath();
                     this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
                     this.ctx.fill();
                     this.ctx.restore();
-
-                    // Draw connections
-                    this.particles.slice(index + 1).forEach(otherParticle => {
-                        const dx = particle.x - otherParticle.x;
-                        const dy = particle.y - otherParticle.y;
-                        const distance = Math.sqrt(dx * dx + dy * dy);
-
-                        if (distance < 120) {
-                            this.ctx.save();
-                            this.ctx.globalAlpha = (120 - distance) / 120 * 0.2;
-                            this.ctx.strokeStyle = particle.color;
-                            this.ctx.lineWidth = 0.5;
-                            this.ctx.beginPath();
-                            this.ctx.moveTo(particle.x, particle.y);
-                            this.ctx.lineTo(otherParticle.x, otherParticle.y);
-                            this.ctx.stroke();
-                            this.ctx.restore();
-                        }
-                    });
                 });
 
                 requestAnimationFrame(() => this.animate());
@@ -1005,33 +911,23 @@
                     this.particles = [];
                     this.createParticles();
                 });
-
-                window.addEventListener('mousemove', (e) => {
-                    this.mouse.x = e.clientX;
-                    this.mouse.y = e.clientY;
-                });
             }
         }
 
         // Initialize particle system
-        new ModernParticleSystem();
+        new ParticleSystem();
 
         // App state
         let teacherModeActive = false;
         let currentSection = null;
 
         // Notification system
-        function showNotification(message, type = 'info', icon = 'info') {
+        function showNotification(message, type = 'info') {
             const notification = document.createElement('div');
             notification.className = `notification ${type}`;
-            
-            notification.innerHTML = `
-                <i data-lucide="${icon}" size="16"></i>
-                <span>${message}</span>
-            `;
+            notification.innerHTML = `<span>${message}</span>`;
             
             document.body.appendChild(notification);
-            lucide.createIcons();
             
             setTimeout(() => notification.classList.add('show'), 100);
             
@@ -1048,7 +944,7 @@
             const errorMsg = document.getElementById('error-msg');
             
             if (!input.value.trim()) {
-                showNotification('Please enter a password', 'error', 'alert-circle');
+                showNotification('Please enter a password', 'error');
                 input.focus();
                 return;
             }
@@ -1058,7 +954,7 @@
 
             setTimeout(() => {
                 if (input.value === '1234') {
-                    showNotification('Welcome back!', 'success', 'check-circle');
+                    showNotification('Welcome back!', 'success');
                     
                     setTimeout(() => {
                         document.getElementById('passcode-screen').classList.add('hide');
@@ -1071,7 +967,7 @@
                     errorMsg.classList.add('show');
                     input.value = '';
                     input.focus();
-                    showNotification('Incorrect password', 'error', 'x-circle');
+                    showNotification('Incorrect password', 'error');
                 }
             }, 1200);
         }
@@ -1086,7 +982,7 @@
             const container = document.getElementById(`${sectionName}-container`);
             if (container) {
                 container.classList.add('show');
-                showNotification(`Opening ${sectionName.charAt(0).toUpperCase() + sectionName.slice(1)}`, 'success', 'external-link');
+                showNotification(`Opening ${sectionName.charAt(0).toUpperCase() + sectionName.slice(1)}`, 'success');
             }
         }
 
@@ -1109,13 +1005,13 @@
                 status.classList.add('active', 'hidden');
                 status.classList.remove('inactive');
                 statusText.textContent = 'Active';
-                showNotification('Teacher Mode activated', 'success', 'graduation-cap');
+                showNotification('Teacher Mode activated', 'success');
             } else {
                 iframe.style.display = 'none';
                 status.classList.remove('active', 'hidden');
                 status.classList.add('inactive');
                 statusText.textContent = 'Inactive';
-                showNotification('Teacher Mode deactivated', 'info', 'graduation-cap');
+                showNotification('Teacher Mode deactivated', 'info');
             }
         }
 
@@ -1154,15 +1050,13 @@
             }
         });
 
-        // Logo click easter egg
+        // Logo click
         document.getElementById('logo').addEventListener('click', () => {
-            showNotification('BORED - Made with ❤️', 'info', 'heart');
+            showNotification('BORED - Made with ❤️', 'info');
         });
 
         // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            lucide.createIcons();
-        });
+        console.log('BORED - Modern Hub Loaded Successfully!');
     </script>
 </body>
 </html>
